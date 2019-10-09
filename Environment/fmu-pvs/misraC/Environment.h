@@ -16,6 +16,7 @@
 #define A1 0.5
 #define A2 0.5
 #define EPSLON unifRand()
+#define STEP 1
 
 /**
  * operating modes
@@ -28,6 +29,7 @@ typedef enum { X1 } Mode;
 typedef struct {
     Mode mode;
     Mode previous_mode;
+    float64_t simulationTime;
     float64_t cell1_1; //-- real
     float64_t cell1_10; //-- real
     float64_t cell1_2; //-- real
@@ -147,10 +149,9 @@ typedef struct {
      bool robot;
      float64_t pheromone; //-- real matrix
      float64_t lastVisitTime;
-     float64_t r1Contribution;
-     float64_t r2Contribution;
-     float64_t r3Contribution;
-     float64_t r4Contribution;
+     float64_t contributions;
+     int x;
+     int y;
  } Cell;
 
 /**
@@ -187,6 +188,21 @@ float64_t pheromoneDisseminated(float64_t eD);
  * Euclidean distance
  */
 float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t y2);
+
+/**
+ * Return the cell where the robot is located
+ */
+Cell* findCellFromCoordinates(State1* st1, int x, int y);
+
+/**
+ * Find best neighbour
+ */
+Cell* findBestNeighbour(State1* st1, Cell* c);
+
+/**
+ * Find the rate of evaporation
+ */
+float64_t evaporationRate(State* st, Cell* c);
 
 /**
  * translation function from State to State1

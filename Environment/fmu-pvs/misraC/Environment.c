@@ -6,6 +6,7 @@
 void init(State* st) {
 			st->previous_mode = X1;
 			st->mode = X1;
+			st->simulationTime = 0.0f;
     	st->cell1_1 = 0.0f;
     	st->cell1_2 = 0.0f;
     	st->cell1_3 = 0.0f;
@@ -172,6 +173,13 @@ bool isOccupied(Cell* c) {
 }
 
 /**
+ * Euclidean distance
+ */
+float64_t euclideanDistance(float64_t x1, float64_t y1, float64_t x2, float64_t y2) {
+				return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+}
+
+/**
  * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
  * where the robot is disseminating the pheromone)
  */
@@ -180,16 +188,68 @@ float64_t pheromoneDisseminated(float64_t eD) {
 }
 
 /**
- * Euclidean distance
+ * Return the cell where the robot is located
  */
-float64_t euclideanDistance(float64_t x1, float64_t y1, float64_t x2, float64_t y2) {
-				return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+Cell* findCellFromCoordinates(State1* st1, int x, int y) {
+
+				int i, j;
+
+				for(i = 0; i < 10; ++i) {
+					for(j = 0; j < 10; ++i) {
+						if((x >= i) && (x < i + 1) && (y >= j) && (y < j + 1))
+							return &st1->map[i][j];
+					}
+				}
+				return 0;
+}
+
+/**
+ * Find best neighbour
+ */
+Cell* findBestNeighbour(State1* st1, Cell* c) {
+
+				Cell best = st1->map[c->x + 1][c->y + 1];
+				float64_t pBest = 1, pCurrent = 0;
+				float64_t sum = 0.0f;
+				int i, j;
+
+				for(i = c->x - 1; i <= c->x + 1; ++i) {
+					for(j = c->y - 1; j <= c->y + 1; ++j) {
+						if(i > 0 && j > 0 && i != c->x && j != c->y) {
+							if(st1->map[i-1][j-1].pheromone < best.pheromone)
+								sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
+						}
+					}
+				}
+
+				for(i = c->x - 1; i <= c->x + 1; ++i) {
+					for(j = c->y - 1; j <= c->y + 1; ++j) {
+						if(i > 0 && j > 0 && i != c->x && j != c->y) {
+								pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+								if(pCurrent < pBest) {
+									pBest = pCurrent;
+									best = st1->map[i][j];
+								}
+						}
+					}
+				}
+
+				return &best;
+}
+
+/**
+ * Find the rate of evaporation
+ */
+float64_t evaporationRate(State* st, Cell* c) {
+				return ERTU_PERC*(st->simulationTime - c-> lastVisitTime);
 }
 
 /**
  * translation function from State to State1
  */
 void state2State1(State* st, State1* st1) {
+
+			int i, j;
 
     	st1->map[0][0].pheromone = st->cell1_1;
     	st1->map[0][1].pheromone =st->cell1_2;
@@ -291,6 +351,17 @@ void state2State1(State* st, State1* st1) {
 			st1->map[9][7].pheromone =st->cell10_8;
 			st1->map[9][8].pheromone =st->cell10_9;
 			st1->map[9][9].pheromone =st->cell10_10;
+
+			for(i = 0; j < 10; ++i) {
+				for(j = 0; j < 10; ++j) {
+					st1->map[i][j].contributions = 0;
+					st1->map[i][j].lastVisitTime = 0;
+					st1->map[i][j].robot = FALSE;
+					st1->map[i][j].obstacle = FALSE;
+					st1->map[i][j].x = i + 1;
+					st1->map[i][j].y = j + 1;
+				}
+			}
 }
 
 /**
@@ -397,21 +468,25 @@ void state12State(State* st, State1* st1) {
 			st->cell10_7 = st1->map[9][6].pheromone;
 			st->cell10_8 = st1->map[9][7].pheromone;
 			st->cell10_9 = st1->map[9][8].pheromone;
-			st->cell10_10 = (st1->map[9][9]).pheromone;
+			st->cell10_10 = st1->map[9][9].pheromone;
 }
 
 /**
  * uniform random number between 0 and 1
  */
-float64_t unifRand()
-{
+float64_t unifRand() {
     return rand() / (float64_t)RAND_MAX;
 }
 
 State* tick(State* st) {
 
-	//state2State1(st, &st1);
-	//state12State(st, &st1);
-	printTest(&st1);
+	state2State1(st, &st1);
+
+
+
+
+	state12State(st, &st1);
+	//printTest(&st1);
+
 	return st;
 }
