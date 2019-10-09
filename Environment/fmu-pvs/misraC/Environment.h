@@ -29,7 +29,7 @@ typedef enum { X1 } Mode;
 typedef struct {
     Mode mode;
     Mode previous_mode;
-    float64_t simulationTime;
+    int64_t stepCount;
     float64_t cell1_1; //-- real
     float64_t cell1_10; //-- real
     float64_t cell1_2; //-- real
@@ -171,7 +171,7 @@ void init(State* st);
 /**
  * sais if there is an obstacle in the cell
  */
-bool hasObastacle(Cell* c);
+bool hasObstacle(Cell* c);
 
 /**
  * sais if there is another robot in the cell
@@ -187,7 +187,7 @@ float64_t pheromoneDisseminated(float64_t eD);
 /**
  * Euclidean distance
  */
-float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t y2);
+float64_t euclideanDistance(int x1, int x2, int y1, int y2);
 
 /**
  * Return the cell where the robot is located
@@ -203,6 +203,11 @@ Cell* findBestNeighbour(State1* st1, Cell* c);
  * Find the rate of evaporation
  */
 float64_t evaporationRate(State* st, Cell* c);
+
+/**
+ * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
+ */
+void updateContribution(State* st, State1* st1, Cell* c);
 
 /**
  * translation function from State to State1
