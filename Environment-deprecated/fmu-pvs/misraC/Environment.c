@@ -6,7 +6,7 @@
 void init(State* st) {
 			st->previous_mode = X1;
 			st->mode = X1;
-			st->stepCount = 0;
+			st->stepCount = 0.0f;
     	st->cell1_1 = 0.0f;
     	st->cell1_2 = 0.0f;
     	st->cell1_3 = 0.0f;
@@ -190,9 +190,9 @@ float64_t pheromoneDisseminated(float64_t eD) {
 /**
  * Return the cell where the robot is located
  */
-Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y) {
+Cell* findCellFromCoordinates(State1* st1, int x, int y) {
 
-			int32_t i, j;
+			int i, j;
 
 			for(i = 0; i < 10; ++i) {
 				for(j = 0; j < 10; ++i) {
@@ -216,25 +216,20 @@ Cell* findBestNeighbour(State1* st1, Cell* c) {
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i != c->x && j != c->y) {
+						if(st1->map[i-1][j-1].pheromone < best->pheromone)
 							sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
-							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
-								++st1->k;
 					}
 				}
 			}
 
-			st1->neighbourhood = (Cell*)malloc(sizeof(Cell)*(st1->k));
-			st1->k = 0;
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i != c->x && j != c->y) {
 						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
-						if(pCurrent < pBest) {
+						if(pCurrent < pBest && !isOccupied(&st1->map[i][j]) && !hasObstacle(&st1->map[i][j])) {
 							pBest = pCurrent;
 							best = &st1->map[i][j];
 						}
-						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
-							st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 					}
 				}
 			}
@@ -255,7 +250,7 @@ float64_t evaporationRate(State* st, Cell* c) {
 /**
  * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
  */
-void updateContribution(State1* st1, Cell* c) {
+void updateContribution(State* st, State1* st1, Cell* c) {
 
 			int i, j;
 			float64_t eD;
@@ -265,52 +260,10 @@ void updateContribution(State1* st1, Cell* c) {
 					if(i > 0 && j > 0) {
 						eD = euclideanDistance(c->x, c->y, st1->map[i-1][j-1].x, st1->map[i-1][j-1].y);
 						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
-					}
-				}
-			}
-}
-
-void updatePheromone(State* st, State1* st1, Cell* c) {
-
-			int i, j;
-
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0) {
-						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - evaporationRate(st, &st1->map[i-1][j-1]) + st1->map[i-1][j-1].contributions;
 						st1->map[i-1][j-1].lastVisitTime = st->stepCount;
 					}
 				}
 			}
-}
-
-/**
- * Move the robot
- */
-void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
-
-			int32_t random;
-
-			if((isOccupied(best) || hasObstacle(best)) && st1->k != 0) {
-				random = rand() / (RAND_MAX / st1->k);
-				*x = (st1->neighbourhood[random].x) - 0.5;
-				*y = (st1->neighbourhood[random].y) - 0.5;
-				curr->robot = FALSE;
-				st1->neighbourhood[random].robot = TRUE;
-			}
-			else
-			if((isOccupied(best) || hasObstacle(best)) && st1->k == 0) {
-				*x = *x;
-				*y = *y;
-			}
-			else {
-				*x = (best->x) - 0.5;
-				*y = (best->y) - 0.5;
-				curr->robot = FALSE;
-				best->robot = TRUE;
-			}
-			free(st1->neighbourhood);
-			st1->k = 0;
 }
 
 /**
@@ -551,58 +504,43 @@ State* tick(State* st) {
 
 			Cell* currentCells[4];
 			Cell* bestNeighbours[4];
-			int i;
+			int i, j;
 
 			//Translation from State to State1
 			state2State1(st, &st1);
 
-			/*
-			 * Robot 1
-			 */
 			//Find the cells where robots are located
 			currentCells[0] = findCellFromCoordinates(&st1, st->x_1, st->y_1);
+			currentCells[1] = findCellFromCoordinates(&st1, st->x_2, st->y_2);
+			currentCells[2] = findCellFromCoordinates(&st1, st->x_3, st->y_3);
+			currentCells[3] = findCellFromCoordinates(&st1, st->x_4, st->y_4);
+
 			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
 			bestNeighbours[0] = findBestNeighbour(&st1, currentCells[0]);
-			//Move
-			move(&st1, currentCells[0], bestNeighbours[0], &st->x_1, &st->y_1);
-
-			/*
-			 * Robot 2
-			 */
-			//Find the cells where robots are located
-			currentCells[1] = findCellFromCoordinates(&st1, st->x_2, st->y_2);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
 			bestNeighbours[1] = findBestNeighbour(&st1, currentCells[1]);
-			//Move
-			move(&st1, currentCells[1], bestNeighbours[1], &st->x_2, &st->y_2);
-
-			/*
-			 * Robot 3
-			 */
-			//Find the cells where robots are located
-			currentCells[2] = findCellFromCoordinates(&st1, st->x_3, st->y_3);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
 			bestNeighbours[2] = findBestNeighbour(&st1, currentCells[2]);
-			//Move
-			move(&st1, currentCells[2], bestNeighbours[2], &st->x_3, &st->y_3);
-
-			/*
-			 * Robot 4
-			 */
-			//Find the cells where robots are located
-			currentCells[3] = findCellFromCoordinates(&st1, st->x_4, st->y_4);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
 			bestNeighbours[3] = findBestNeighbour(&st1, currentCells[3]);
-			//Move
-			move(&st1, currentCells[3], bestNeighbours[3], &st->x_4, &st->y_4);
+
+			//Move robots
+			st->x_1 = bestNeighbours[0]->x-0.5;
+			st->y_1 = bestNeighbours[0]->y-0.5;
+			st->x_2 = bestNeighbours[1]->x-0.5;
+			st->y_2 = bestNeighbours[1]->y-0.5;
+			st->x_3 = bestNeighbours[2]->x-0.5;
+			st->y_3 = bestNeighbours[2]->y-0.5;
+			st->x_4 = bestNeighbours[3]->x-0.5;
+			st->y_4 = bestNeighbours[3]->y-0.5;
 
 			//Update of the pheromone contributions given by all the robots
 			for(i = 0; i < 4; ++i)
-				updateContribution(&st1, bestNeighbours[i]);
+				updateContribution(st, &st1, bestNeighbours[i]);
 
-			//Update of the pheromone contributions given by all the robots
-			for(i = 0; i < 4; ++i)
-				updatePheromone(st, &st1, bestNeighbours[i]);
+			//Update of the pheromone attribute of all the cells in the MAX_PH
+			for(i = 0; i < 10; ++i) {
+				for(j = 0; j < 10; ++j) {
+					st1.map[i][j].pheromone = st1.map[i][j].pheromone - evaporationRate(st, &st1.map[i][j]) + st1.map[i][j].contributions;
+				}
+			}
 
 			//Increasing of the discrete simulation time
 			++st->stepCount;

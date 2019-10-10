@@ -29,7 +29,7 @@ typedef enum { X1 } Mode;
 typedef struct {
     Mode mode;
     Mode previous_mode;
-    int32_t stepCount;
+    int64_t stepCount;
     float64_t cell1_1; //-- real
     float64_t cell1_10; //-- real
     float64_t cell1_2; //-- real
@@ -130,6 +130,7 @@ typedef struct {
     float64_t cell9_7; //-- real
     float64_t cell9_8; //-- real
     float64_t cell9_9; //-- real
+
     float64_t x_1;
     float64_t x_2;
     float64_t x_3;
@@ -158,8 +159,6 @@ typedef struct {
  */
 typedef struct {
     Cell map[10][10]; //-- real matrix
-    Cell* neighbourhood;
-    int32_t k;
 } State1;
 
 State1 st1;
@@ -193,17 +192,12 @@ float64_t euclideanDistance(int x1, int x2, int y1, int y2);
 /**
  * Return the cell where the robot is located
  */
-Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y);
+Cell* findCellFromCoordinates(State1* st1, int x, int y);
 
 /**
  * Find best neighbour
  */
 Cell* findBestNeighbour(State1* st1, Cell* c);
-
-/**
- * Move the robot
- */
-void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y);
 
 /**
  * Find the rate of evaporation
@@ -213,12 +207,7 @@ float64_t evaporationRate(State* st, Cell* c);
 /**
  * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
  */
-void updateContribution(State1* st1, Cell* c);
-
-/**
- * Update the pheromone
- */
-void updatePheromone(State* st, State1* st1, Cell* c);
+void updateContribution(State* st, State1* st1, Cell* c);
 
 /**
  * translation function from State to State1
