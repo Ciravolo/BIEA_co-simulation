@@ -12,7 +12,7 @@ DEBUGFILES = main.dSYM
 .PHONY : clean help
 
 %.o: %.c $(HEAD)
-	@$(CC) $(CFLAGS) -c $< -o $@ 
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 build: $(NAME)
 

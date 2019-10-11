@@ -140,6 +140,14 @@ if(first == 0){
     first = 1;
 }
 	
+    st.x_1 = fmiBuffer.realBuffer[102];
+    st.x_2 = fmiBuffer.realBuffer[103];
+    st.x_3 = fmiBuffer.realBuffer[104];
+    st.x_4 = fmiBuffer.realBuffer[105];
+    st.y_1 = fmiBuffer.realBuffer[106];
+    st.y_2 = fmiBuffer.realBuffer[107];
+    st.y_3 = fmiBuffer.realBuffer[108];
+    st.y_4 = fmiBuffer.realBuffer[109];
 	
     tick(&st);
     
@@ -244,7 +252,8 @@ if(first == 0){
     fmiBuffer.realBuffer[97] = st.cell9_6;
     fmiBuffer.realBuffer[98] = st.cell9_7;
     fmiBuffer.realBuffer[99] = st.cell9_8;
-    fmiBuffer.realBuffer[100] = st.cell9_9;*/
+    fmiBuffer.realBuffer[100] = st.cell9_9;
+    fmiBuffer.intBuffer[101] = st.stepCount;*/
 }
 
 void terminate(){ }

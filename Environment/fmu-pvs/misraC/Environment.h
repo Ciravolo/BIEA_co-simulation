@@ -158,6 +158,8 @@ typedef struct {
  */
 typedef struct {
     Cell map[10][10]; //-- real matrix
+    int32_t x[4];
+    int32_t y[4];
     Cell* neighbourhood;
     int32_t k;
 } State1;

@@ -880,6 +880,78 @@
     "repr": "float64_t",
     "value": "0",
     "scope": "Local"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "x_1",
+    "value": "0.5",
+    "scope": "Input",
+    "id": "VAR_x_1:real(Input)"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "y_1",
+    "value": "0.5",
+    "scope": "Input",
+    "id": "VAR_y_1:real(Input)"
+   },
+   {
+    "id": "VAR_x_2:real(Input)",
+    "name": "x_2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_2:real(Input)",
+    "name": "y_2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_x_3:real(Input)",
+    "name": "x_3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_3:real(Input)",
+    "name": "y_3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_x_4:real(Input)",
+    "name": "x_4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_4:real(Input)",
+    "name": "y_4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_stepCount:int(Local)",
+    "name": "stepCount",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "0",
+    "scope": "Local"
    }
   ],
   "constants": [],

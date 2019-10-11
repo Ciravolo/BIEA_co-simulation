@@ -107,14 +107,14 @@ void init(State* st) {
     	st->cell10_8 = 0.0f;
     	st->cell10_9 = 0.0f;
 			st->cell10_10 = 0.0f;
-			st->x_1 = 0.0f;
-	    st->x_2 = 0.0f;
-	    st->x_3 = 0.0f;
-	    st->x_4 = 0.0f;
-	    st->y_1 = 0.0f;
-	    st->y_2 = 0.0f;
-	    st->y_3 = 0.0f;
-	    st->y_4 = 0.0f;
+			st->x_1 = 0.5f;
+	    st->x_2 = 9.5f;
+	    st->x_3 = 9.5f;
+	    st->x_4 = 0.5f;
+	    st->y_1 = 0.5f;
+	    st->y_2 = 0.5f;
+	    st->y_3 = 9.5f;
+	    st->y_4 = 9.5f;
 }
 
 /**
@@ -319,6 +319,7 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 void state2State1(State* st, State1* st1) {
 
 			int i, j;
+			Cell* occupiedCells[4];
 
     	st1->map[0][0].pheromone = st->cell1_1;
     	st1->map[0][1].pheromone =st->cell1_2;
@@ -420,7 +421,16 @@ void state2State1(State* st, State1* st1) {
 			st1->map[9][7].pheromone =st->cell10_8;
 			st1->map[9][8].pheromone =st->cell10_9;
 			st1->map[9][9].pheromone =st->cell10_10;
+			st1->x[0] = st->x_1;
+			st1->x[1] = st->x_2;
+			st1->x[2] = st->x_3;
+			st1->x[3] = st->x_4;
+			st1->y[0] = st->y_1;
+			st1->y[1] = st->y_2;
+			st1->y[2] = st->y_3;
+			st1->y[3] = st->y_4;
 
+			//General initialization
 			for(i = 0; j < 10; ++i) {
 				for(j = 0; j < 10; ++j) {
 					st1->map[i][j].contributions = 0;
@@ -431,6 +441,22 @@ void state2State1(State* st, State1* st1) {
 					st1->map[i][j].y = j + 1;
 				}
 			}
+
+			//Set occupied currentCells
+			for(i = 0; i < 4; ++i) {
+				occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
+				occupiedCells[i]->robot = TRUE;
+			}
+
+			//Set obstacles
+			st1->map[2][0].obstacle = TRUE;
+			st1->map[3][0].obstacle = TRUE;
+			st1->map[1][8].obstacle = TRUE;
+			st1->map[4][3].obstacle = TRUE;
+			st1->map[4][4].obstacle = TRUE;
+			st1->map[6][7].obstacle = TRUE;
+			st1->map[7][7].obstacle = TRUE;
+			st1->map[7][8].obstacle = TRUE;
 }
 
 /**
@@ -538,6 +564,14 @@ void state12State(State* st, State1* st1) {
 			st->cell10_8 = st1->map[9][7].pheromone;
 			st->cell10_9 = st1->map[9][8].pheromone;
 			st->cell10_10 = st1->map[9][9].pheromone;
+			st->x_1 = st1->x[0];
+			st->x_2 = st1->x[1];
+			st->x_3 = st1->x[2];
+			st->x_4 = st1->x[3];
+			st->y_1 = st1->y[0];
+			st->y_2 = st1->y[1];
+			st->y_3 = st1->y[2];
+			st->y_4 = st1->y[3];
 }
 
 /**
