@@ -200,7 +200,12 @@ Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y);
 /**
  * Find best neighbour
  */
-Cell* findBestNeighbour(State1* st1, Cell* c);
+float64_t findNeighbourhood(State1* st1, Cell* c);
+
+/**
+ * Find best neighbour
+ */
+Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum);
 
 /**
  * Move the robot

@@ -128,14 +128,14 @@ void leave(Mode m, State* st) {
 }
 
 /**
- * triggers
+ * Triggers
  */
 bool per_tick(State* st) {
     	return (st->mode == X1);
 }
 
 /**
- * print matrix
+ * Print something to test
  */
 void printTest(State1* st1) {
 
@@ -159,162 +159,7 @@ void printTest(State1* st1) {
 }
 
 /**
- * sais if there is an obstacle in the cell
- */
-bool hasObstacle(Cell* c) {
-			return c->obstacle;
-}
-
-/**
- * sais if there is another robot in the cell
- */
-bool isOccupied(Cell* c) {
-			return c->robot;
-}
-
-/**
- * Euclidean distance
- */
-float64_t euclideanDistance(int x1, int x2, int y1, int y2) {
-			return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
-}
-
-/**
- * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
- * where the robot is disseminating the pheromone)
- */
-float64_t pheromoneDisseminated(float64_t eD) {
-			return MAX_PH*exp(-eD/A1)-EPSLON/A2;
-}
-
-/**
- * Return the cell where the robot is located
- */
-Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y) {
-
-			int32_t i, j;
-
-			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++i) {
-					if((x >= i) && (x < i + 1) && (y >= j) && (y < j + 1))
-						return &st1->map[i][j];
-				}
-			}
-			return 0;
-}
-
-/**
- * Find best neighbour
- */
-Cell* findBestNeighbour(State1* st1, Cell* c) {
-
-			Cell* best = &st1->map[c->x][c->y];
-			float64_t pBest = 1, pCurrent = 0;
-			float64_t sum = 0.0f;
-			int i, j;
-
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i != c->x && j != c->y) {
-							sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
-							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
-								++st1->k;
-					}
-				}
-			}
-
-			st1->neighbourhood = (Cell*)malloc(sizeof(Cell)*(st1->k));
-			st1->k = 0;
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i != c->x && j != c->y) {
-						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
-						if(pCurrent < pBest) {
-							pBest = pCurrent;
-							best = &st1->map[i][j];
-						}
-						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
-							st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
-					}
-				}
-			}
-
-			return best;
-}
-
-/**
- * Find the rate of evaporation
- */
-float64_t evaporationRate(State* st, Cell* c) {
-			if(st->stepCount - c-> lastVisitTime < 0)
-				return 0;
-			else
-				return ERTU_PERC*(st->stepCount - c-> lastVisitTime);
-}
-
-/**
- * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
- */
-void updateContribution(State1* st1, Cell* c) {
-
-			int i, j;
-			float64_t eD;
-
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0) {
-						eD = euclideanDistance(c->x, c->y, st1->map[i-1][j-1].x, st1->map[i-1][j-1].y);
-						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
-					}
-				}
-			}
-}
-
-void updatePheromone(State* st, State1* st1, Cell* c) {
-
-			int i, j;
-
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0) {
-						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - evaporationRate(st, &st1->map[i-1][j-1]) + st1->map[i-1][j-1].contributions;
-						st1->map[i-1][j-1].lastVisitTime = st->stepCount;
-					}
-				}
-			}
-}
-
-/**
- * Move the robot
- */
-void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
-
-			int32_t random;
-
-			if((isOccupied(best) || hasObstacle(best)) && st1->k != 0) {
-				random = rand() / (RAND_MAX / st1->k);
-				*x = (st1->neighbourhood[random].x) - 0.5;
-				*y = (st1->neighbourhood[random].y) - 0.5;
-				curr->robot = FALSE;
-				st1->neighbourhood[random].robot = TRUE;
-			}
-			else
-			if((isOccupied(best) || hasObstacle(best)) && st1->k == 0) {
-				*x = *x;
-				*y = *y;
-			}
-			else {
-				*x = (best->x) - 0.5;
-				*y = (best->y) - 0.5;
-				curr->robot = FALSE;
-				best->robot = TRUE;
-			}
-			free(st1->neighbourhood);
-			st1->k = 0;
-}
-
-/**
- * translation function from State to State1
+ * Translation function from State to State1
  */
 void state2State1(State* st, State1* st1) {
 
@@ -460,7 +305,7 @@ void state2State1(State* st, State1* st1) {
 }
 
 /**
- * translation function from State1 to State
+ * Translation function from State1 to State
  */
 void state12State(State* st, State1* st1) {
 
@@ -575,6 +420,172 @@ void state12State(State* st, State1* st1) {
 }
 
 /**
+ * Sais if there is an obstacle in the cell
+ */
+bool hasObstacle(Cell* c) {
+			return c->obstacle;
+}
+
+/**
+ * Sais if there is another robot in the cell
+ */
+bool isOccupied(Cell* c) {
+			return c->robot;
+}
+
+/**
+ * Euclidean distance
+ */
+float64_t euclideanDistance(int x1, int x2, int y1, int y2) {
+			return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+}
+
+/**
+ * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
+ * where the robot is disseminating the pheromone)
+ */
+float64_t pheromoneDisseminated(float64_t eD) {
+			return MAX_PH*exp(-eD/A1)-EPSLON/A2;
+}
+
+/**
+ * Return the cell where the robot is located
+ */
+Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y) {
+
+			int32_t i, j;
+
+			for(i = 0; i < 10; ++i) {
+				for(j = 0; j < 10; ++i) {
+					if((x >= i) && (x < i + 1) && (y >= j) && (y < j + 1))
+						return &st1->map[i][j];
+				}
+			}
+			return 0;
+}
+
+/**
+ * Find neighbourhood
+ */
+float64_t findNeighbourhood(State1* st1, Cell* c) {
+
+			float64_t sum = 0.0f;
+			int i, j;
+
+			for(i = c->x - 1; i <= c->x + 1; ++i) {
+				for(j = c->y - 1; j <= c->y + 1; ++j) {
+					if(i > 0 && j > 0 && i != c->x && j != c->y) {
+							sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
+							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
+								++st1->k;
+					}
+				}
+			}
+
+			st1->neighbourhood = (Cell*)malloc(sizeof(Cell)*(st1->k));
+			st1->k = 0;
+
+			return sum;
+}
+
+/**
+ * Find best neighbour
+ */
+Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
+
+			Cell* best = &st1->map[c->x][c->y];
+			float64_t pBest = 1, pCurrent = 0;
+			int i, j;
+
+			for(i = c->x - 1; i <= c->x + 1; ++i) {
+				for(j = c->y - 1; j <= c->y + 1; ++j) {
+					if(i > 0 && j > 0 && i != c->x && j != c->y) {
+						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+						if(pCurrent < pBest) {
+							pBest = pCurrent;
+							best = &st1->map[i][j];
+						}
+						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
+							st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
+					}
+				}
+			}
+
+			return best;
+}
+
+/**
+ * Find the rate of evaporation
+ */
+float64_t evaporationRate(State* st, Cell* c) {
+			if(st->stepCount - c-> lastVisitTime < 0)
+				return 0;
+			else
+				return ERTU_PERC*(st->stepCount - c-> lastVisitTime);
+}
+
+/**
+ * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
+ */
+void updateContribution(State1* st1, Cell* c) {
+
+			int i, j;
+			float64_t eD;
+
+			for(i = c->x - 1; i <= c->x + 1; ++i) {
+				for(j = c->y - 1; j <= c->y + 1; ++j) {
+					if(i > 0 && j > 0) {
+						eD = euclideanDistance(c->x, c->y, st1->map[i-1][j-1].x, st1->map[i-1][j-1].y);
+						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
+					}
+				}
+			}
+}
+
+void updatePheromone(State* st, State1* st1, Cell* c) {
+
+			int i, j;
+
+			for(i = c->x - 1; i <= c->x + 1; ++i) {
+				for(j = c->y - 1; j <= c->y + 1; ++j) {
+					if(i > 0 && j > 0) {
+						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - evaporationRate(st, &st1->map[i-1][j-1]) + st1->map[i-1][j-1].contributions;
+						st1->map[i-1][j-1].lastVisitTime = st->stepCount;
+					}
+				}
+			}
+}
+
+/**
+ * Move the robot
+ */
+void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
+
+			int32_t random;
+
+			if((isOccupied(best) || hasObstacle(best)) && st1->k != 0) {
+				random = rand() / (RAND_MAX / st1->k);
+				*x = (st1->neighbourhood[random].x) - 0.5;
+				*y = (st1->neighbourhood[random].y) - 0.5;
+				curr->robot = FALSE;
+				st1->neighbourhood[random].robot = TRUE;
+			}
+			else
+			if((isOccupied(best) || hasObstacle(best)) && st1->k == 0) {
+				*x = *x;
+				*y = *y;
+			}
+			else {
+				*x = (best->x) - 0.5;
+				*y = (best->y) - 0.5;
+				curr->robot = FALSE;
+				best->robot = TRUE;
+			}
+			free(st1->neighbourhood);
+			st1->k = 0;
+}
+
+/**
  * uniform random number between 0 and 1
  */
 float64_t unifRand() {
@@ -585,7 +596,9 @@ State* tick(State* st) {
 
 			Cell* currentCells[4];
 			Cell* bestNeighbours[4];
-			int i;
+			float64_t sum;
+			int32_t i;
+
 
 			//Translation from State to State1
 			state2State1(st, &st1);
@@ -593,9 +606,11 @@ State* tick(State* st) {
 			for(i = 0; i < 4; ++i) {
 				//Find the cell where robot is located
 				currentCells[i] = findCellFromCoordinates(&st1, st1.x[i], st1.y[i]);
-				//Find the best neighbours to robot which is not occupied by another one and where no obstacles are located
-				bestNeighbours[i] = findBestNeighbour(&st1, currentCells[i]);
-				//Move
+				//Find neighbourhood
+				sum = findNeighbourhood(&st1, currentCells[i]);
+				//Find the best neighbour
+				bestNeighbours[i] = findBestNeighbour(&st1, currentCells[i], sum);
+				//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
 				move(&st1, currentCells[i], bestNeighbours[i], &st1.x[i], &st1.y[i]);
 			}
 
@@ -611,7 +626,6 @@ State* tick(State* st) {
 			++st->stepCount;
 
 			state12State(st, &st1);
-			//printTest(&st1);
 
 	return st;
 }
