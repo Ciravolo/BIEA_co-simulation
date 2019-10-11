@@ -115,6 +115,9 @@ void init(State* st) {
 	    st->y_2 = 0.5f;
 	    st->y_3 = 9.5f;
 	    st->y_4 = 9.5f;
+
+			//Print test
+			printTest(&st1);
 }
 
 /**
@@ -132,30 +135,6 @@ void leave(Mode m, State* st) {
  */
 bool per_tick(State* st) {
     	return (st->mode == X1);
-}
-
-/**
- * Print something to test
- */
-void printTest(State1* st1) {
-
-			int i, j;
-
-			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++j) {
-					printf("Cella %i-%i: %f\n", i + 1, j + 1, st1->map[i][j].pheromone);
-				}
-			}
-
-			printf("S_RANGE: %i\n", S_RANGE);
-			printf("ERTU_PERC: %f\n", ERTU_PERC);
-			printf("MAX_PH: %i\n", MAX_PH);
-			printf("PHI: %i\n", PHI);
-			printf("LAMBDA: %i\n", LAMBDA);
-			printf("ETA: %f\n", ETA);
-			printf("A1: %f\n", A1);
-			printf("A2: %f\n", A2);
-			printf("EPSLON: %f\n", EPSLON);
 }
 
 /**
@@ -420,6 +399,34 @@ void state12State(State* st, State1* st1) {
 }
 
 /**
+ * Print something to test
+ */
+void printTest(State1* st1) {
+
+			int i, j;
+
+			//Stampo i valori dei feromoni nella matrice
+			for(i = 0; i < 10; ++i) {
+				for(j = 0; j < 10; ++j) {
+					if(isOccupied(&st1->map[i][j])) {
+
+						printf("Cella %i-%i: %f. Occupata.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+					}
+					else
+					if(hasObstacle(&st1->map[i][j]))
+						printf("Cella %i-%i: %f. Ostacolo.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+					else
+						printf("Cella %i-%i: %f.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+				}
+			}
+
+			//Stampo le posizioni dei robot
+			for(i = 0; i < 4; ++i)
+				printf("Coordinate del robot %i: (%f-%f)\n", i+1, st1->x[i], st1->y[i]);
+}
+
+
+/**
  * Sais if there is an obstacle in the cell
  */
 bool hasObstacle(Cell* c) {
@@ -625,7 +632,11 @@ State* tick(State* st) {
 			//Increasing of the discrete simulation time
 			++st->stepCount;
 
+			//Translation from State1 to State
 			state12State(st, &st1);
+
+			//Print test
+			printTest(&st1);
 
 	return st;
 }
