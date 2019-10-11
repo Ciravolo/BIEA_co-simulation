@@ -240,7 +240,7 @@ void state12State(State* st, State1* st1);
 /**
  * print matrix
  */
-void printTest(State1* st1);
+void printTest(State* st, State1* st1);
 
 /**
  * uniform random number between 0 and 1

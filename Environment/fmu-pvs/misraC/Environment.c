@@ -116,8 +116,10 @@ void init(State* st) {
 	    st->y_3 = 9.5f;
 	    st->y_4 = 9.5f;
 
-			//Print test
-			printTest(&st1);
+			printf("Posizione iniziale del robot 1: %g-%g.\n", st->x_1, st->y_1);
+			printf("Posizione iniziale del robot 2: %g-%g.\n", st->x_2, st->y_2);
+			printf("Posizione iniziale del robot 3: %g-%g.\n", st->x_3, st->y_3);
+			printf("Posizione iniziale del robot 4: %g-%g.\n", st->x_4, st->y_4);
 }
 
 /**
@@ -255,7 +257,7 @@ void state2State1(State* st, State1* st1) {
 			st1->y[3] = st->y_4;
 
 			//General initialization
-			for(i = 0; j < 10; ++i) {
+			for(i = 0; i < 10; ++i) {
 				for(j = 0; j < 10; ++j) {
 					st1->map[i][j].contributions = 0;
 					st1->map[i][j].lastVisitTime = 0;
@@ -401,7 +403,7 @@ void state12State(State* st, State1* st1) {
 /**
  * Print something to test
  */
-void printTest(State1* st1) {
+void printTest(State* st, State1* st1) {
 
 			int i, j;
 
@@ -410,19 +412,19 @@ void printTest(State1* st1) {
 				for(j = 0; j < 10; ++j) {
 					if(isOccupied(&st1->map[i][j])) {
 
-						printf("Cella %i-%i: %f. Occupata.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+						printf("Cella %i-%i: %g. Occupata.\n", i + 1, j + 1, st1->map[i][j].pheromone);
 					}
 					else
 					if(hasObstacle(&st1->map[i][j]))
-						printf("Cella %i-%i: %f. Ostacolo.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+						printf("Cella %i-%i: %g. Ostacolo.\n", i + 1, j + 1, st1->map[i][j].pheromone);
 					else
-						printf("Cella %i-%i: %f.\n", i + 1, j + 1, st1->map[i][j].pheromone);
+						printf("Cella %i-%i: %g.\n", i + 1, j + 1, st1->map[i][j].pheromone);
 				}
 			}
 
 			//Stampo le posizioni dei robot
 			for(i = 0; i < 4; ++i)
-				printf("Coordinate del robot %i: (%f-%f)\n", i+1, st1->x[i], st1->y[i]);
+				printf("Coordinate del robot %i alla step %i: (%g-%g)\n", i+1, st1->x[i], st1->y[i], st->stepCount);
 }
 
 
@@ -463,7 +465,7 @@ Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y) {
 			int32_t i, j;
 
 			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++i) {
+				for(j = 0; j < 10; ++j) {
 					if((x >= i) && (x < i + 1) && (y >= j) && (y < j + 1))
 						return &st1->map[i][j];
 				}
@@ -481,7 +483,7 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i != c->x && j != c->y) {
+					if(i > 0 && j > 0 && i < 10 && j < 10 && i != c->x && j != c->y) {
 							sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
 							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
 								++st1->k;
@@ -506,7 +508,7 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i != c->x && j != c->y) {
+					if(i > 0 && j > 0 && i < 10 && j < 10 && i != c->x && j != c->y) {
 						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
 						if(pCurrent < pBest) {
 							pBest = pCurrent;
@@ -636,7 +638,7 @@ State* tick(State* st) {
 			state12State(st, &st1);
 
 			//Print test
-			printTest(&st1);
+			printTest(st, &st1);
 
 	return st;
 }

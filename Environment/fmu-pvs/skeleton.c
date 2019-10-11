@@ -22,6 +22,7 @@ int first = 0; /* variable for execution of setup option during first step only 
 
 void initialize(const char* location) {
     init(&st);
+	printf("fine init\n");
     
     
 }
@@ -140,16 +141,17 @@ if(first == 0){
     first = 1;
 }
 	
-    st.x_1 = fmiBuffer.realBuffer[102];
+   /* st.x_1 = fmiBuffer.realBuffer[102];
     st.x_2 = fmiBuffer.realBuffer[103];
     st.x_3 = fmiBuffer.realBuffer[104];
     st.x_4 = fmiBuffer.realBuffer[105];
     st.y_1 = fmiBuffer.realBuffer[106];
     st.y_2 = fmiBuffer.realBuffer[107];
     st.y_3 = fmiBuffer.realBuffer[108];
-    st.y_4 = fmiBuffer.realBuffer[109];
-	
+    st.y_4 = fmiBuffer.realBuffer[109];*/
+	printf("prima di tick\n");
     tick(&st);
+	printf("dopo di tick\n");
     
     
     /*
