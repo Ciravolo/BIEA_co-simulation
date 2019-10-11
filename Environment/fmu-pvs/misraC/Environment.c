@@ -590,45 +590,14 @@ State* tick(State* st) {
 			//Translation from State to State1
 			state2State1(st, &st1);
 
-			/*
-			 * Robot 1
-			 */
-			//Find the cells where robots are located
-			currentCells[0] = findCellFromCoordinates(&st1, st->x_1, st->y_1);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
-			bestNeighbours[0] = findBestNeighbour(&st1, currentCells[0]);
-			//Move
-			move(&st1, currentCells[0], bestNeighbours[0], &st->x_1, &st->y_1);
-
-			/*
-			 * Robot 2
-			 */
-			//Find the cells where robots are located
-			currentCells[1] = findCellFromCoordinates(&st1, st->x_2, st->y_2);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
-			bestNeighbours[1] = findBestNeighbour(&st1, currentCells[1]);
-			//Move
-			move(&st1, currentCells[1], bestNeighbours[1], &st->x_2, &st->y_2);
-
-			/*
-			 * Robot 3
-			 */
-			//Find the cells where robots are located
-			currentCells[2] = findCellFromCoordinates(&st1, st->x_3, st->y_3);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
-			bestNeighbours[2] = findBestNeighbour(&st1, currentCells[2]);
-			//Move
-			move(&st1, currentCells[2], bestNeighbours[2], &st->x_3, &st->y_3);
-
-			/*
-			 * Robot 4
-			 */
-			//Find the cells where robots are located
-			currentCells[3] = findCellFromCoordinates(&st1, st->x_4, st->y_4);
-			//Find the best neighbours to each robot which is not occupied by another one and where no obstacles //are located
-			bestNeighbours[3] = findBestNeighbour(&st1, currentCells[3]);
-			//Move
-			move(&st1, currentCells[3], bestNeighbours[3], &st->x_4, &st->y_4);
+			for(i = 0; i < 4; ++i) {
+				//Find the cell where robot is located
+				currentCells[i] = findCellFromCoordinates(&st1, st1.x[i], st1.y[i]);
+				//Find the best neighbours to robot which is not occupied by another one and where no obstacles are located
+				bestNeighbours[i] = findBestNeighbour(&st1, currentCells[i]);
+				//Move
+				move(&st1, currentCells[i], bestNeighbours[i], &st1.x[i], &st1.y[i]);
+			}
 
 			//Update of the pheromone contributions given by all the robots
 			for(i = 0; i < 4; ++i)
