@@ -149,9 +149,7 @@ if(first == 0){
     st.y_2 = fmiBuffer.realBuffer[107];
     st.y_3 = fmiBuffer.realBuffer[108];
     st.y_4 = fmiBuffer.realBuffer[109];*/
-	printf("prima di tick\n");
     tick(&st);
-	printf("dopo di tick\n");
     
     
     /*

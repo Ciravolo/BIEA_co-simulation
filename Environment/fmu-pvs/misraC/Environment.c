@@ -116,10 +116,7 @@ void init(State* st) {
 	    st->y_3 = 9.5f;
 	    st->y_4 = 9.5f;
 
-			printf("Posizione iniziale del robot 1: %g-%g.\n", st->x_1, st->y_1);
-			printf("Posizione iniziale del robot 2: %g-%g.\n", st->x_2, st->y_2);
-			printf("Posizione iniziale del robot 3: %g-%g.\n", st->x_3, st->y_3);
-			printf("Posizione iniziale del robot 4: %g-%g.\n", st->x_4, st->y_4);
+			EPSLON = unifRand();
 }
 
 /**
@@ -424,7 +421,7 @@ void printTest(State* st, State1* st1) {
 
 			//Stampo le posizioni dei robot
 			for(i = 0; i < 4; ++i)
-				printf("Coordinate del robot %i alla step %i: (%g-%g)\n", i+1, st1->x[i], st1->y[i], st->stepCount);
+				printf("Coordinate del robot %d alla step %d: (%g-%g)\n", i+1, st->stepCount, st1->x[i], st1->y[i]);
 }
 
 
@@ -445,16 +442,8 @@ bool isOccupied(Cell* c) {
 /**
  * Euclidean distance
  */
-float64_t euclideanDistance(int x1, int x2, int y1, int y2) {
+float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t y2) {
 			return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
-}
-
-/**
- * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
- * where the robot is disseminating the pheromone)
- */
-float64_t pheromoneDisseminated(float64_t eD) {
-			return MAX_PH*exp(-eD/A1)-EPSLON/A2;
 }
 
 /**
@@ -483,14 +472,13 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i < 10 && j < 10 && i != c->x && j != c->y) {
-							sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
-							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
-								++st1->k;
+					if(i > 0 && j > 0 && i < 11 && j < 11 && !(i == c->x && j == c->y)) {
+						sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
+						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
+							++st1->k;
 					}
 				}
 			}
-
 			st1->neighbourhood = (Cell*)malloc(sizeof(Cell)*(st1->k));
 			st1->k = 0;
 
@@ -508,13 +496,16 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i < 10 && j < 10 && i != c->x && j != c->y) {
-						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+					if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
+						if(sum != 0)
+							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+						else
+							pCurrent = 0;
 						if(pCurrent < pBest) {
 							pBest = pCurrent;
-							best = &st1->map[i][j];
+							best = &st1->map[i-1][j-1];
 						}
-						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].robot)
+						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
 							st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 					}
 				}
@@ -524,13 +515,11 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 }
 
 /**
- * Find the rate of evaporation
+ * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
+ * where the robot is disseminating the pheromone)
  */
-float64_t evaporationRate(State* st, Cell* c) {
-			if(st->stepCount - c-> lastVisitTime < 0)
-				return 0;
-			else
-				return ERTU_PERC*(st->stepCount - c-> lastVisitTime);
+float64_t pheromoneDisseminated(float64_t eD) {
+			return MAX_PH*exp(-eD/A1-EPSLON/A2);
 }
 
 /**
@@ -543,12 +532,19 @@ void updateContribution(State1* st1, Cell* c) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0) {
-						eD = euclideanDistance(c->x, c->y, st1->map[i-1][j-1].x, st1->map[i-1][j-1].y);
+					if(i > 0 && j > 0 && i < 11 && j < 11) {
+						eD = euclideanDistance((c->x)-0.5, (st1->map[i-1][j-1].x)-0.5, (c->y)-0.5, (st1->map[i-1][j-1].y)-0.5);
 						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
 					}
 				}
 			}
+}
+
+/**
+ * Find the rate of evaporation
+ */
+float64_t evaporationRate(State* st, Cell* c) {
+			return ERTU_PERC*(st->stepCount - c-> lastVisitTime);
 }
 
 void updatePheromone(State* st, State1* st1, Cell* c) {
@@ -557,8 +553,11 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0) {
-						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - evaporationRate(st, &st1->map[i-1][j-1]) + st1->map[i-1][j-1].contributions;
+					if(i > 0 && j > 0 && i < 11 && j < 11) {
+						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - (evaporationRate(st, &st1->map[i-1][j-1])*st1->map[i-1][j-1].pheromone);
+						if(st1->map[i-1][j-1].pheromone < 0)
+							st1->map[i-1][j-1].pheromone = 0;
+						st1->map[i-1][j-1].pheromone += st1->map[i-1][j-1].contributions;
 						st1->map[i-1][j-1].lastVisitTime = st->stepCount;
 					}
 				}
@@ -574,6 +573,7 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 
 			if((isOccupied(best) || hasObstacle(best)) && st1->k != 0) {
 				random = rand() / (RAND_MAX / st1->k);
+				printf("%d\n", random);
 				*x = (st1->neighbourhood[random].x) - 0.5;
 				*y = (st1->neighbourhood[random].y) - 0.5;
 				curr->robot = FALSE;
@@ -608,7 +608,6 @@ State* tick(State* st) {
 			float64_t sum;
 			int32_t i;
 
-
 			//Translation from State to State1
 			state2State1(st, &st1);
 
@@ -637,7 +636,6 @@ State* tick(State* st) {
 			//Translation from State1 to State
 			state12State(st, &st1);
 
-			//Print test
 			printTest(st, &st1);
 
 	return st;

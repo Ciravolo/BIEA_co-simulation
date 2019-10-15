@@ -15,7 +15,6 @@
 #define ETA 0.9
 #define A1 0.5
 #define A2 0.5
-#define EPSLON unifRand()
 #define STEP 1
 
 /**
@@ -165,6 +164,7 @@ typedef struct {
 } State1;
 
 State1 st1;
+float64_t EPSLON;
 
 /**
  * init function
@@ -190,7 +190,7 @@ float64_t pheromoneDisseminated(float64_t eD);
 /**
  * Euclidean distance
  */
-float64_t euclideanDistance(int x1, int x2, int y1, int y2);
+float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t y2);
 
 /**
  * Return the cell where the robot is located
