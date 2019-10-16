@@ -117,6 +117,8 @@ void init(State* st) {
 	    st->y_4 = 9.5f;
 
 			EPSLON = unifRand();
+
+			state2State1(st, &st1);
 }
 
 /**
@@ -497,27 +499,27 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 			float64_t pCurrent;
 			int i, j;
 
-			pBest = pCurrent = 1;
-			for(i = c->x - 1; i <= c->x + 1; ++i) {
-				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
-						if(sum == 0) {
-							printf("Errore! Divisione per zero!\n");
-							return 0;
-						}
-						else
+			if(sum == 0) {
+				printf("Errore! Divisione per zero!\n");
+				return 0;
+			}
+			else {
+				pBest = pCurrent = 1;
+				for(i = c->x - 1; i <= c->x + 1; ++i) {
+					for(j = c->y - 1; j <= c->y + 1; ++j) {
+						if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
 							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
-						if(pCurrent < pBest) {
-							pBest = pCurrent;
-							best = &st1->map[i-1][j-1];
+							if(pCurrent < pBest) {
+								pBest = pCurrent;
+								best = &st1->map[i-1][j-1];
+							}
+							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
+								st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 						}
-						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
-							st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 					}
 				}
+				return best;
 			}
-
-			return best;
 }
 
 /**
@@ -615,7 +617,7 @@ State* tick(State* st) {
 			int32_t i;
 
 			//Translation from State to State1
-			state2State1(st, &st1);
+			//state2State1(st, &st1);
 
 			for(i = 0; i < 4; ++i) {
 				//Find the cell where robot is located
