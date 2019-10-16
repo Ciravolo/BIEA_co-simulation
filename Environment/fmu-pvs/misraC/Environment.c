@@ -268,6 +268,8 @@ void state2State1(State* st, State1* st1) {
 			//Set occupied currentCells
 			for(i = 0; i < 4; ++i) {
 				occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
+				updateContribution(st1, occupiedCells[i]);
+				updatePheromone(st, st1, occupiedCells[i]);
 				occupiedCells[i]->robot = TRUE;
 			}
 
@@ -491,16 +493,20 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 
 			Cell* best = &st1->map[c->x][c->y];
-			float64_t pBest = 1, pCurrent = 0;
+			float64_t pBest;
+			float64_t pCurrent;
 			int i, j;
 
+			pBest = pCurrent = 1;
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
-						if(sum != 0)
-							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+						if(sum == 0) {
+							printf("Errore! Divisione per zero!\n");
+							return 0;
+						}
 						else
-							pCurrent = 0;
+							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
 						if(pCurrent < pBest) {
 							pBest = pCurrent;
 							best = &st1->map[i-1][j-1];
@@ -519,7 +525,7 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
  * where the robot is disseminating the pheromone)
  */
 float64_t pheromoneDisseminated(float64_t eD) {
-			return MAX_PH*exp(-eD/A1-EPSLON/A2);
+			return MAX_PH*exp(-eD/A1)+EPSLON/A2;
 }
 
 /**
@@ -544,7 +550,7 @@ void updateContribution(State1* st1, Cell* c) {
  * Find the rate of evaporation
  */
 float64_t evaporationRate(State* st, Cell* c) {
-			return ERTU_PERC*(st->stepCount - c-> lastVisitTime);
+			return ERTU_PERC*(st->stepCount - c->lastVisitTime);
 }
 
 void updatePheromone(State* st, State1* st1, Cell* c) {
