@@ -548,7 +548,6 @@ void updateContribution(State1* st1, Cell* c) {
 			int i, j;
 			float64_t eD;
 
-			printf("isInit: %d\n", isInit);
 			// All the contributions that a robot give to the new pheromone value in some cells, are computed
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
@@ -572,7 +571,6 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 
 			int i, j;
 
-			printf("isInit: %d\n", isInit);
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1) {
