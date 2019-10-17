@@ -16,6 +16,8 @@
 #define A1 0.5
 #define A2 0.5
 #define STEP 1
+#define ROBOTS 4
+#define MAP_SIZE 10
 
 /**
  * operating modes

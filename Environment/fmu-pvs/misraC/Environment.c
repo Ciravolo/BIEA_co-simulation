@@ -143,7 +143,7 @@ bool per_tick(State* st) {
 void state2State1(State* st, State1* st1) {
 
 			int i, j;
-			Cell* occupiedCells[4];
+			Cell* occupiedCells[ROBOTS];
 
     	st1->map[0][0].pheromone = st->cell1_1;
     	st1->map[0][1].pheromone =st->cell1_2;
@@ -255,8 +255,8 @@ void state2State1(State* st, State1* st1) {
 			st1->y[3] = st->y_4;
 
 			//General initialization
-			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++j) {
+			for(i = 0; i < MAP_SIZE; ++i) {
+				for(j = 0; j < MAP_SIZE; ++j) {
 					st1->map[i][j].contributions = 0;
 					st1->map[i][j].lastVisitTime = 0;
 					st1->map[i][j].robot = FALSE;
@@ -267,12 +267,12 @@ void state2State1(State* st, State1* st1) {
 			}
 
 			//Set occupied currentCells
-			for(i = 0; i < 4; ++i) {
+			for(i = 0; i < ROBOTS; ++i) {
 				occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
 				if(isInit == TRUE) {
 					updateContribution(st1, occupiedCells[i]);
 					updatePheromone(st, st1, occupiedCells[i]);
-					if(i == 3)
+					if(i == ROBOTS - 1)
 						isInit = FALSE;
 				}
 				occupiedCells[i]->robot = TRUE;
@@ -412,8 +412,8 @@ void printTest(State* st, State1* st1) {
 			int i, j;
 
 			//Stampo i valori dei feromoni nella matrice
-			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++j) {
+			for(i = 0; i < MAP_SIZE; ++i) {
+				for(j = 0; j < MAP_SIZE; ++j) {
 					if(isOccupied(&st1->map[i][j])) {
 						printf("Cella %i-%i: %g. Occupata.\n", i + 1, j + 1, st1->map[i][j].pheromone);
 					}
@@ -426,7 +426,7 @@ void printTest(State* st, State1* st1) {
 			}
 
 			//Stampo le posizioni dei robot
-			for(i = 0; i < 4; ++i)
+			for(i = 0; i < ROBOTS; ++i)
 				printf("Coordinate del robot %d alla step %d: (%g-%g)\n", i+1, st->stepCount, st1->x[i], st1->y[i]);
 }
 
@@ -459,8 +459,8 @@ Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y) {
 
 			int32_t i, j;
 
-			for(i = 0; i < 10; ++i) {
-				for(j = 0; j < 10; ++j) {
+			for(i = 0; i < MAP_SIZE; ++i) {
+				for(j = 0; j < MAP_SIZE; ++j) {
 					if((x >= i) && (x < i + 1) && (y >= j) && (y < j + 1))
 						return &st1->map[i][j];
 				}
@@ -479,7 +479,7 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					// Only the cells different from current and inside the map are considered
-					if(i > 0 && j > 0 && i < 11 && j < 11 && !(i == c->x && j == c->y)) {
+					if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1 && !(i == c->x && j == c->y)) {
 						// Denominator of the formula to compute the probability
 						sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
 						// Number of neighbours in the neighbourhood
@@ -514,7 +514,7 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 				pBest = pCurrent = 1;
 				for(i = c->x - 1; i <= c->x + 1; ++i) {
 					for(j = c->y - 1; j <= c->y + 1; ++j) {
-						if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
+						if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1 && (i != c->x || j != c->y)) {
 							// Probability is computed
 							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
 							// If is smaller the previous, the best neighbour is updated
@@ -552,7 +552,7 @@ void updateContribution(State1* st1, Cell* c) {
 			// All the contributions that a robot give to the new pheromone value in some cells, are computed
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i < 11 && j < 11) {
+					if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1) {
 						// THe formula needs to know the euclidean distance among the current cell and that of the neighbour
 						eD = euclideanDistance((c->x)-0.5, (st1->map[i-1][j-1].x)-0.5, (c->y)-0.5, (st1->map[i-1][j-1].y)-0.5);
 						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
@@ -575,7 +575,7 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 			printf("isInit: %d\n", isInit);
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
-					if(i > 0 && j > 0 && i < 11 && j < 11) {
+					if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1) {
 						// The new value of the pheromone is obtained subtracting to the current value, the part evaporated and summing the contributions
 						// computed previously
 						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - (evaporationRate(st, &st1->map[i-1][j-1])*st1->map[i-1][j-1].pheromone);
@@ -630,15 +630,15 @@ float64_t unifRand() {
 
 State* tick(State* st) {
 
-			Cell* currentCells[4];
-			Cell* bestNeighbours[4];
+			Cell* currentCells[ROBOTS];
+			Cell* bestNeighbours[ROBOTS];
 			float64_t sum;
 			int32_t i;
 
 			//Translation from State to State1
 			state2State1(st, &st1);
 
-			for(i = 0; i < 4; ++i) {
+			for(i = 0; i < ROBOTS; ++i) {
 				//Find the cell where robot is located
 				currentCells[i] = findCellFromCoordinates(&st1, st1.x[i], st1.y[i]);
 				//Find neighbourhood
@@ -650,11 +650,11 @@ State* tick(State* st) {
 			}
 
 			//Update of the pheromone contributions given by all the robots
-			for(i = 0; i < 4; ++i)
+			for(i = 0; i < ROBOTS; ++i)
 				updateContribution(&st1, bestNeighbours[i]);
 
 			//Update of the pheromone contributions given by all the robots
-			for(i = 0; i < 4; ++i)
+			for(i = 0; i < ROBOTS; ++i)
 				updatePheromone(st, &st1, bestNeighbours[i]);
 
 			//Increasing of the discrete simulation time
