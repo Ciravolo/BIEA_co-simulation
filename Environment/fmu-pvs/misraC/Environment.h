@@ -165,6 +165,7 @@ typedef struct {
 
 State1 st1;
 float64_t EPSLON;
+bool isInit;
 
 /**
  * init function

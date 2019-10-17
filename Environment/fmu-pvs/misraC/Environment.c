@@ -117,8 +117,7 @@ void init(State* st) {
 	    st->y_4 = 9.5f;
 
 			EPSLON = unifRand();
-
-			state2State1(st, &st1);
+			isInit = TRUE;
 }
 
 /**
@@ -270,8 +269,12 @@ void state2State1(State* st, State1* st1) {
 			//Set occupied currentCells
 			for(i = 0; i < 4; ++i) {
 				occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
-				updateContribution(st1, occupiedCells[i]);
-				updatePheromone(st, st1, occupiedCells[i]);
+				if(isInit == TRUE) {
+					updateContribution(st1, occupiedCells[i]);
+					updatePheromone(st, st1, occupiedCells[i]);
+					if(i == 3)
+						isInit = FALSE;
+				}
 				occupiedCells[i]->robot = TRUE;
 			}
 
@@ -412,7 +415,6 @@ void printTest(State* st, State1* st1) {
 			for(i = 0; i < 10; ++i) {
 				for(j = 0; j < 10; ++j) {
 					if(isOccupied(&st1->map[i][j])) {
-
 						printf("Cella %i-%i: %g. Occupata.\n", i + 1, j + 1, st1->map[i][j].pheromone);
 					}
 					else
@@ -481,7 +483,7 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 						// Denominator of the formula to compute the probability
 						sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
 						// Number of neighbours in the neighbourhood
-						if(!isOccupied(&st1->map[i-1][j-1]) && hasObstacle(&st1->map[i-1][j-1]))
+						if(!isOccupied(&st1->map[i-1][j-1]) && !hasObstacle(&st1->map[i-1][j-1]))
 							++st1->k;
 					}
 				}
@@ -521,7 +523,7 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 								best = &st1->map[i-1][j-1];
 							}
 							// Each neighbour not occupied is added to neighbourhood structure
-							if(!isOccupied(&st1->map[i-1][j-1]) && hasObstacle(&st1->map[i-1][j-1]))
+							if(!isOccupied(&st1->map[i-1][j-1]) && !hasObstacle(&st1->map[i-1][j-1]))
 								st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 						}
 					}
@@ -546,6 +548,7 @@ void updateContribution(State1* st1, Cell* c) {
 			int i, j;
 			float64_t eD;
 
+			printf("isInit: %d\n", isInit);
 			// All the contributions that a robot give to the new pheromone value in some cells, are computed
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
@@ -569,6 +572,7 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 
 			int i, j;
 
+			printf("isInit: %d\n", isInit);
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i < 11 && j < 11) {
@@ -632,7 +636,7 @@ State* tick(State* st) {
 			int32_t i;
 
 			//Translation from State to State1
-			//state2State1(st, &st1);
+			state2State1(st, &st1);
 
 			for(i = 0; i < 4; ++i) {
 				//Find the cell where robot is located

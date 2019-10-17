@@ -1,4 +1,4 @@
-/*! \file skeleton.c 
+/*! \file skeleton.c
  * In this file there are the implementations
  * of the fuctions declared in fmu.h
  * along with the data needed.
@@ -16,25 +16,22 @@ int first = 0; /* variable for execution of setup option during first step only 
        * It calls the init function of the model and
        * 	sets the output
        * @param location is the directory where the fmu has been unzipped. Might be used in future version
-       * 
+       *
        */
 
 
 void initialize(const char* location) {
-    init(&st);
-	printf("fine init\n");
-    
-    
+    init(&st);  
 }
 
 /**
  * function that performs a step of the simulation model.
  * At first the inputs of the are updated with the values fom the master algorithm
  * Then the tick function is called
- * Finally the outputs of the model are forwarded to the master algorithm 
+ * Finally the outputs of the model are forwarded to the master algorithm
  * @param action is the action to perform. Might be used in future version
  */
-void doStep(const char* action) { 
+void doStep(const char* action) {
 if(first == 0){
 
     st.cell1_1 = fmiBuffer.realBuffer[1] ;
@@ -137,10 +134,10 @@ if(first == 0){
     st.cell9_7 = fmiBuffer.realBuffer[98] ;
     st.cell9_8 = fmiBuffer.realBuffer[99] ;
     st.cell9_9 = fmiBuffer.realBuffer[100] ;
-    
+
     first = 1;
 }
-	
+
    /* st.x_1 = fmiBuffer.realBuffer[102];
     st.x_2 = fmiBuffer.realBuffer[103];
     st.x_3 = fmiBuffer.realBuffer[104];
@@ -150,8 +147,8 @@ if(first == 0){
     st.y_3 = fmiBuffer.realBuffer[108];
     st.y_4 = fmiBuffer.realBuffer[109];*/
     tick(&st);
-    
-    
+
+
     /*
     fmiBuffer.realBuffer[1] = st.cell1_1;
     fmiBuffer.realBuffer[2] = st.cell1_10;
@@ -257,5 +254,3 @@ if(first == 0){
 }
 
 void terminate(){ }
-
-
