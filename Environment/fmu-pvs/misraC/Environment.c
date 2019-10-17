@@ -476,13 +476,17 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
 
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
+					// Only the cells different from current and inside the map are considered
 					if(i > 0 && j > 0 && i < 11 && j < 11 && !(i == c->x && j == c->y)) {
+						// Denominator of the formula to compute the probability
 						sum += pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA);
-						if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
+						// Number of neighbours in the neighbourhood
+						if(!isOccupied(&st1->map[i-1][j-1]) && hasObstacle(&st1->map[i-1][j-1]))
 							++st1->k;
 					}
 				}
 			}
+			// Allocation of the structure containing pointers to neighbours
 			st1->neighbourhood = (Cell*)malloc(sizeof(Cell)*(st1->k));
 			st1->k = 0;
 
@@ -499,6 +503,7 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 			float64_t pCurrent;
 			int i, j;
 
+			// If sum is zero the algorithm stops
 			if(sum == 0) {
 				printf("Errore! Divisione per zero!\n");
 				return 0;
@@ -508,12 +513,15 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 				for(i = c->x - 1; i <= c->x + 1; ++i) {
 					for(j = c->y - 1; j <= c->y + 1; ++j) {
 						if(i > 0 && j > 0 && i < 11 && j < 11 && (i != c->x || j != c->y)) {
+							// Probability is computed
 							pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
+							// If is smaller the previous, the best neighbour is updated
 							if(pCurrent < pBest) {
 								pBest = pCurrent;
 								best = &st1->map[i-1][j-1];
 							}
-							if(!st1->map[i-1][j-1].robot && !st1->map[i-1][j-1].obstacle)
+							// Each neighbour not occupied is added to neighbourhood structure
+							if(!isOccupied(&st1->map[i-1][j-1]) && hasObstacle(&st1->map[i-1][j-1]))
 								st1->neighbourhood[(st1->k)++] = st1->map[i-1][j-1];
 						}
 					}
@@ -538,9 +546,11 @@ void updateContribution(State1* st1, Cell* c) {
 			int i, j;
 			float64_t eD;
 
+			// All the contributions that a robot give to the new pheromone value in some cells, are computed
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i < 11 && j < 11) {
+						// THe formula needs to know the euclidean distance among the current cell and that of the neighbour
 						eD = euclideanDistance((c->x)-0.5, (st1->map[i-1][j-1].x)-0.5, (c->y)-0.5, (st1->map[i-1][j-1].y)-0.5);
 						st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
 					}
@@ -562,7 +572,10 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 			for(i = c->x - 1; i <= c->x + 1; ++i) {
 				for(j = c->y - 1; j <= c->y + 1; ++j) {
 					if(i > 0 && j > 0 && i < 11 && j < 11) {
+						// The new value of the pheromone is obtained subtracting to the current value, the part evaporated and summing the contributions
+						// computed previously
 						st1->map[i-1][j-1].pheromone = st1->map[i-1][j-1].pheromone - (evaporationRate(st, &st1->map[i-1][j-1])*st1->map[i-1][j-1].pheromone);
+						// If the quantity evaporated is more than the current value, zero is considered
 						if(st1->map[i-1][j-1].pheromone < 0)
 							st1->map[i-1][j-1].pheromone = 0;
 						st1->map[i-1][j-1].pheromone += st1->map[i-1][j-1].contributions;
@@ -579,6 +592,7 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 
 			int32_t random;
 
+			// The best neighbour should be an obstacle or to be occupied by another robot. In both cases we choise another neighbour at random
 			if((isOccupied(best) || hasObstacle(best)) && st1->k != 0) {
 				random = rand() / (RAND_MAX / st1->k);
 				printf("%d\n", random);
@@ -587,6 +601,7 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 				curr->robot = FALSE;
 				st1->neighbourhood[random].robot = TRUE;
 			}
+			// If the best neighbour is occupied and there aren't others free, the robot stops for one step
 			else
 			if((isOccupied(best) || hasObstacle(best)) && st1->k == 0) {
 				*x = *x;
