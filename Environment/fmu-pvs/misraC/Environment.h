@@ -31,6 +31,9 @@ typedef struct {
     Mode mode;
     Mode previous_mode;
     int32_t stepCount;
+    int32_t port;
+    float64_t time;
+    float64_t tickSize;
     float64_t cell1_1; //-- real
     float64_t cell1_10; //-- real
     float64_t cell1_2; //-- real

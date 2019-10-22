@@ -7,6 +7,9 @@ void init(State* st) {
 			st->previous_mode = X1;
 			st->mode = X1;
 			st->stepCount = 0;
+			st->port = 8084;
+			st->time = 0.0f;
+			st->tickSize = 0.01f;
     	st->cell1_1 = 0.0f;
     	st->cell1_2 = 0.0f;
     	st->cell1_3 = 0.0f;
