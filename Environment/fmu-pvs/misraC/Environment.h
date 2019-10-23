@@ -28,146 +28,150 @@ typedef enum { X1 } Mode;
  * state attributes
  */
 typedef struct {
-    Mode mode;
-    Mode previous_mode;
-    int32_t stepCount;
-    int32_t port;
-    float64_t time;
-    float64_t tickSize;
-    float64_t cell1_1; //-- real
-    float64_t cell1_10; //-- real
-    float64_t cell1_2; //-- real
-    float64_t cell1_3; //-- real
-    float64_t cell1_4; //-- real
-    float64_t cell1_5; //-- real
-    float64_t cell1_6; //-- real
-    float64_t cell1_7; //-- real
-    float64_t cell1_8; //-- real
-    float64_t cell1_9; //-- real
-    float64_t cell10_1; //-- real
-    float64_t cell10_10; //-- real
-    float64_t cell10_2; //-- real
-    float64_t cell10_3; //-- real
-    float64_t cell10_4; //-- real
-    float64_t cell10_5; //-- real
-    float64_t cell10_6; //-- real
-    float64_t cell10_7; //-- real
-    float64_t cell10_8; //-- real
-    float64_t cell10_9; //-- real
-    float64_t cell2_1; //-- real
-    float64_t cell2_10; //-- real
-    float64_t cell2_2; //-- real
-    float64_t cell2_3; //-- real
-    float64_t cell2_4; //-- real
-    float64_t cell2_5; //-- real
-    float64_t cell2_6; //-- real
-    float64_t cell2_7; //-- real
-    float64_t cell2_8; //-- real
-    float64_t cell2_9; //-- real
-    float64_t cell3_1; //-- real
-    float64_t cell3_10; //-- real
-    float64_t cell3_2; //-- real
-    float64_t cell3_3; //-- real
-    float64_t cell3_4; //-- real
-    float64_t cell3_5; //-- real
-    float64_t cell3_6; //-- real
-    float64_t cell3_7; //-- real
-    float64_t cell3_8; //-- real
-    float64_t cell3_9; //-- real
-    float64_t cell4_1; //-- real
-    float64_t cell4_10; //-- real
-    float64_t cell4_2; //-- real
-    float64_t cell4_3; //-- real
-    float64_t cell4_4; //-- real
-    float64_t cell4_5; //-- real
-    float64_t cell4_6; //-- real
-    float64_t cell4_7; //-- real
-    float64_t cell4_8; //-- real
-    float64_t cell4_9; //-- real
-    float64_t cell5_1; //-- real
-    float64_t cell5_10; //-- real
-    float64_t cell5_2; //-- real
-    float64_t cell5_3; //-- real
-    float64_t cell5_4; //-- real
-    float64_t cell5_5; //-- real
-    float64_t cell5_6; //-- real
-    float64_t cell5_7; //-- real
-    float64_t cell5_8; //-- real
-    float64_t cell5_9; //-- real
-    float64_t cell6_1; //-- real
-    float64_t cell6_10; //-- real
-    float64_t cell6_2; //-- real
-    float64_t cell6_3; //-- real
-    float64_t cell6_4; //-- real
-    float64_t cell6_5; //-- real
-    float64_t cell6_6; //-- real
-    float64_t cell6_7; //-- real
-    float64_t cell6_8; //-- real
-    float64_t cell6_9; //-- real
-    float64_t cell7_1; //-- real
-    float64_t cell7_10; //-- real
-    float64_t cell7_2; //-- real
-    float64_t cell7_3; //-- real
-    float64_t cell7_4; //-- real
-    float64_t cell7_5; //-- real
-    float64_t cell7_6; //-- real
-    float64_t cell7_7; //-- real
-    float64_t cell7_8; //-- real
-    float64_t cell7_9; //-- real
-    float64_t cell8_1; //-- real
-    float64_t cell8_10; //-- real
-    float64_t cell8_2; //-- real
-    float64_t cell8_3; //-- real
-    float64_t cell8_4; //-- real
-    float64_t cell8_5; //-- real
-    float64_t cell8_6; //-- real
-    float64_t cell8_7; //-- real
-    float64_t cell8_8; //-- real
-    float64_t cell8_9; //-- real
-    float64_t cell9_1; //-- real
-    float64_t cell9_10; //-- real
-    float64_t cell9_2; //-- real
-    float64_t cell9_3; //-- real
-    float64_t cell9_4; //-- real
-    float64_t cell9_5; //-- real
-    float64_t cell9_6; //-- real
-    float64_t cell9_7; //-- real
-    float64_t cell9_8; //-- real
-    float64_t cell9_9; //-- real
-    float64_t x_1;
-    float64_t x_2;
-    float64_t x_3;
-    float64_t x_4;
-    float64_t y_1;
-    float64_t y_2;
-    float64_t y_3;
-    float64_t y_4;
+		Mode mode;
+		Mode previous_mode;
+		int32_t stepCount;
+		int32_t port;
+		float64_t time;
+		float64_t tickSize;
+		float64_t dummy;
+		float64_t cell1_1; //-- real
+		float64_t cell1_10; //-- real
+		float64_t cell1_2; //-- real
+		float64_t cell1_3; //-- real
+		float64_t cell1_4; //-- real
+		float64_t cell1_5; //-- real
+		float64_t cell1_6; //-- real
+		float64_t cell1_7; //-- real
+		float64_t cell1_8; //-- real
+		float64_t cell1_9; //-- real
+		float64_t cell10_1; //-- real
+		float64_t cell10_10; //-- real
+		float64_t cell10_2; //-- real
+		float64_t cell10_3; //-- real
+		float64_t cell10_4; //-- real
+		float64_t cell10_5; //-- real
+		float64_t cell10_6; //-- real
+		float64_t cell10_7; //-- real
+		float64_t cell10_8; //-- real
+		float64_t cell10_9; //-- real
+		float64_t cell2_1; //-- real
+		float64_t cell2_10; //-- real
+		float64_t cell2_2; //-- real
+		float64_t cell2_3; //-- real
+		float64_t cell2_4; //-- real
+		float64_t cell2_5; //-- real
+		float64_t cell2_6; //-- real
+		float64_t cell2_7; //-- real
+		float64_t cell2_8; //-- real
+		float64_t cell2_9; //-- real
+		float64_t cell3_1; //-- real
+		float64_t cell3_10; //-- real
+		float64_t cell3_2; //-- real
+		float64_t cell3_3; //-- real
+		float64_t cell3_4; //-- real
+		float64_t cell3_5; //-- real
+		float64_t cell3_6; //-- real
+		float64_t cell3_7; //-- real
+		float64_t cell3_8; //-- real
+		float64_t cell3_9; //-- real
+		float64_t cell4_1; //-- real
+		float64_t cell4_10; //-- real
+		float64_t cell4_2; //-- real
+		float64_t cell4_3; //-- real
+		float64_t cell4_4; //-- real
+		float64_t cell4_5; //-- real
+		float64_t cell4_6; //-- real
+		float64_t cell4_7; //-- real
+		float64_t cell4_8; //-- real
+		float64_t cell4_9; //-- real
+		float64_t cell5_1; //-- real
+		float64_t cell5_10; //-- real
+		float64_t cell5_2; //-- real
+		float64_t cell5_3; //-- real
+		float64_t cell5_4; //-- real
+		float64_t cell5_5; //-- real
+		float64_t cell5_6; //-- real
+		float64_t cell5_7; //-- real
+		float64_t cell5_8; //-- real
+		float64_t cell5_9; //-- real
+		float64_t cell6_1; //-- real
+		float64_t cell6_10; //-- real
+		float64_t cell6_2; //-- real
+		float64_t cell6_3; //-- real
+		float64_t cell6_4; //-- real
+		float64_t cell6_5; //-- real
+		float64_t cell6_6; //-- real
+		float64_t cell6_7; //-- real
+		float64_t cell6_8; //-- real
+		float64_t cell6_9; //-- real
+		float64_t cell7_1; //-- real
+		float64_t cell7_10; //-- real
+		float64_t cell7_2; //-- real
+		float64_t cell7_3; //-- real
+		float64_t cell7_4; //-- real
+		float64_t cell7_5; //-- real
+		float64_t cell7_6; //-- real
+		float64_t cell7_7; //-- real
+		float64_t cell7_8; //-- real
+		float64_t cell7_9; //-- real
+		float64_t cell8_1; //-- real
+		float64_t cell8_10; //-- real
+		float64_t cell8_2; //-- real
+		float64_t cell8_3; //-- real
+		float64_t cell8_4; //-- real
+		float64_t cell8_5; //-- real
+		float64_t cell8_6; //-- real
+		float64_t cell8_7; //-- real
+		float64_t cell8_8; //-- real
+		float64_t cell8_9; //-- real
+		float64_t cell9_1; //-- real
+		float64_t cell9_10; //-- real
+		float64_t cell9_2; //-- real
+		float64_t cell9_3; //-- real
+		float64_t cell9_4; //-- real
+		float64_t cell9_5; //-- real
+		float64_t cell9_6; //-- real
+		float64_t cell9_7; //-- real
+		float64_t cell9_8; //-- real
+		float64_t cell9_9; //-- real
+		float64_t x_1;
+		float64_t x_2;
+		float64_t x_3;
+		float64_t x_4;
+		float64_t y_1;
+		float64_t y_2;
+		float64_t y_3;
+		float64_t y_4;
 } State;
 
 /**
  * matrix structure
  */
  typedef struct {
-     bool obstacle;
-     bool robot;
-     float64_t pheromone; //-- real matrix
-     float64_t lastVisitTime;
-     float64_t contributions;
-     int x;
-     int y;
+		 bool obstacle;
+		 bool robot;
+		 float64_t pheromone; //-- real matrix
+		 float64_t lastVisitTime;
+		 float64_t contributions;
+		 int x;
+		 int y;
  } Cell;
 
 /**
  * state with matrix
  */
 typedef struct {
-    Cell map[10][10]; //-- real matrix
-    float64_t x[4];
-    float64_t y[4];
-    Cell* neighbourhood;
-    int32_t k;
+		Cell map[10][10]; //-- real matrix
+		float64_t x[4];
+		float64_t y[4];
+		Cell* neighbourhood;
+		int32_t nSize;
 } State1;
 
+/**
+ * Global variables
+ */
 State1 st1;
 float64_t EPSLON;
 bool isInit;

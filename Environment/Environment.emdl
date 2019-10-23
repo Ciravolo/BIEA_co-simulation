@@ -882,20 +882,20 @@
     "scope": "Local"
    },
    {
+    "id": "VAR_x_1:real(Input)",
+    "name": "x_1",
     "type": "real",
     "repr": "float64_t",
-    "name": "x_1",
     "value": "0.5",
-    "scope": "Input",
-    "id": "VAR_x_1:real(Input)"
+    "scope": "Input"
    },
    {
+    "id": "VAR_y_1:real(Input)",
+    "name": "y_1",
     "type": "real",
     "repr": "float64_t",
-    "name": "y_1",
     "value": "0.5",
-    "scope": "Input",
-    "id": "VAR_y_1:real(Input)"
+    "scope": "Input"
    },
    {
     "id": "VAR_x_2:real(Input)",
@@ -952,6 +952,38 @@
     "repr": "int32_t",
     "value": "0",
     "scope": "Local"
+   },
+   {
+    "id": "VAR_time:real(Local)",
+    "name": "time",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_tickSize:real(Local)",
+    "name": "tickSize",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.01",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_port:int(Local)",
+    "name": "port",
+    "type": "int",
+    "repr": "int64_t",
+    "value": "8084",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_dummy:real(Output)",
+    "name": "dummy",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
    }
   ],
   "constants": [],

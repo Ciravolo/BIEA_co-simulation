@@ -15,26 +15,40 @@
 
 #include "./fmi/fmi2Functions.h"
 #include "FmuGUID.h"
+#include "misraC/Environment.h"
+#include <libwebsockets.h>
 
-
-#define BOOL_COUNT 110
-#define INT_COUNT 110
-#define REAL_COUNT 110
-#define STRING_COUNT 110
+#define BOOL_COUNT 114
+#define INT_COUNT 114
+#define REAL_COUNT 114
+#define STRING_COUNT 114
 #define FMI_COSIMULATION
 
-struct FmiBuffer {
+typedef struct {
      fmi2Boolean booleanBuffer[BOOL_COUNT];
      fmi2Integer intBuffer[INT_COUNT];
      fmi2Real realBuffer[REAL_COUNT];
      fmi2String stringBuffer[STRING_COUNT];
-};
+} FmiBuffer;;
 
-extern struct FmiBuffer fmiBuffer;
+typedef struct {
+	FmiBuffer fmiBuffer;
+	State st; 		// Structure containing the state of the model
+	int first;	 	// Variable for execution of setup option during first step only
+	int port;
+	int websocket_open;
+	struct lws_context* context;
+	char lwssendstate[LWS_SEND_BUFFER_PRE_PADDING + LWS_SEND_BUFFER_POST_PADDING+2800];
+} ModelInstance;
 
-void initialize(fmi2String);
-void doStep(const char*);
-void terminate();
+void initialize(ModelInstance*, fmi2String);
+void create_websocket(ModelInstance*, int);
+int open_websocket(ModelInstance*);
+void doStep(ModelInstance*, const char*);
+void terminate(ModelInstance*);
+void stateToString(State, char*);
+void messageHandler(ModelInstance*, char*);
+void close_websocket(ModelInstance*);
 
 
 #endif // FMU_H
