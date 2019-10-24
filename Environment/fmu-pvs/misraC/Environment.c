@@ -506,10 +506,11 @@ float64_t findNeighbourhood(State1* st1, Cell* c) {
  */
 Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 
-		Cell* best = &st1->map[c->x][c->y];
+		Cell* bests[8];
+		Cell* bestChosen;
 		float64_t pBest;
 		float64_t pCurrent;
-		int32_t i, j;
+		int32_t i, j, random, nBest = 0;
 
 		// If sum is zero the algorithm stops
 		if(sum == 0) {
@@ -524,9 +525,10 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 						// Probability is computed
 						pCurrent = (pow(st1->map[i-1][j-1].pheromone, PHI) * pow(ETA, LAMBDA)) / sum;
 						// If is smaller the previous, the best neighbour is updated
-						if(pCurrent < pBest) {
+						if(pCurrent <= pBest) {
 							pBest = pCurrent;
-							best = &st1->map[i-1][j-1];
+							bests[nBest] = &st1->map[i-1][j-1];
+							++nBest;
 						}
 						// Each neighbour not occupied is added to neighbourhood structure
 						if(!isOccupied(&st1->map[i-1][j-1]) && !hasObstacle(&st1->map[i-1][j-1]))
@@ -534,8 +536,10 @@ Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum) {
 					}
 				}
 			}
+			random = rand() / (RAND_MAX / nBest);
+			bestChosen = bests[random]; 
 
-			return best;
+			return bestChosen;
 		}
 }
 
