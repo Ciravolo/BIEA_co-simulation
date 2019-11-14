@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fmiModelDescription 	fmiVersion="2.0"
+						modelName="DesiredPosition"
+						guid="{abb4bff1-d423-4e02-90d9-011f519869ff}"
+						description=""
+						author="..author name.."
+						version="Version 1"
+						copyright=""
+						license="PVS License"
+						generationTool="PVSio-web"
+						variableNamingConvention="flat"
+						numberOfEventIndicators="0">
+	<CoSimulation 	modelIdentifier="DesiredPosition"
+					needsExecutionTool="false"
+					canHandleVariableCommunicationStepSize="true"
+					canInterpolateInputs="false"
+					maxOutputDerivativeOrder="0"
+					canRunAsynchronuously="false"
+					canBeInstantiatedOnlyOncePerProcess="false"
+					canNotUseMemoryManagementFunctions="true"
+					canGetAndSetFMUstate="false"
+					canSerializeFMUstate="false"
+					providesDirectionalDerivative="false">
+					
+			<SourceFiles>
+				<File name="fmu.c" />
+				<File name="skeleton.c" />
+				<File name="misraC/DesiredPosition.c" />
+			</SourceFiles>
+			
+		</CoSimulation>
+	<LogCategories>
+		<Category name="logAll" />
+		<Category name="logError" />
+		<Category name="logFmiCall" />
+		<Category name="Protocol" />
+		<Category name="Error" />
+	</LogCategories>
+
+	<ModelVariables>
+		<ScalarVariable name="xDesired" valueReference="1" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+    
+		<ScalarVariable name="xLocal" valueReference="2" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+    
+		<ScalarVariable name="yDesired" valueReference="3" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+    
+		<ScalarVariable name="yLocal" valueReference="4" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+    </ModelVariables>
+
+	<ModelStructure>
+	<Outputs>
+			<Unknown index="1"  dependencies=""/>
+            
+			<Unknown index="3"  dependencies=""/>
+            
+	</Outputs>
+
+	</ModelStructure>
+</fmiModelDescription>

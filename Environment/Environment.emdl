@@ -978,8 +978,64 @@
     "scope": "Local"
    },
    {
-    "id": "VAR_dummy:real(Output)",
-    "name": "dummy",
+    "id": "VAR_xDesired1:real(Output)",
+    "name": "xDesired1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired1:real(Output)",
+    "name": "yDesired1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired2:real(Output)",
+    "name": "yDesired2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired2:real(Output)",
+    "name": "xDesired2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired3:real(Output)",
+    "name": "xDesired3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired3:real(Output)",
+    "name": "yDesired3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired4:real(Output)",
+    "name": "xDesired4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired4:real(Output)",
+    "name": "yDesired4",
     "type": "real",
     "repr": "float64_t",
     "value": "0",

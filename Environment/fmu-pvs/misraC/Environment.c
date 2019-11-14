@@ -1,144 +1,150 @@
 #include "Environment.h"
-
 /**
  * init function
  */
-void init(State* st) {
-		st->previous_mode = X1;
-		st->mode = X1;
-		st->stepCount = 0;
-		st->port = 8084;
-		st->time = 0.0f;
-		st->tickSize = 0.01f;
-		st->dummy = 0.0f;		
-    	st->cell1_1 = 0.0f;
-    	st->cell1_2 = 0.0f;
-    	st->cell1_3 = 0.0f;
-    	st->cell1_4 = 0.0f;
-    	st->cell1_5 = 0.0f;
-    	st->cell1_6 = 0.0f;
-    	st->cell1_7 = 0.0f;
-    	st->cell1_8 = 0.0f;
-    	st->cell1_9 = 0.0f;
-		st->cell1_10 = 0.0f;
-    	st->cell2_1 = 0.0f;
-    	st->cell2_2 = 0.0f;
-    	st->cell2_3 = 0.0f;
-    	st->cell2_4 = 0.0f;
-    	st->cell2_5 = 0.0f;
-    	st->cell2_6 = 0.0f;
-    	st->cell2_7 = 0.0f;
-    	st->cell2_8 = 0.0f;
-    	st->cell2_9 = 0.0f;
-		st->cell2_10 = 0.0f;
-    	st->cell3_1 = 0.0f;
-    	st->cell3_2 = 0.0f;
-    	st->cell3_3 = 0.0f;
-    	st->cell3_4 = 0.0f;
-    	st->cell3_5 = 0.0f;
-    	st->cell3_6 = 0.0f;
-    	st->cell3_7 = 0.0f;
-    	st->cell3_8 = 0.0f;
-    	st->cell3_9 = 0.0f;
-		st->cell3_10 = 0.0f;
-    	st->cell4_1 = 0.0f;
-    	st->cell4_2 = 0.0f;
-    	st->cell4_3 = 0.0f;
-    	st->cell4_4 = 0.0f;
-    	st->cell4_5 = 0.0f;
-    	st->cell4_6 = 0.0f;
-    	st->cell4_7 = 0.0f;
-    	st->cell4_8 = 0.0f;
-    	st->cell4_9 = 0.0f;
-		st->cell4_10 = 0.0f;
-    	st->cell5_1 = 0.0f;
-    	st->cell5_2 = 0.0f;
-    	st->cell5_3 = 0.0f;
-    	st->cell5_4 = 0.0f;
-    	st->cell5_5 = 0.0f;
-    	st->cell5_6 = 0.0f;
-    	st->cell5_7 = 0.0f;
-    	st->cell5_8 = 0.0f;
-    	st->cell5_9 = 0.0f;
-		st->cell5_10 = 0.0f;
-    	st->cell6_1 = 0.0f;
-    	st->cell6_2 = 0.0f;
-    	st->cell6_3 = 0.0f;
-    	st->cell6_4 = 0.0f;
-    	st->cell6_5 = 0.0f;
-    	st->cell6_6 = 0.0f;
-    	st->cell6_7 = 0.0f;
-    	st->cell6_8 = 0.0f;
-    	st->cell6_9 = 0.0f;
-		st->cell6_10 = 0.0f;
-    	st->cell7_1 = 0.0f;
-    	st->cell7_2 = 0.0f;
-    	st->cell7_3 = 0.0f;
-    	st->cell7_4 = 0.0f;
-    	st->cell7_5 = 0.0f;
-    	st->cell7_6 = 0.0f;
-    	st->cell7_7 = 0.0f;
-    	st->cell7_8 = 0.0f;
-    	st->cell7_9 = 0.0f;
-		st->cell7_10 = 0.0f;
-    	st->cell8_1 = 0.0f;
-    	st->cell8_2 = 0.0f;
-    	st->cell8_3 = 0.0f;
-    	st->cell8_4 = 0.0f;
-    	st->cell8_5 = 0.0f;
-    	st->cell8_6 = 0.0f;
-    	st->cell8_7 = 0.0f;
-    	st->cell8_8 = 0.0f;
-    	st->cell8_9 = 0.0f;
-		st->cell8_10 = 0.0f;
-    	st->cell9_1 = 0.0f;
-    	st->cell9_2 = 0.0f;
-    	st->cell9_3 = 0.0f;
-    	st->cell9_4 = 0.0f;
-    	st->cell9_5 = 0.0f;
-    	st->cell9_6 = 0.0f;
-    	st->cell9_7 = 0.0f;
-    	st->cell9_8 = 0.0f;
-    	st->cell9_9 = 0.0f;
-		st->cell9_10 = 0.0f;
-		st->cell10_1 = 0.0f;
-    	st->cell10_2 = 0.0f;
-    	st->cell10_3 = 0.0f;
-    	st->cell10_4 = 0.0f;
-    	st->cell10_5 = 0.0f;
-    	st->cell10_6 = 0.0f;
-    	st->cell10_7 = 0.0f;
-    	st->cell10_8 = 0.0f;
-    	st->cell10_9 = 0.0f;
-		st->cell10_10 = 0.0f;
-		st->x_1 = 0.5f;
-	    st->x_2 = 9.5f;
-	    st->x_3 = 9.5f;
-	    st->x_4 = 0.5f;
-	    st->y_1 = 0.5f;
-	    st->y_2 = 0.5f;
-	    st->y_3 = 9.5f;
-	    st->y_4 = 9.5f;
-
-		EPSLON = unifRand();
-		isInit = TRUE;
+void init(State* st) { 
+    st->previous_mode = X1;
+    st->mode = X1;
+    st->cell1_1 = 0.0f;
+    st->cell1_10 = 0.0f;
+    st->cell1_2 = 0.0f;
+    st->cell1_3 = 0.0f;
+    st->cell1_4 = 0.0f;
+    st->cell1_5 = 0.0f;
+    st->cell1_6 = 0.0f;
+    st->cell1_7 = 0.0f;
+    st->cell1_8 = 0.0f;
+    st->cell1_9 = 0.0f;
+    st->cell10_1 = 0.0f;
+    st->cell10_10 = 0.0f;
+    st->cell10_2 = 0.0f;
+    st->cell10_3 = 0.0f;
+    st->cell10_4 = 0.0f;
+    st->cell10_5 = 0.0f;
+    st->cell10_6 = 0.0f;
+    st->cell10_7 = 0.0f;
+    st->cell10_8 = 0.0f;
+    st->cell10_9 = 0.0f;
+    st->cell2_1 = 0.0f;
+    st->cell2_10 = 0.0f;
+    st->cell2_2 = 0.0f;
+    st->cell2_3 = 0.0f;
+    st->cell2_4 = 0.0f;
+    st->cell2_5 = 0.0f;
+    st->cell2_6 = 0.0f;
+    st->cell2_7 = 0.0f;
+    st->cell2_8 = 0.0f;
+    st->cell2_9 = 0.0f;
+    st->cell3_1 = 0.0f;
+    st->cell3_10 = 0.0f;
+    st->cell3_2 = 0.0f;
+    st->cell3_3 = 0.0f;
+    st->cell3_4 = 0.0f;
+    st->cell3_5 = 0.0f;
+    st->cell3_6 = 0.0f;
+    st->cell3_7 = 0.0f;
+    st->cell3_8 = 0.0f;
+    st->cell3_9 = 0.0f;
+    st->cell4_1 = 0.0f;
+    st->cell4_10 = 0.0f;
+    st->cell4_2 = 0.0f;
+    st->cell4_3 = 0.0f;
+    st->cell4_4 = 0.0f;
+    st->cell4_5 = 0.0f;
+    st->cell4_6 = 0.0f;
+    st->cell4_7 = 0.0f;
+    st->cell4_8 = 0.0f;
+    st->cell4_9 = 0.0f;
+    st->cell5_1 = 0.0f;
+    st->cell5_10 = 0.0f;
+    st->cell5_2 = 0.0f;
+    st->cell5_3 = 0.0f;
+    st->cell5_4 = 0.0f;
+    st->cell5_5 = 0.0f;
+    st->cell5_6 = 0.0f;
+    st->cell5_7 = 0.0f;
+    st->cell5_8 = 0.0f;
+    st->cell5_9 = 0.0f;
+    st->cell6_1 = 0.0f;
+    st->cell6_10 = 0.0f;
+    st->cell6_2 = 0.0f;
+    st->cell6_3 = 0.0f;
+    st->cell6_4 = 0.0f;
+    st->cell6_5 = 0.0f;
+    st->cell6_6 = 0.0f;
+    st->cell6_7 = 0.0f;
+    st->cell6_8 = 0.0f;
+    st->cell6_9 = 0.0f;
+    st->cell7_1 = 0.0f;
+    st->cell7_10 = 0.0f;
+    st->cell7_2 = 0.0f;
+    st->cell7_3 = 0.0f;
+    st->cell7_4 = 0.0f;
+    st->cell7_5 = 0.0f;
+    st->cell7_6 = 0.0f;
+    st->cell7_7 = 0.0f;
+    st->cell7_8 = 0.0f;
+    st->cell7_9 = 0.0f;
+    st->cell8_1 = 0.0f;
+    st->cell8_10 = 0.0f;
+    st->cell8_2 = 0.0f;
+    st->cell8_3 = 0.0f;
+    st->cell8_4 = 0.0f;
+    st->cell8_5 = 0.0f;
+    st->cell8_6 = 0.0f;
+    st->cell8_7 = 0.0f;
+    st->cell8_8 = 0.0f;
+    st->cell8_9 = 0.0f;
+    st->cell9_1 = 0.0f;
+    st->cell9_10 = 0.0f;
+    st->cell9_2 = 0.0f;
+    st->cell9_3 = 0.0f;
+    st->cell9_4 = 0.0f;
+    st->cell9_5 = 0.0f;
+    st->cell9_6 = 0.0f;
+    st->cell9_7 = 0.0f;
+    st->cell9_8 = 0.0f;
+    st->cell9_9 = 0.0f;
+    st->port = 8087;
+    st->stepCount = 0;
+    st->tickSize = 0.01f;
+    st->time = 0.0f;
+    st->x_1 = 0.5f;
+    st->x_2 = 9.5f;
+    st->x_3 = 9.5f;
+    st->x_4 = 0.5f;
+    st->xDesired1 = 0.0f;
+    st->xDesired2 = 0.0f;
+    st->xDesired3 = 0.0f;
+    st->xDesired4 = 0.0f;
+    st->y_1 = 0.5f;
+    st->y_2 = 0.5f;
+    st->y_3 = 9.5f;
+    st->y_4 = 9.5f;
+    st->yDesired1 = 0.0f;
+    st->yDesired2 = 0.0f;
+    st->yDesired3 = 0.0f;
+    st->yDesired4 = 0.0f;
+    
+    EPSLON = unifRand();
+	isInit = TRUE;
 }
 
 /**
  * leave/enter functions
  */
-void enter(Mode m, State* st) {
-    	st->mode = m;
+void enter(Mode m, State* st) { 
+    st->mode = m;
 }
-void leave(Mode m, State* st) {
-    	st->previous_mode = m;
+void leave(Mode m, State* st) { 
+    st->previous_mode = m;
 }
 
 /**
- * Triggers
+ * triggers
  */
 bool per_tick(State* st) {
-    	return (st->mode == X1);
+    return (st->mode == X1);
 }
 
 /**
@@ -146,7 +152,7 @@ bool per_tick(State* st) {
  */
 void state2State1(State* st, State1* st1) {
 
-		int i, j;
+		int32_t i, j;
 		Cell* occupiedCells[ROBOTS];
 
     	st1->map[0][0].pheromone = st->cell1_1;
@@ -274,6 +280,7 @@ void state2State1(State* st, State1* st1) {
 		for(i = 0; i < ROBOTS; ++i) {
 			occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
 			if(isInit == TRUE) {
+				printf("isInit: %d\n", isInit);
 				updateContribution(st1, occupiedCells[i]);
 				updatePheromone(st, st1, occupiedCells[i]);
 				if(i == ROBOTS - 1) {
@@ -292,8 +299,6 @@ void state2State1(State* st, State1* st1) {
 		st1->map[6][7].obstacle = TRUE;
 		st1->map[7][7].obstacle = TRUE;
 		st1->map[7][8].obstacle = TRUE;
-		
-		printTest(st, st1);
 }
 
 /**
@@ -401,19 +406,19 @@ void state12State(State* st, State1* st1) {
 		st->cell10_8 = st1->map[9][7].pheromone;
 		st->cell10_9 = st1->map[9][8].pheromone;
 		st->cell10_10 = st1->map[9][9].pheromone;
-		st->x_1 = st1->x[0];
-		st->x_2 = st1->x[1];
-		st->x_3 = st1->x[2];
-		st->x_4 = st1->x[3];
-		st->y_1 = st1->y[0];
-		st->y_2 = st1->y[1];
-		st->y_3 = st1->y[2];
-		st->y_4 = st1->y[3];
+		st->xDesired1 = st1->x[0];
+		st->xDesired2 = st1->x[1];
+		st->xDesired3 = st1->x[2];
+		st->xDesired4 = st1->x[3];
+		st->yDesired1 = st1->y[0];
+		st->yDesired2 = st1->y[1];
+		st->yDesired3 = st1->y[2];
+		st->yDesired4 = st1->y[3];
 }
 
 /**
  * Print something to test
- */
+
 void printTest(State* st, State1* st1) {
 
 		int i, j;
@@ -436,7 +441,7 @@ void printTest(State* st, State1* st1) {
 		for(i = 0; i < ROBOTS; ++i)
 			printf("Coordinate del robot %d alla step %d: (%g-%g)\n", i+1, st->stepCount, st1->x[i], st1->y[i]);
 }
-
+**/
 
 /**
  * Sais if there is an obstacle in the cell
@@ -675,3 +680,7 @@ State* tick(State* st) {
 
 		return st;
 }
+
+
+
+

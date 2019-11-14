@@ -1,0 +1,110 @@
+{
+ "descriptor": {
+  "file_type": "emdl",
+  "version": "2.0",
+  "description": "emucharts model",
+  "chart_name": "EMUCHART__0"
+ },
+ "chart": {
+  "states": [
+   {
+    "id": "X1",
+    "name": "DesiredPosition",
+    "enter": "",
+    "exit": "",
+    "x": 539,
+    "y": 285,
+    "width": 36,
+    "height": 36,
+    "color": "#1f77b4"
+   }
+  ],
+  "transitions": [
+   {
+    "id": "T1",
+    "name": "tick\n{\n\txDesired := xLocal;\n    yDesired := yLocal;\n}",
+    "source": {
+     "id": "X1",
+     "name": "DesiredPosition",
+     "enter": "",
+     "exit": "",
+     "x": 539,
+     "y": 285,
+     "width": 36,
+     "height": 36,
+     "color": "#1f77b4"
+    },
+    "target": {
+     "id": "X1",
+     "name": "DesiredPosition",
+     "enter": "",
+     "exit": "",
+     "x": 539,
+     "y": 285,
+     "width": 36,
+     "height": 36,
+     "color": "#1f77b4"
+    },
+    "controlPoint": {
+     "x": 611,
+     "y": 337
+    }
+   }
+  ],
+  "initial_transitions": [
+   {
+    "id": "IT1",
+    "name": "IT1",
+    "target": {
+     "id": "X1",
+     "name": "DesiredPosition",
+     "enter": "",
+     "exit": "",
+     "x": 539,
+     "y": 285,
+     "width": 36,
+     "height": 36,
+     "color": "#1f77b4"
+    }
+   }
+  ],
+  "variables": [
+   {
+    "id": "VAR_xLocal:real(Local)",
+    "name": "xLocal",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_yLocal:real(Local)",
+    "name": "yLocal",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_xDesired:real(Output)",
+    "name": "xDesired",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired:real(Output)",
+    "name": "yDesired",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   }
+  ],
+  "constants": [],
+  "datatypes": [],
+  "pmr": {},
+  "isPIM": false
+ }
+}

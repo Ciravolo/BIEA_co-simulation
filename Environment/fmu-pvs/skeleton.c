@@ -1,4 +1,4 @@
-/*! \file skeleton.c
+/*! \file skeleton.c 
  * In this file there are the implementations
  * of the fuctions declared in fmu.h
  * along with the data needed.
@@ -8,8 +8,8 @@
 
 static int WebSocketCallback(struct lws*, enum lws_callback_reasons, void*, void*, size_t);
 
-/**
- * List of supported protocols and callbacks
+/** 
+ * List of supported protocols and callbacks 
  */
 static struct lws_protocols protocols[] = {
 	{
@@ -28,12 +28,21 @@ int connection = 0;
  * It calls the init function of the model and sets the output.
  * It initializes the semaphore and creates the websocket thread.
  * @param location is the directory where the fmu has been unzipped. Might be used in future version
- *
+ * 
  */
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    comp->fmiBuffer.realBuffer[101] = comp->st.dummy;
+    printf("Init: %f\n", comp->fmiBuffer.realBuffer[105]);
+    
+    comp->fmiBuffer.realBuffer[109] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[110] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[111] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[112] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[117] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[118] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[119] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[120] = comp->st.yDesired4;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -135,12 +144,12 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    comp->fmiBuffer.realBuffer[104] = comp->st.tickSize;
-    comp->fmiBuffer.realBuffer[105] = comp->st.time;
-    comp->fmiBuffer.intBuffer[102] = comp->st.port;
-    comp->fmiBuffer.intBuffer[103] = comp->st.stepCount;
+    comp->fmiBuffer.realBuffer[103] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[104] = comp->st.time;
+    comp->fmiBuffer.intBuffer[101] = comp->st.port;
+    comp->fmiBuffer.intBuffer[102] = comp->st.stepCount;
 
-    comp->first = 0;
+    comp->first = 0;   
 }
 
 /**
@@ -163,12 +172,12 @@ void create_websocket(ModelInstance* comp, int initial_port) {
 /**
  * Function used to open the websocket
  */
-int open_websocket(ModelInstance* comp) {
+int open_websocket(ModelInstance* comp) {	
     const char *interface = NULL; // NULL means "all interfaces"
     lwsl_notice("libwebsockets test server - "
                 "(C) Copyright 2010-2013 Andy Green <andy@warmcat.com> - "
-                "licensed under LGPL2.1\n");
-
+                "licensed under LGPL2.1\n");			
+                
     struct lws_context_creation_info info;
     memset(&info, 0, sizeof(info));
     info.port = comp->port;
@@ -179,7 +188,7 @@ int open_websocket(ModelInstance* comp) {
     info.gid = -1;
     info.uid = -1;
     info.options = 0;
-    info.user = comp;
+    info.user = comp;    
 
     comp->context = lws_create_context(&info);
 
@@ -196,12 +205,13 @@ int open_websocket(ModelInstance* comp) {
  * Function that performs a step of the simulation model.
  * At first the inputs of the are updated with the values fom the master algorithm.
  * Then the tick function is called inside the mutex, in order to guarantee mutual exlusion.
- * Finally the outputs of the model are forwarded to the master algorithm
+ * Finally the outputs of the model are forwarded to the master algorithm 
  * @param action is the action to perform. Might be used in future version.
  */
 void doStep(ModelInstance* comp, const char* action) {
 	if(comp->first == 0) {
-	
+		
+		
 		comp->st.cell1_1 = comp->fmiBuffer.realBuffer[1];
 		comp->st.cell1_10 = comp->fmiBuffer.realBuffer[2];
 		comp->st.cell1_2 = comp->fmiBuffer.realBuffer[3];
@@ -302,20 +312,25 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.cell9_7 = comp->fmiBuffer.realBuffer[98];
 		comp->st.cell9_8 = comp->fmiBuffer.realBuffer[99];
 		comp->st.cell9_9 = comp->fmiBuffer.realBuffer[100];
-		comp->st.tickSize = comp->fmiBuffer.realBuffer[104];
-		comp->st.time = comp->fmiBuffer.realBuffer[105];
-
+		comp->st.tickSize = comp->fmiBuffer.realBuffer[103];
+		comp->st.time = comp->fmiBuffer.realBuffer[104];
+		comp->st.port = comp->fmiBuffer.realBuffer[101];
+		
 		comp->first = 1;
 	}
 	
-    /*comp->st.x_1 = comp->fmiBuffer.realBuffer[106];
-    comp->st.x_2 = comp->fmiBuffer.realBuffer[107];
-    comp->st.x_3 = comp->fmiBuffer.realBuffer[108];
-    comp->st.x_4 = comp->fmiBuffer.realBuffer[109];
-    comp->st.y_1 = comp->fmiBuffer.realBuffer[110];
-    comp->st.y_2 = comp->fmiBuffer.realBuffer[111];
-    comp->st.y_3 = comp->fmiBuffer.realBuffer[112];
-    comp->st.y_4 = comp->fmiBuffer.realBuffer[113];*/
+    comp->st.x_1 = comp->fmiBuffer.realBuffer[105];
+    comp->st.x_2 = comp->fmiBuffer.realBuffer[106];
+    comp->st.x_3 = comp->fmiBuffer.realBuffer[107];
+    comp->st.x_4 = comp->fmiBuffer.realBuffer[108];
+    comp->st.y_1 = comp->fmiBuffer.realBuffer[113];
+    comp->st.y_2 = comp->fmiBuffer.realBuffer[114];
+    comp->st.y_3 = comp->fmiBuffer.realBuffer[115];
+    comp->st.y_4 = comp->fmiBuffer.realBuffer[116];
+    
+   
+    
+    
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     //comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -417,24 +432,33 @@ void doStep(ModelInstance* comp, const char* action) {
     //comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     //comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     //comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    //comp->fmiBuffer.realBuffer[104] = comp->st.tickSize;
-    //comp->fmiBuffer.realBuffer[105] = comp->st.time;
-    //comp->fmiBuffer.intBuffer[102] = comp->st.port;
-    //comp->fmiBuffer.intBuffer[103] = comp->st.stepCount;
-
-	if(comp->websocket_open == 1)
+    //comp->fmiBuffer.realBuffer[103] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[104] = comp->st.time;
+    //comp->fmiBuffer.intBuffer[101] = comp->st.port;
+    //comp->fmiBuffer.intBuffer[102] = comp->st.stepCount;
+    
+    if(comp->websocket_open == 1)
 		lws_service(comp->context, 0);
 	
     if (connection == 1) {
+		
 		lws_service(comp->context, 0);
 		tick(&comp->st);
 	}
 	
-	comp->fmiBuffer.realBuffer[101] = comp->st.dummy;
 	
-	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[105]);
-	comp->fmiBuffer.realBuffer[105] += 0.01;
-	comp->st.time = comp->fmiBuffer.realBuffer[105];*/
+	comp->fmiBuffer.realBuffer[109] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[110] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[111] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[112] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[117] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[118] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[119] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[120] = comp->st.yDesired4;
+    
+	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[104]);
+	comp->fmiBuffer.realBuffer[104] += 0.01;
+	comp->st.time = comp->fmiBuffer.realBuffer[104];*/
 	
 }
 
@@ -448,7 +472,7 @@ void terminate(ModelInstance* comp) {
 static int WebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len) {
 	struct lws_context* context = lws_get_context(wsi);
 	ModelInstance* comp = (ModelInstance*)lws_context_user(context);
-
+	
     // Callback
     switch (reason) {
 		case LWS_CALLBACK_ESTABLISHED:
@@ -507,11 +531,11 @@ static int WebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, 
 * Function used to convert the state into a string
 */
 void stateToString(State st, char* str) {
-	char* temp = (char*)malloc(1024);
-
+	char* temp = (char*)malloc(2048);
+	
 	strcpy(str, "(#");
 	
-	/*sprintf(temp, " cell1_1 := %f,", st.cell1_1);
+	sprintf(temp, " cell1_1 := %f,", st.cell1_1);
 	strcat(str, temp);
 	sprintf(temp, " cell1_10 := %f,", st.cell1_10);
 	strcat(str, temp);
@@ -711,15 +735,13 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " cell9_9 := %f,", st.cell9_9);
 	strcat(str, temp);
-	sprintf(temp, " dummy := %f,", st.dummy);
-	strcat(str, temp);
 	sprintf(temp, " port := %d,", st.port);
 	strcat(str, temp);
 	sprintf(temp, " stepCount := %d,", st.stepCount);
 	strcat(str, temp);
 	sprintf(temp, " tickSize := %f,", st.tickSize);
 	strcat(str, temp);
-	sprintf(temp, " time := %f,", st.time);*/
+	sprintf(temp, " time := %f,", st.time);
 	strcat(str, temp);
 	sprintf(temp, " x_1 := %f,", st.x_1);
 	strcat(str, temp);
@@ -729,6 +751,14 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " x_4 := %f,", st.x_4);
 	strcat(str, temp);
+	sprintf(temp, " xDesired1 := %f,", st.xDesired1);
+	strcat(str, temp);
+	sprintf(temp, " xDesired2 := %f,", st.xDesired2);
+	strcat(str, temp);
+	sprintf(temp, " xDesired3 := %f,", st.xDesired3);
+	strcat(str, temp);
+	sprintf(temp, " xDesired4 := %f,", st.xDesired4);
+	strcat(str, temp);
 	sprintf(temp, " y_1 := %f,", st.y_1);
 	strcat(str, temp);
 	sprintf(temp, " y_2 := %f,", st.y_2);
@@ -737,8 +767,16 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " y_4 := %f,", st.y_4);
 	strcat(str, temp);
+	sprintf(temp, " yDesired1 := %f,", st.yDesired1);
+	strcat(str, temp);
+	sprintf(temp, " yDesired2 := %f,", st.yDesired2);
+	strcat(str, temp);
+	sprintf(temp, " yDesired3 := %f,", st.yDesired3);
+	strcat(str, temp);
+	sprintf(temp, " yDesired4 := %f,", st.yDesired4);
+	strcat(str, temp);	
 	//Remove the last char ','
-	temp[strlen(str)-1] = '\0';
+	str[strlen(str)-1] = '\0';	
 	strcat(str, " #);");
 
 	free(temp);
@@ -746,16 +784,16 @@ void stateToString(State st, char* str) {
 
 /**
  * Function used to handle the received command
- */
-void messageHandler(ModelInstance* comp, char* msg) {
+ */ 
+void messageHandler(ModelInstance* comp, char* msg) {	
 	if (strstr(msg, "refresh") == NULL) {
 		
 		if (strstr(msg, "click_tick") != NULL) {
 			tick(&comp->st);
 		}
 		
-	}
-}
+	}	
+}	
 
 /**
  * Function used to close the websocket
