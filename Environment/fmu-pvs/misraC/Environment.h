@@ -151,6 +151,10 @@ typedef struct {
     float64_t yDesired2; //-- real
     float64_t yDesired3; //-- real
     float64_t yDesired4; //-- real
+    float64_t onDestination1;
+    float64_t onDestination2;
+    float64_t onDestination3;
+    float64_t onDestination4;
 } State;
 /**
  * matrix structure

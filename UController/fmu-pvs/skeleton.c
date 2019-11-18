@@ -22,8 +22,9 @@ int first = 0; /* variable for execution of setup option during first step only 
 
 void initialize(const char* location) {
     init(&st);
-    fmiBuffer.realBuffer[7] = st.servoLeft;
-    fmiBuffer.realBuffer[8] = st.servoRight;
+    fmiBuffer.realBuffer[5] = st.onDestination;
+    fmiBuffer.realBuffer[8] = st.servoLeft;
+    fmiBuffer.realBuffer[9] = st.servoRight;
     
     
 }
@@ -41,31 +42,32 @@ if(first == 0){
     st.beta = fmiBuffer.realBuffer[1] ;
     st.k_beta = fmiBuffer.realBuffer[2] ;
     st.k_v = fmiBuffer.realBuffer[3] ;
-    st.rho = fmiBuffer.realBuffer[6] ;
-    st.v = fmiBuffer.realBuffer[9] ;
-    st.w = fmiBuffer.realBuffer[10] ;
+    st.rho = fmiBuffer.realBuffer[7] ;
+    st.v = fmiBuffer.realBuffer[10] ;
+    st.w = fmiBuffer.realBuffer[11] ;
     
     first = 1;
 }
 	
-    st.phi = fmiBuffer.realBuffer[5];
-    st.x = fmiBuffer.realBuffer[11];
-    st.xDesired = fmiBuffer.realBuffer[12];
-    st.y = fmiBuffer.realBuffer[13];
-    st.yDesired = fmiBuffer.realBuffer[14];
+    st.phi = fmiBuffer.realBuffer[6];
+    st.x = fmiBuffer.realBuffer[12];
+    st.xDesired = fmiBuffer.realBuffer[13];
+    st.y = fmiBuffer.realBuffer[14];
+    st.yDesired = fmiBuffer.realBuffer[15];
 	
     tick(&st);
     
     
-    fmiBuffer.realBuffer[7] = st.servoLeft;
-    fmiBuffer.realBuffer[8] = st.servoRight;
+    fmiBuffer.realBuffer[5] = st.onDestination;
+    fmiBuffer.realBuffer[8] = st.servoLeft;
+    fmiBuffer.realBuffer[9] = st.servoRight;
     /*
     fmiBuffer.realBuffer[1] = st.beta;
     fmiBuffer.realBuffer[2] = st.k_beta;
     fmiBuffer.realBuffer[3] = st.k_v;
-    fmiBuffer.realBuffer[6] = st.rho;
-    fmiBuffer.realBuffer[9] = st.v;
-    fmiBuffer.realBuffer[10] = st.w;
+    fmiBuffer.realBuffer[7] = st.rho;
+    fmiBuffer.realBuffer[10] = st.v;
+    fmiBuffer.realBuffer[11] = st.w;
     fmiBuffer.intBuffer[4] = st.maneuver;*/
 }
 

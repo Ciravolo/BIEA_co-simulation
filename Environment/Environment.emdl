@@ -970,14 +970,6 @@
     "scope": "Local"
    },
    {
-    "id": "VAR_port:int(Local)",
-    "name": "port",
-    "type": "int",
-    "repr": "int64_t",
-    "value": "8084",
-    "scope": "Local"
-   },
-   {
     "id": "VAR_xDesired1:real(Output)",
     "name": "xDesired1",
     "type": "real",
@@ -1040,6 +1032,46 @@
     "repr": "float64_t",
     "value": "0",
     "scope": "Output"
+   },
+   {
+    "id": "VAR_port:int(Local)",
+    "name": "port",
+    "type": "int",
+    "repr": "int64_t",
+    "value": "8087",
+    "scope": "Local"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "onDestination1",
+    "value": "0",
+    "scope": "Input",
+    "id": "VAR_onDestination1:real(Input)"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "onDestination2",
+    "value": "0",
+    "scope": "Input",
+    "id": "VAR_onDestination2:real(Input)"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "onDestination3",
+    "value": "0",
+    "scope": "Input",
+    "id": "VAR_onDestination3:real(Input)"
+   },
+   {
+    "type": "real",
+    "repr": "float64_t",
+    "name": "onDestination4",
+    "value": "0",
+    "scope": "Input",
+    "id": "VAR_onDestination4:real(Input)"
    }
   ],
   "constants": [],

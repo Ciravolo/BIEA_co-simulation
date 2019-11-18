@@ -21,8 +21,6 @@ static struct lws_protocols protocols[] = {
     { NULL, NULL, 0, 0 }	// End of list
 };
 
-int connection = 0;
-
  /**
  * Function for the initialization of the model.
  * It calls the init function of the model and sets the output.
@@ -33,16 +31,14 @@ int connection = 0;
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    printf("Init: %f\n", comp->fmiBuffer.realBuffer[105]);
-    
-    comp->fmiBuffer.realBuffer[109] = comp->st.xDesired1;
-    comp->fmiBuffer.realBuffer[110] = comp->st.xDesired2;
-    comp->fmiBuffer.realBuffer[111] = comp->st.xDesired3;
-    comp->fmiBuffer.realBuffer[112] = comp->st.xDesired4;
-    comp->fmiBuffer.realBuffer[117] = comp->st.yDesired1;
-    comp->fmiBuffer.realBuffer[118] = comp->st.yDesired2;
-    comp->fmiBuffer.realBuffer[119] = comp->st.yDesired3;
-    comp->fmiBuffer.realBuffer[120] = comp->st.yDesired4;
+    comp->fmiBuffer.realBuffer[113] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[114] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[121] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[122] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired4;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -144,10 +140,10 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    comp->fmiBuffer.realBuffer[103] = comp->st.tickSize;
-    comp->fmiBuffer.realBuffer[104] = comp->st.time;
-    comp->fmiBuffer.intBuffer[101] = comp->st.port;
-    comp->fmiBuffer.intBuffer[102] = comp->st.stepCount;
+    comp->fmiBuffer.realBuffer[107] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[108] = comp->st.time;
+    comp->fmiBuffer.intBuffer[105] = comp->st.port;
+    comp->fmiBuffer.intBuffer[106] = comp->st.stepCount;
 
     comp->first = 0;   
 }
@@ -210,8 +206,7 @@ int open_websocket(ModelInstance* comp) {
  */
 void doStep(ModelInstance* comp, const char* action) {
 	if(comp->first == 0) {
-		
-		
+	
 		comp->st.cell1_1 = comp->fmiBuffer.realBuffer[1];
 		comp->st.cell1_10 = comp->fmiBuffer.realBuffer[2];
 		comp->st.cell1_2 = comp->fmiBuffer.realBuffer[3];
@@ -312,25 +307,35 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.cell9_7 = comp->fmiBuffer.realBuffer[98];
 		comp->st.cell9_8 = comp->fmiBuffer.realBuffer[99];
 		comp->st.cell9_9 = comp->fmiBuffer.realBuffer[100];
-		comp->st.tickSize = comp->fmiBuffer.realBuffer[103];
-		comp->st.time = comp->fmiBuffer.realBuffer[104];
-		comp->st.port = comp->fmiBuffer.realBuffer[101];
+		comp->st.tickSize = comp->fmiBuffer.realBuffer[107];
+		comp->st.time = comp->fmiBuffer.realBuffer[108];
 		
 		comp->first = 1;
 	}
-	
-    comp->st.x_1 = comp->fmiBuffer.realBuffer[105];
-    comp->st.x_2 = comp->fmiBuffer.realBuffer[106];
-    comp->st.x_3 = comp->fmiBuffer.realBuffer[107];
-    comp->st.x_4 = comp->fmiBuffer.realBuffer[108];
-    comp->st.y_1 = comp->fmiBuffer.realBuffer[113];
-    comp->st.y_2 = comp->fmiBuffer.realBuffer[114];
-    comp->st.y_3 = comp->fmiBuffer.realBuffer[115];
-    comp->st.y_4 = comp->fmiBuffer.realBuffer[116];
+	 
+    comp->st.onDestination1 = comp->fmiBuffer.realBuffer[101];
+    comp->st.onDestination2 = comp->fmiBuffer.realBuffer[102];
+    comp->st.onDestination3 = comp->fmiBuffer.realBuffer[103];
+    comp->st.onDestination4 = comp->fmiBuffer.realBuffer[104];
+    comp->st.x_1 = comp->fmiBuffer.realBuffer[109];
+    comp->st.x_2 = comp->fmiBuffer.realBuffer[110];
+    comp->st.x_3 = comp->fmiBuffer.realBuffer[111];
+    comp->st.x_4 = comp->fmiBuffer.realBuffer[112];
+    comp->st.y_1 = comp->fmiBuffer.realBuffer[117];
+    comp->st.y_2 = comp->fmiBuffer.realBuffer[118];
+    comp->st.y_3 = comp->fmiBuffer.realBuffer[119];
+    comp->st.y_4 = comp->fmiBuffer.realBuffer[120];  
     
-   
+    tick(&comp->st);
     
-    
+    comp->fmiBuffer.realBuffer[113] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[114] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[121] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[122] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired4;
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     //comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -432,33 +437,18 @@ void doStep(ModelInstance* comp, const char* action) {
     //comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     //comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     //comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    //comp->fmiBuffer.realBuffer[103] = comp->st.tickSize;
-    comp->fmiBuffer.realBuffer[104] = comp->st.time;
-    //comp->fmiBuffer.intBuffer[101] = comp->st.port;
-    //comp->fmiBuffer.intBuffer[102] = comp->st.stepCount;
-    
-    if(comp->websocket_open == 1)
-		lws_service(comp->context, 0);
+    //comp->fmiBuffer.realBuffer[107] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[108] = comp->st.time;
+    //comp->fmiBuffer.intBuffer[105] = comp->st.port;
+    //comp->fmiBuffer.intBuffer[106] = comp->st.stepCount;
 	
-    if (connection == 1) {
-		
+	if (comp->websocket_open == 1) {
 		lws_service(comp->context, 0);
-		tick(&comp->st);
 	}
 	
-	
-	comp->fmiBuffer.realBuffer[109] = comp->st.xDesired1;
-    comp->fmiBuffer.realBuffer[110] = comp->st.xDesired2;
-    comp->fmiBuffer.realBuffer[111] = comp->st.xDesired3;
-    comp->fmiBuffer.realBuffer[112] = comp->st.xDesired4;
-    comp->fmiBuffer.realBuffer[117] = comp->st.yDesired1;
-    comp->fmiBuffer.realBuffer[118] = comp->st.yDesired2;
-    comp->fmiBuffer.realBuffer[119] = comp->st.yDesired3;
-    comp->fmiBuffer.realBuffer[120] = comp->st.yDesired4;
-    
-	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[104]);
-	comp->fmiBuffer.realBuffer[104] += 0.01;
-	comp->st.time = comp->fmiBuffer.realBuffer[104];*/
+	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[108]);
+	comp->fmiBuffer.realBuffer[108] += 0.01;
+	comp->st.time = comp->fmiBuffer.realBuffer[108];*/
 	
 }
 
@@ -480,7 +470,6 @@ static int WebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, 
 			printf("**********************************************\n");
 			printf("***             (FMI Protocol)             ***\n");
 			printf("**********************************************\n");
-			connection = 1;
 			break;
 		case LWS_CALLBACK_CLOSED:
 			printf("CLIENT DISCONNECTED!\n\n");
@@ -734,6 +723,14 @@ void stateToString(State st, char* str) {
 	sprintf(temp, " cell9_8 := %f,", st.cell9_8);
 	strcat(str, temp);
 	sprintf(temp, " cell9_9 := %f,", st.cell9_9);
+	strcat(str, temp);
+	sprintf(temp, " onDestination1 := %f,", st.onDestination1);
+	strcat(str, temp);
+	sprintf(temp, " onDestination2 := %f,", st.onDestination2);
+	strcat(str, temp);
+	sprintf(temp, " onDestination3 := %f,", st.onDestination3);
+	strcat(str, temp);
+	sprintf(temp, " onDestination4 := %f,", st.onDestination4);
 	strcat(str, temp);
 	sprintf(temp, " port := %d,", st.port);
 	strcat(str, temp);

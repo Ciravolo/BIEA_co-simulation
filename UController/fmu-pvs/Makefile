@@ -21,7 +21,7 @@ all:
 	cp -r misraC sources
 	cp -r fmi sources
 	mv UController.so binaries/linux64/
-	zip -r UController.fmu modelDescription.xml binaries/ resources/ sources/
+	zip -r UController.fmu modelDescription.xml binaries/ sources/
 	rm -rf sources
 	rm -rf binaries
 

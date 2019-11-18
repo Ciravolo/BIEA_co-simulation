@@ -162,14 +162,6 @@
     "scope": "Input"
    },
    {
-    "id": "VAR_w:real(Local)",
-    "name": "w",
-    "type": "real",
-    "repr": "float64_t",
-    "value": "0",
-    "scope": "Local"
-   },
-   {
     "id": "VAR_k_beta:real(Local)",
     "name": "k_beta",
     "type": "real",
@@ -192,6 +184,22 @@
     "repr": "int32_t",
     "value": "1",
     "scope": "Local"
+   },
+   {
+    "id": "VAR_w:real(Local)",
+    "name": "w",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_onDestination:real(Output)",
+    "name": "onDestination",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
    }
   ],
   "constants": [

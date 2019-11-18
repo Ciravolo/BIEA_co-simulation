@@ -13,8 +13,9 @@ void init(State* st) {
     st->mode = X1;
     st->beta = 0.0f;
     st->k_beta = 1.0f;
-    st->k_v = 0.25;
+    st->k_v = 0.05f;
     st->maneuver = 1;
+    st->onDestination = 0.0f;
     st->phi = 0.0f;
     st->rho = 0.0f;
     st->servoLeft = 0.0f;
@@ -44,10 +45,13 @@ bool per_tick(State* st) {
     return (st->mode == X1 && ( TRUE ));
 }
 State* tick(State* st) {
-
-	if(((fabs(st->y-st->yDesired)) < 0.1) && ((fabs(st->x-st->xDesired)) < 0.1)) {
+    
+    st->onDestination = 0;
+    
+    if(((fabs(st->y-st->yDesired)) < 0.5) && ((fabs(st->x-st->xDesired)) < 0.5)) {
 		st->servoLeft = 0;
 		st->servoRight = 0;
+		st->onDestination = 1;
 	}
 	else {
 		st->beta = atan2((st->y-st->yDesired),(st->x-st->xDesired)) - st->phi + M_PI/2;
@@ -63,8 +67,8 @@ State* tick(State* st) {
 			st->beta = atan2((st->y-st->yDesired),(st->x-st->xDesired)) - st->phi + M_PI/2;
 			st->v = 0;
 			st->w = -st->k_beta * st->beta;
-			st->servoLeft = ((1 / R)*st->v + (L / (2*R))*st->w);
-			st->servoRight = -(((1 / R)*st->v - (L / (2*R))*st->w));
+			st->servoLeft = ((1 / R)*st->v + (L / (2*R))*st->w) / 5.18;
+			st->servoRight = -(((1 / R)*st->v - (L / (2*R))*st->w)) / 5.18;
 		}
 		else
 		if(st->maneuver == 2) {
@@ -72,8 +76,8 @@ State* tick(State* st) {
 			st->beta = atan2((st->y-st->yDesired),(st->x-st->xDesired)) - st->phi + M_PI/2;
 			st->v = st->rho*st->k_v*(pow(st->rho, 2)*cos(st->beta) + st->beta*sin(st->beta));
 			st->w = -st->k_beta*st->beta;
-			st->servoLeft = ((1 / R)*st->v + (L / (2*R))*st->w);
-			st->servoRight = -((((1 / R)*st->v - (L / (2*R))*st->w)));
+			st->servoLeft = ((1 / R)*st->v + (L / (2*R))*st->w) / 5.18;
+			st->servoRight = -((((1 / R)*st->v - (L / (2*R))*st->w))) / 5.18;
 		}
 	}
 	

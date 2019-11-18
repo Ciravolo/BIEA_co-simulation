@@ -18,10 +18,10 @@
 #include "misraC/Environment.h"
 #include <libwebsockets.h>
 
-#define BOOL_COUNT 121
-#define INT_COUNT 121
-#define REAL_COUNT 121
-#define STRING_COUNT 121
+#define BOOL_COUNT 125
+#define INT_COUNT 125
+#define REAL_COUNT 125
+#define STRING_COUNT 125
 #define FMI_COSIMULATION
 
 typedef struct {

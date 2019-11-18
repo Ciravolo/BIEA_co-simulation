@@ -125,6 +125,10 @@ void init(State* st) {
     st->yDesired2 = 0.0f;
     st->yDesired3 = 0.0f;
     st->yDesired4 = 0.0f;
+    st->onDestination1 = 0.0f;
+    st->onDestination2 = 0.0f;
+    st->onDestination3 = 0.0f;
+    st->onDestination4 = 0.0f;
     
     EPSLON = unifRand();
 	isInit = TRUE;
@@ -280,7 +284,6 @@ void state2State1(State* st, State1* st1) {
 		for(i = 0; i < ROBOTS; ++i) {
 			occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
 			if(isInit == TRUE) {
-				printf("isInit: %d\n", isInit);
 				updateContribution(st1, occupiedCells[i]);
 				updatePheromone(st, st1, occupiedCells[i]);
 				if(i == ROBOTS - 1) {
@@ -650,34 +653,36 @@ State* tick(State* st) {
 		float64_t sum;
 		int32_t i;
 
-		//Translation from State to State1
-		state2State1(st, &st1);
+		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1) {
+			//Translation from State to State1
+			state2State1(st, &st1);
 
-		for(i = 0; i < ROBOTS; ++i) {
-			//Find the cell where robot is located
-			currentCells[i] = findCellFromCoordinates(&st1, st1.x[i], st1.y[i]);
-			//Find neighbourhood
-			sum = findNeighbourhood(&st1, currentCells[i]);
-			//Find the best neighbour
-			bestNeighbours[i] = findBestNeighbour(&st1, currentCells[i], sum);
-			//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
-			move(&st1, currentCells[i], bestNeighbours[i], &st1.x[i], &st1.y[i]);
+			for(i = 0; i < ROBOTS; ++i) {
+				//Find the cell where robot is located
+				currentCells[i] = findCellFromCoordinates(&st1, st1.x[i], st1.y[i]);
+				//Find neighbourhood
+				sum = findNeighbourhood(&st1, currentCells[i]);
+				//Find the best neighbour
+				bestNeighbours[i] = findBestNeighbour(&st1, currentCells[i], sum);
+				//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
+				move(&st1, currentCells[i], bestNeighbours[i], &st1.x[i], &st1.y[i]);
+			}
+
+			//Update of the pheromone contributions given by all the robots
+			for(i = 0; i < ROBOTS; ++i)
+				updateContribution(&st1, bestNeighbours[i]);
+
+			//Update of the pheromone contributions given by all the robots
+			for(i = 0; i < ROBOTS; ++i)
+				updatePheromone(st, &st1, bestNeighbours[i]);
+
+			//Increasing of the discrete simulation time
+			++st->stepCount;
+
+			//Translation from State1 to State
+			state12State(st, &st1);
 		}
-
-		//Update of the pheromone contributions given by all the robots
-		for(i = 0; i < ROBOTS; ++i)
-			updateContribution(&st1, bestNeighbours[i]);
-
-		//Update of the pheromone contributions given by all the robots
-		for(i = 0; i < ROBOTS; ++i)
-			updatePheromone(st, &st1, bestNeighbours[i]);
-
-		//Increasing of the discrete simulation time
-		++st->stepCount;
-
-		//Translation from State1 to State
-		state12State(st, &st1);
-
+		
 		return st;
 }
 

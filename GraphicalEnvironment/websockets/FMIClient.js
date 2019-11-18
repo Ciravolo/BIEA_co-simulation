@@ -10,7 +10,7 @@ define(function (require, exports, module) {
 		d3						= require("d3/d3"),
 		property				= require("util/property"),
 		ws,
-		_port = 8084,
+		_port = 8087,
 		url = window.location.href.indexOf("file") === 0 ?
 				("ws://localhost") : ("ws://" + window.location.hostname),
         instance;
