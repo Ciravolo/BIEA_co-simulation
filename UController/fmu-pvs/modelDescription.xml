@@ -42,7 +42,7 @@
     
 		<ScalarVariable name="k_beta" valueReference="2" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="k_v" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.05" /></ScalarVariable>
+		<ScalarVariable name="k_v" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="2.0" /></ScalarVariable>
     
 		<ScalarVariable name="maneuver" valueReference="4" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
     

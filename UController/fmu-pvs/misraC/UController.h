@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "misraC_basic_types.h"
-#define TOLLERANCE 1
+#define TOLLERANCE 0.5
 /**
  * operating modes
  */
