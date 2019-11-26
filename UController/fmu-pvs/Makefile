@@ -7,7 +7,8 @@ all:
 	gcc -fPIC -Wall -c fmu.c
 	gcc -fPIC -Wall -c skeleton.c
 	gcc -fPIC -Wall -c misraC/UController.c
-	gcc -shared -o UController.so skeleton.o fmu.o UController.o -lm
+	unzip resources/lib.zip
+	gcc -fPIC -shared -o UController.so skeleton.o fmu.o UController.o -Wl,-rpath,. -L. -lwebsockets -lm
 	rm -rf sources
 	rm -rf binaries
 	mkdir sources
@@ -21,9 +22,14 @@ all:
 	cp -r misraC sources
 	cp -r fmi sources
 	mv UController.so binaries/linux64/
-	zip -r UController.fmu modelDescription.xml binaries/ sources/
+	cp lib/libwebsockets.* binaries/linux64/
+	cp lib/libcrypto.so.* binaries/linux64/
+	cp lib/libssl.so.* binaries/linux64/
+	mv lib/fmuCheck.linux64 ../fmu-pvs/
+	zip -r UController.fmu modelDescription.xml binaries/ resources/ sources/
 	rm -rf sources
 	rm -rf binaries
+	rm -rf lib
 
 run:
 	./fmuCheck.linux64 -h 1E-01 UController.fmu
