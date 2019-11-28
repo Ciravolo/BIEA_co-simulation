@@ -2,6 +2,7 @@
 /**
  * init function
  */
+ 
 void init(State* st) { 
     st->previous_mode = X1;
     st->mode = X1;
@@ -107,6 +108,7 @@ void init(State* st) {
     st->cell9_9 = 0.0f;
     st->port = 8087;
     st->stepCount = 0;
+    st->flag = 1;
     st->tickSize = 0.01f;
     st->time = 0.0f;
     st->x_1 = 0.5f;
@@ -417,10 +419,11 @@ void state12State(State* st, State1* st1) {
 		st->yDesired2 = st1->y[1];
 		st->yDesired3 = st1->y[2];
 		st->yDesired4 = st1->y[3];
+		printf("x: %g\n", st->xDesired1);
+		printf("y: %g\n", st->yDesired1);
 }
 
-/**
- * Print something to test
+//Print something to test
 
 void printTest(State* st, State1* st1) {
 
@@ -444,7 +447,6 @@ void printTest(State* st, State1* st1) {
 		for(i = 0; i < ROBOTS; ++i)
 			printf("Coordinate del robot %d alla step %d: (%g-%g)\n", i+1, st->stepCount, st1->x[i], st1->y[i]);
 }
-**/
 
 /**
  * Sais if there is an obstacle in the cell
@@ -593,6 +595,7 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 		for(i = c->x - 1; i <= c->x + 1; ++i) {
 			for(j = c->y - 1; j <= c->y + 1; ++j) {
 				if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1) {
+					//printf(" arpCella %i-%i PRIMA: %g\n", i, j, st1->map[i-1][j-1].pheromone);
 					// The new value of the pheromone is obtained subtracting to the current value, the part evaporated and summing the contributions
 					// computed previously
 					//printf("%g, %g, %g\n", st1->map[i-1][j-1].pheromone, evaporationRate(st, &st1->map[i-1][j-1])*st1->map[i-1][j-1].pheromone, st1->map[i-1][j-1].contributions);
@@ -602,8 +605,8 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 						st1->map[i-1][j-1].pheromone = 0;
 					st1->map[i-1][j-1].pheromone += st1->map[i-1][j-1].contributions;
 					st1->map[i-1][j-1].lastVisitTime = st->stepCount;
+					//printf(" arpCella %i-%i DOPO: %g\n", i, j, st1->map[i-1][j-1].pheromone);
 				}
-				//printf(" arpCella %i-%i: %g\n", i, j, st1->map[i-1][j-1].pheromone);
 			}
 		}
 }
@@ -653,7 +656,7 @@ State* tick(State* st) {
 		float64_t sum;
 		int32_t i;
 
-		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1) {
+		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1 && st->flag == 1) {
 			//Translation from State to State1
 			state2State1(st, &st1);
 
@@ -678,9 +681,21 @@ State* tick(State* st) {
 
 			//Increasing of the discrete simulation time
 			++st->stepCount;
-
+			
 			//Translation from State1 to State
 			state12State(st, &st1);
+			
+			printTest(st, &st1);
+			st->flag = 1 - st->flag;
+		}
+		else
+		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1 && st->flag == 0) {
+			++st->stepCount;
+			st->flag = 1 - st->flag;
+		}
+		else {
+			//Increasing of the discrete simulation time
+			++st->stepCount;
 		}
 		
 		return st;

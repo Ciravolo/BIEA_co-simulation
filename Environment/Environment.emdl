@@ -1042,36 +1042,44 @@
     "scope": "Local"
    },
    {
-    "type": "real",
-    "repr": "float64_t",
+    "id": "VAR_onDestination1:real(Input)",
     "name": "onDestination1",
-    "value": "0",
-    "scope": "Input",
-    "id": "VAR_onDestination1:real(Input)"
-   },
-   {
     "type": "real",
     "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination2:real(Input)",
     "name": "onDestination2",
-    "value": "0",
-    "scope": "Input",
-    "id": "VAR_onDestination2:real(Input)"
-   },
-   {
     "type": "real",
     "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination3:real(Input)",
     "name": "onDestination3",
-    "value": "0",
-    "scope": "Input",
-    "id": "VAR_onDestination3:real(Input)"
-   },
-   {
     "type": "real",
     "repr": "float64_t",
-    "name": "onDestination4",
     "value": "0",
-    "scope": "Input",
-    "id": "VAR_onDestination4:real(Input)"
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination4:real(Input)",
+    "name": "onDestination4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_flag:int(Local)",
+    "name": "flag",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "1",
+    "scope": "Local"
    }
   ],
   "constants": [],

@@ -68,7 +68,7 @@ State* tick(State* st) {
 			}
 		}
 		else if(st->maneuver == 1) {
-			if(fabs(st->beta) < 1) {
+			if(fabs(st->beta) < 0.1) {
 				st->maneuver = 2;
 			}
 		}

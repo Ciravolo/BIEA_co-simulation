@@ -133,6 +133,7 @@ typedef struct {
     float64_t cell9_9; //-- real
     int32_t port; //-- int
     int32_t stepCount; //-- int
+    int32_t flag; //-- int
     float64_t tickSize; //-- real
     float64_t time; //-- real
     float64_t x_1; //-- real
