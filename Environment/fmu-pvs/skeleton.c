@@ -31,14 +31,15 @@ static struct lws_protocols protocols[] = {
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    comp->fmiBuffer.realBuffer[114] = comp->st.xDesired1;
-    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired2;
-    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired3;
-    comp->fmiBuffer.realBuffer[117] = comp->st.xDesired4;
-    comp->fmiBuffer.realBuffer[122] = comp->st.yDesired1;
-    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired2;
-    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired3;
-    comp->fmiBuffer.realBuffer[125] = comp->st.yDesired4;
+    comp->fmiBuffer.realBuffer[106] = comp->st.onDestinationOutput;
+    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[117] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[118] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[125] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[126] = comp->st.yDesired4;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -140,11 +141,11 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    comp->fmiBuffer.realBuffer[108] = comp->st.tickSize;
-    comp->fmiBuffer.realBuffer[109] = comp->st.time;
+    comp->fmiBuffer.realBuffer[109] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[110] = comp->st.time;
     comp->fmiBuffer.intBuffer[101] = comp->st.flag;
-    comp->fmiBuffer.intBuffer[106] = comp->st.port;
-    comp->fmiBuffer.intBuffer[107] = comp->st.stepCount;
+    comp->fmiBuffer.intBuffer[107] = comp->st.port;
+    comp->fmiBuffer.intBuffer[108] = comp->st.stepCount;
 
     comp->first = 0;   
 }
@@ -308,36 +309,37 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.cell9_7 = comp->fmiBuffer.realBuffer[98];
 		comp->st.cell9_8 = comp->fmiBuffer.realBuffer[99];
 		comp->st.cell9_9 = comp->fmiBuffer.realBuffer[100];
-		comp->st.tickSize = comp->fmiBuffer.realBuffer[108];
-		comp->st.time = comp->fmiBuffer.realBuffer[109];
+		comp->st.tickSize = comp->fmiBuffer.realBuffer[109];
+		comp->st.time = comp->fmiBuffer.realBuffer[110];
 		
 		comp->first = 1;
 	}
 	
-    comp->st.onDestination1 = comp->fmiBuffer.realBuffer[102];
-    comp->st.onDestination2 = comp->fmiBuffer.realBuffer[103];
-    comp->st.onDestination3 = comp->fmiBuffer.realBuffer[104];
-    comp->st.onDestination4 = comp->fmiBuffer.realBuffer[105];
-    comp->st.x_1 = comp->fmiBuffer.realBuffer[110];
-    comp->st.x_2 = comp->fmiBuffer.realBuffer[111];
-    comp->st.x_3 = comp->fmiBuffer.realBuffer[112];
-    comp->st.x_4 = comp->fmiBuffer.realBuffer[113];
-    comp->st.y_1 = comp->fmiBuffer.realBuffer[118];
-    comp->st.y_2 = comp->fmiBuffer.realBuffer[119];
-    comp->st.y_3 = comp->fmiBuffer.realBuffer[120];
-    comp->st.y_4 = comp->fmiBuffer.realBuffer[121];
+    comp->st.onDestination1Input = comp->fmiBuffer.realBuffer[102];
+    comp->st.onDestination2Input = comp->fmiBuffer.realBuffer[103];
+    comp->st.onDestination3Input = comp->fmiBuffer.realBuffer[104];
+    comp->st.onDestination4Input = comp->fmiBuffer.realBuffer[105];
+    comp->st.x_1 = comp->fmiBuffer.realBuffer[111];
+    comp->st.x_2 = comp->fmiBuffer.realBuffer[112];
+    comp->st.x_3 = comp->fmiBuffer.realBuffer[113];
+    comp->st.x_4 = comp->fmiBuffer.realBuffer[114];
+    comp->st.y_1 = comp->fmiBuffer.realBuffer[119];
+    comp->st.y_2 = comp->fmiBuffer.realBuffer[120];
+    comp->st.y_3 = comp->fmiBuffer.realBuffer[121];
+    comp->st.y_4 = comp->fmiBuffer.realBuffer[122];
 	
     tick(&comp->st);
        
     
-    comp->fmiBuffer.realBuffer[114] = comp->st.xDesired1;
-    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired2;
-    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired3;
-    comp->fmiBuffer.realBuffer[117] = comp->st.xDesired4;
-    comp->fmiBuffer.realBuffer[122] = comp->st.yDesired1;
-    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired2;
-    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired3;
-    comp->fmiBuffer.realBuffer[125] = comp->st.yDesired4;
+    comp->fmiBuffer.realBuffer[106] = comp->st.onDestinationOutput;
+    comp->fmiBuffer.realBuffer[115] = comp->st.xDesired1;
+    comp->fmiBuffer.realBuffer[116] = comp->st.xDesired2;
+    comp->fmiBuffer.realBuffer[117] = comp->st.xDesired3;
+    comp->fmiBuffer.realBuffer[118] = comp->st.xDesired4;
+    comp->fmiBuffer.realBuffer[123] = comp->st.yDesired1;
+    comp->fmiBuffer.realBuffer[124] = comp->st.yDesired2;
+    comp->fmiBuffer.realBuffer[125] = comp->st.yDesired3;
+    comp->fmiBuffer.realBuffer[126] = comp->st.yDesired4;
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.cell1_1;
     //comp->fmiBuffer.realBuffer[2] = comp->st.cell1_10;
@@ -439,19 +441,19 @@ void doStep(ModelInstance* comp, const char* action) {
     //comp->fmiBuffer.realBuffer[98] = comp->st.cell9_7;
     //comp->fmiBuffer.realBuffer[99] = comp->st.cell9_8;
     //comp->fmiBuffer.realBuffer[100] = comp->st.cell9_9;
-    //comp->fmiBuffer.realBuffer[108] = comp->st.tickSize;
-    comp->fmiBuffer.realBuffer[109] = comp->st.time;
+    //comp->fmiBuffer.realBuffer[109] = comp->st.tickSize;
+    comp->fmiBuffer.realBuffer[110] = comp->st.time;
     //comp->fmiBuffer.intBuffer[101] = comp->st.flag;
-    //comp->fmiBuffer.intBuffer[106] = comp->st.port;
-    //comp->fmiBuffer.intBuffer[107] = comp->st.stepCount;
+    //comp->fmiBuffer.intBuffer[107] = comp->st.port;
+    //comp->fmiBuffer.intBuffer[108] = comp->st.stepCount;
     
     if (comp->websocket_open == 1) {
 		lws_service(comp->context, 0);
 	}
 	
-	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[109]);
-	comp->fmiBuffer.realBuffer[109] += 0.01;
-	comp->st.time = comp->fmiBuffer.realBuffer[109];*/
+	/*printf("Time: %f\n", comp->fmiBuffer.realBuffer[110]);
+	comp->fmiBuffer.realBuffer[110] += 0.01;
+	comp->st.time = comp->fmiBuffer.realBuffer[110];*/
 	
 }
 
@@ -729,13 +731,15 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " flag := %d,", st.flag);
 	strcat(str, temp);
-	sprintf(temp, " onDestination1 := %f,", st.onDestination1);
+	sprintf(temp, " onDestination1Input := %f,", st.onDestination1Input);
 	strcat(str, temp);
-	sprintf(temp, " onDestination2 := %f,", st.onDestination2);
+	sprintf(temp, " onDestination2Input := %f,", st.onDestination2Input);
 	strcat(str, temp);
-	sprintf(temp, " onDestination3 := %f,", st.onDestination3);
+	sprintf(temp, " onDestination3Input := %f,", st.onDestination3Input);
 	strcat(str, temp);
-	sprintf(temp, " onDestination4 := %f,", st.onDestination4);
+	sprintf(temp, " onDestination4Input := %f,", st.onDestination4Input);
+	strcat(str, temp);
+	sprintf(temp, " onDestinationOutput := %f,", st.onDestinationOutput);
 	strcat(str, temp);
 	sprintf(temp, " port := %d,", st.port);
 	strcat(str, temp);

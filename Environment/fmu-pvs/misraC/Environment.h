@@ -9,14 +9,14 @@
 #include <time.h>
 #include "misraC_basic_types.h"
 #define S_RANGE 1
-#define ERTU_PERC 0.2
+#define ERTU_PERC 0.0002
 #define MAX_PH 2
 #define PHI 1
 #define LAMBDA 1
 #define ETA 0.9
 #define A1 0.5
 #define A2 0.5
-#define STEP 1
+#define STEP 0.1
 #define ROBOTS 4
 #define MAP_SIZE 10
 
@@ -152,10 +152,11 @@ typedef struct {
     float64_t yDesired2; //-- real
     float64_t yDesired3; //-- real
     float64_t yDesired4; //-- real
-    float64_t onDestination1;
-    float64_t onDestination2;
-    float64_t onDestination3;
-    float64_t onDestination4;
+    float64_t onDestinationOutput;
+    float64_t onDestination1Input;
+    float64_t onDestination2Input;
+    float64_t onDestination3Input;
+    float64_t onDestination4Input;
 } State;
 /**
  * matrix structure
@@ -164,8 +165,6 @@ typedef struct {
 		 bool obstacle;
 		 bool robot;
 		 float64_t pheromone; //-- real matrix
-		 float64_t lastVisitTime;
-		 float64_t contributions;
 		 int x;
 		 int y;
  } Cell;
@@ -237,7 +236,7 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y);
 /**
  * Find the rate of evaporation
  */
-float64_t evaporationRate(State* st, Cell* c);
+//float64_t evaporationRate(State* st, Cell* c);
 
 /**
  * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
@@ -247,7 +246,7 @@ void updateContribution(State1* st1, Cell* c);
 /**
  * Update the pheromone
  */
-void updatePheromone(State* st, State1* st1, Cell* c);
+//void updatePheromone(State* st, State1* st1, Cell* c);
 
 /**
  * translation function from State to State1
@@ -255,9 +254,19 @@ void updatePheromone(State* st, State1* st1, Cell* c);
 void state2State1(State* st, State1* st1);
 
 /**
+ * translation function from State to State1 only for evaporation
+ */
+void state2State12(State* st, State1* st1); 
+
+/**
  * translation function from State1 to State
  */
 void state12State(State* st, State1* st1);
+
+/**
+ * translation function from State1 to State only for evaporation
+ */
+void state12State2(State* st, State1* st1);
 
 /**
  * print matrix

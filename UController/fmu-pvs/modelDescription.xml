@@ -40,42 +40,44 @@
 	<ModelVariables>
 		<ScalarVariable name="beta" valueReference="1" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="k_beta" valueReference="2" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
+		<ScalarVariable name="k_beta" valueReference="2" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.2" /></ScalarVariable>
     
-		<ScalarVariable name="k_v" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="1.0" /></ScalarVariable>
+		<ScalarVariable name="k_v" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
     
 		<ScalarVariable name="maneuver" valueReference="4" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination" valueReference="5" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="onDestinationInput" valueReference="5" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="phi" valueReference="6" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestinationOutput" valueReference="6" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="rho" valueReference="7" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="phi" valueReference="7" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="servoLeft" valueReference="8" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="rho" valueReference="8" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="servoRight" valueReference="9" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="servoLeft" valueReference="9" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="v" valueReference="10" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="servoRight" valueReference="10" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="w" valueReference="11" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="v" valueReference="11" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="x" valueReference="12" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="w" valueReference="12" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="xDesired" valueReference="13" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="x" valueReference="13" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="y" valueReference="14" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="xDesired" valueReference="14" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="yDesired" valueReference="15" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="y" valueReference="15" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+    
+		<ScalarVariable name="yDesired" valueReference="16" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     </ModelVariables>
 
 	<ModelStructure>
 	<Outputs>
-			<Unknown index="5"  dependencies=""/>
-            
-			<Unknown index="8"  dependencies=""/>
+			<Unknown index="6"  dependencies=""/>
             
 			<Unknown index="9"  dependencies=""/>
+            
+			<Unknown index="10"  dependencies=""/>
             
 	</Outputs>
 

@@ -31,16 +31,16 @@ static struct lws_protocols protocols[] = {
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    comp->fmiBuffer.realBuffer[5] = comp->st.onDestination;
-    comp->fmiBuffer.realBuffer[8] = comp->st.servoLeft;
-    comp->fmiBuffer.realBuffer[9] = comp->st.servoRight;
+    comp->fmiBuffer.realBuffer[6] = comp->st.onDestinationOutput;
+    comp->fmiBuffer.realBuffer[9] = comp->st.servoLeft;
+    comp->fmiBuffer.realBuffer[10] = comp->st.servoRight;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.beta;
     comp->fmiBuffer.realBuffer[2] = comp->st.k_beta;
     comp->fmiBuffer.realBuffer[3] = comp->st.k_v;
-    comp->fmiBuffer.realBuffer[7] = comp->st.rho;
-    comp->fmiBuffer.realBuffer[10] = comp->st.v;
-    comp->fmiBuffer.realBuffer[11] = comp->st.w;
+    comp->fmiBuffer.realBuffer[8] = comp->st.rho;
+    comp->fmiBuffer.realBuffer[11] = comp->st.v;
+    comp->fmiBuffer.realBuffer[12] = comp->st.w;
     comp->fmiBuffer.intBuffer[4] = comp->st.maneuver;
 
     comp->first = 0;   
@@ -108,42 +108,40 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.beta = comp->fmiBuffer.realBuffer[1];
 		comp->st.k_beta = comp->fmiBuffer.realBuffer[2];
 		comp->st.k_v = comp->fmiBuffer.realBuffer[3];
-		comp->st.rho = comp->fmiBuffer.realBuffer[7];
-		comp->st.v = comp->fmiBuffer.realBuffer[10];
-		comp->st.w = comp->fmiBuffer.realBuffer[11];
+		comp->st.rho = comp->fmiBuffer.realBuffer[8];
+		comp->st.v = comp->fmiBuffer.realBuffer[11];
+		comp->st.w = comp->fmiBuffer.realBuffer[12];
 		
 		comp->first = 1;
 	}
 	
-    comp->st.phi = comp->fmiBuffer.realBuffer[6];
-    comp->st.x = comp->fmiBuffer.realBuffer[12];
-    comp->st.xDesired = comp->fmiBuffer.realBuffer[13];
-    comp->st.y = comp->fmiBuffer.realBuffer[14];
-    comp->st.yDesired = comp->fmiBuffer.realBuffer[15];
+    comp->st.onDestinationInput = comp->fmiBuffer.realBuffer[5];
+    comp->st.phi = comp->fmiBuffer.realBuffer[7];
+    comp->st.x = comp->fmiBuffer.realBuffer[13];
+    comp->st.xDesired = comp->fmiBuffer.realBuffer[14];
+    comp->st.y = comp->fmiBuffer.realBuffer[15];
+    comp->st.yDesired = comp->fmiBuffer.realBuffer[16];
 	
     tick(&comp->st);
        
     
-    comp->fmiBuffer.realBuffer[5] = comp->st.onDestination;
-    comp->fmiBuffer.realBuffer[8] = comp->st.servoLeft;
-    comp->fmiBuffer.realBuffer[9] = comp->st.servoRight;
+    comp->fmiBuffer.realBuffer[6] = comp->st.onDestinationOutput;
+    comp->fmiBuffer.realBuffer[9] = comp->st.servoLeft;
+    comp->fmiBuffer.realBuffer[10] = comp->st.servoRight;
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.beta;
     //comp->fmiBuffer.realBuffer[2] = comp->st.k_beta;
     //comp->fmiBuffer.realBuffer[3] = comp->st.k_v;
-    //comp->fmiBuffer.realBuffer[7] = comp->st.rho;
-    //comp->fmiBuffer.realBuffer[10] = comp->st.v;
-    //comp->fmiBuffer.realBuffer[11] = comp->st.w;
+    //comp->fmiBuffer.realBuffer[8] = comp->st.rho;
+    //comp->fmiBuffer.realBuffer[11] = comp->st.v;
+    //comp->fmiBuffer.realBuffer[12] = comp->st.w;
     //comp->fmiBuffer.intBuffer[4] = comp->st.maneuver;
     
-    /*if (comp->websocket_open == 1) {
-		lws_service(comp->context, 0);
-	}*/
-	
+    
 }
 
 void terminate(ModelInstance* comp) {
-	//close_websocket(comp);
+	
 }
 
 /**
@@ -222,7 +220,9 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " maneuver := %d,", st.maneuver);
 	strcat(str, temp);
-	sprintf(temp, " onDestination := %f,", st.onDestination);
+	sprintf(temp, " onDestinationInput := %f,", st.onDestinationInput);
+	strcat(str, temp);
+	sprintf(temp, " onDestinationOutput := %f,", st.onDestinationOutput);
 	strcat(str, temp);
 	sprintf(temp, " phi := %f,", st.phi);
 	strcat(str, temp);

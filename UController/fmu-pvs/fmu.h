@@ -18,10 +18,10 @@
 #include "misraC/UController.h"
 #include <libwebsockets.h>
 
-#define BOOL_COUNT 16
-#define INT_COUNT 16
-#define REAL_COUNT 16
-#define STRING_COUNT 16
+#define BOOL_COUNT 17
+#define INT_COUNT 17
+#define REAL_COUNT 17
+#define STRING_COUNT 17
 #define FMI_COSIMULATION
 
 typedef struct {

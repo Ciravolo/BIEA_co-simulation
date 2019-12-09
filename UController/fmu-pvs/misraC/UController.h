@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "misraC_basic_types.h"
-#define TOLLERANCE 1
+#define TOLLERANCE 0.2
 /**
  * operating modes
  */
@@ -21,7 +21,8 @@ typedef struct {
     float64_t k_beta; //-- real
     float64_t k_v; //-- real
     int32_t maneuver; //-- int
-    float64_t onDestination;
+    float64_t onDestinationOutput; // real
+    float64_t onDestinationInput; // real
     float64_t phi; //-- real
     float64_t rho; //-- real
     float64_t servoLeft; //-- real

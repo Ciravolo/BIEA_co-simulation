@@ -30,11 +30,10 @@ all:
 	rm -rf sources
 	rm -rf binaries
 	rm -rf lib
-
+	make clean
 run:
 	./fmuCheck.linux64 -h 1E-01 UController.fmu
 run1:
 	./fmuCheck.linux64 -h 1E-02 UController.fmu
-
 clean:
 	rm -rf  UController.o fmu.o skeleton.o

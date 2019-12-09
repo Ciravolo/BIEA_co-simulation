@@ -194,12 +194,20 @@
     "scope": "Local"
    },
    {
-    "id": "VAR_onDestination:real(Output)",
-    "name": "onDestination",
+    "type": "real",
+    "repr": "float64_t",
+    "name": "onDestinationOutput",
+    "value": "0",
+    "scope": "Output",
+    "id": "VAR_onDestinationOutput:real(Output)"
+   },
+   {
+    "id": "VAR_onDestinationInput:real(Input)",
+    "name": "onDestinationInput",
     "type": "real",
     "repr": "float64_t",
     "value": "0",
-    "scope": "Output"
+    "scope": "Input"
    }
   ],
   "constants": [

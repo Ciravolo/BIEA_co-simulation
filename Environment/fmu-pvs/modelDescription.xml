@@ -240,58 +240,60 @@
     
 		<ScalarVariable name="flag" valueReference="101" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination1" valueReference="102" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination1Input" valueReference="102" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination2" valueReference="103" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination2Input" valueReference="103" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination3" valueReference="104" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination3Input" valueReference="104" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination4" valueReference="105" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination4Input" valueReference="105" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="port" valueReference="106" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8087" /></ScalarVariable>
+		<ScalarVariable name="onDestinationOutput" valueReference="106" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="stepCount" valueReference="107" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
+		<ScalarVariable name="port" valueReference="107" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8087" /></ScalarVariable>
     
-		<ScalarVariable name="tickSize" valueReference="108" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.01" /></ScalarVariable>
+		<ScalarVariable name="stepCount" valueReference="108" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
     
-		<ScalarVariable name="time" valueReference="109" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="tickSize" valueReference="109" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.01" /></ScalarVariable>
     
-		<ScalarVariable name="x_1" valueReference="110" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="time" valueReference="110" causality="parameter" variability="fixed"  initial="exact" ><Real start="0" /></ScalarVariable>
     
-		<ScalarVariable name="x_2" valueReference="111" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="x_1" valueReference="111" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="x_3" valueReference="112" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="x_2" valueReference="112" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="x_4" valueReference="113" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="x_3" valueReference="113" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="xDesired1" valueReference="114" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="x_4" valueReference="114" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="xDesired2" valueReference="115" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="xDesired1" valueReference="115" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="xDesired3" valueReference="116" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="xDesired2" valueReference="116" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="xDesired4" valueReference="117" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="xDesired3" valueReference="117" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="y_1" valueReference="118" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="xDesired4" valueReference="118" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="y_2" valueReference="119" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="y_1" valueReference="119" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_3" valueReference="120" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="y_2" valueReference="120" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_4" valueReference="121" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="y_3" valueReference="121" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="yDesired1" valueReference="122" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="y_4" valueReference="122" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="yDesired2" valueReference="123" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="yDesired1" valueReference="123" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="yDesired3" valueReference="124" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="yDesired2" valueReference="124" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
-		<ScalarVariable name="yDesired4" valueReference="125" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="yDesired3" valueReference="125" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+    
+		<ScalarVariable name="yDesired4" valueReference="126" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     </ModelVariables>
 
 	<ModelStructure>
 	<Outputs>
-			<Unknown index="114"  dependencies=""/>
+			<Unknown index="106"  dependencies=""/>
             
 			<Unknown index="115"  dependencies=""/>
             
@@ -299,13 +301,15 @@
             
 			<Unknown index="117"  dependencies=""/>
             
-			<Unknown index="122"  dependencies=""/>
+			<Unknown index="118"  dependencies=""/>
             
 			<Unknown index="123"  dependencies=""/>
             
 			<Unknown index="124"  dependencies=""/>
             
 			<Unknown index="125"  dependencies=""/>
+            
+			<Unknown index="126"  dependencies=""/>
             
 	</Outputs>
 

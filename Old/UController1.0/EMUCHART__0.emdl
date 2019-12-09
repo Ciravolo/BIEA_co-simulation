@@ -1,0 +1,223 @@
+{
+ "descriptor": {
+  "file_type": "emdl",
+  "version": "2.0",
+  "description": "emucharts model",
+  "chart_name": "EMUCHART__0"
+ },
+ "chart": {
+  "states": [
+   {
+    "id": "X1",
+    "name": "X1",
+    "color": "#1f77b4",
+    "width": 36,
+    "height": 36,
+    "x": 686.5,
+    "y": 419,
+    "enter": "",
+    "exit": "",
+    "pmr": [],
+    "widgets": [],
+    "components": []
+   }
+  ],
+  "transitions": [
+   {
+    "id": "T1",
+    "name": "tick\n[TRUE]\n{v := w;}",
+    "source": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 686.5,
+     "y": 419,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "target": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 686.5,
+     "y": 419,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "controlPoint": {
+     "x": 785.5,
+     "y": 329
+    }
+   }
+  ],
+  "initial_transitions": [
+   {
+    "id": "IT1",
+    "name": "IT1",
+    "target": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 686.5,
+     "y": 419,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    }
+   }
+  ],
+  "variables": [
+   {
+    "id": "VAR_v:real(Local)",
+    "name": "v",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_servoLeft:real(Output)",
+    "name": "servoLeft",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_servoRight:real(Output)",
+    "name": "servoRight",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_rho:real(Local)",
+    "name": "rho",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_beta:real(Local)",
+    "name": "beta",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_x:real(Input)",
+    "name": "x",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y:real(Input)",
+    "name": "y",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_phi:real(Input)",
+    "name": "phi",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_xDesired:real(Input)",
+    "name": "xDesired",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_yDesired:real(Input)",
+    "name": "yDesired",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_k_beta:real(Local)",
+    "name": "k_beta",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "1",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_k_v:real(Local)",
+    "name": "k_v",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.05",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_maneuver:int(Local)",
+    "name": "maneuver",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "1",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_w:real(Local)",
+    "name": "w",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_onDestination:real(Output)",
+    "name": "onDestination",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   }
+  ],
+  "constants": [
+   {
+    "id": "CONST_L:real",
+    "name": "L",
+    "type": "real",
+    "value": "5.2"
+   },
+   {
+    "id": "CONST_R:real",
+    "name": "R",
+    "type": "real",
+    "value": "3.2"
+   }
+  ],
+  "datatypes": [],
+  "pmr": {},
+  "isPIM": false
+ }
+}

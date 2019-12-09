@@ -115,22 +115,23 @@ void init(State* st) {
     st->x_2 = 9.5f;
     st->x_3 = 9.5f;
     st->x_4 = 0.5f;
-    st->xDesired1 = 0.0f;
-    st->xDesired2 = 0.0f;
-    st->xDesired3 = 0.0f;
-    st->xDesired4 = 0.0f;
+    st->xDesired1 = 0.5f;
+    st->xDesired2 = 9.5f;
+    st->xDesired3 = 9.5f;
+    st->xDesired4 = 0.5f;
     st->y_1 = 0.5f;
     st->y_2 = 0.5f;
     st->y_3 = 9.5f;
     st->y_4 = 9.5f;
-    st->yDesired1 = 0.0f;
-    st->yDesired2 = 0.0f;
-    st->yDesired3 = 0.0f;
-    st->yDesired4 = 0.0f;
-    st->onDestination1 = 0.0f;
-    st->onDestination2 = 0.0f;
-    st->onDestination3 = 0.0f;
-    st->onDestination4 = 0.0f;
+    st->yDesired1 = 0.5f;
+    st->yDesired2 = 0.5f;
+    st->yDesired3 = 9.5f;
+    st->yDesired4 = 9.5f;
+    st->onDestination1Input = 0.0f;
+    st->onDestination2Input = 0.0f;
+    st->onDestination3Input = 0.0f;
+    st->onDestination4Input = 0.0f;
+    st->onDestinationOutput = 0.0f;
     
     EPSLON = unifRand();
 	isInit = TRUE;
@@ -273,8 +274,6 @@ void state2State1(State* st, State1* st1) {
 		//General initialization
 		for(i = 0; i < MAP_SIZE; ++i) {
 			for(j = 0; j < MAP_SIZE; ++j) {
-				st1->map[i][j].contributions = 0;
-				st1->map[i][j].lastVisitTime = 0;
 				st1->map[i][j].robot = FALSE;
 				st1->map[i][j].obstacle = FALSE;
 				st1->map[i][j].x = i + 1;
@@ -287,7 +286,6 @@ void state2State1(State* st, State1* st1) {
 			occupiedCells[i] = findCellFromCoordinates(st1, st1->x[i], st1->y[i]);
 			if(isInit == TRUE) {
 				updateContribution(st1, occupiedCells[i]);
-				updatePheromone(st, st1, occupiedCells[i]);
 				if(i == ROBOTS - 1) {
 					isInit = FALSE;
 				}
@@ -304,6 +302,112 @@ void state2State1(State* st, State1* st1) {
 		st1->map[6][7].obstacle = TRUE;
 		st1->map[7][7].obstacle = TRUE;
 		st1->map[7][8].obstacle = TRUE;
+}
+
+/**
+ * translation function from State to State1 only for evaporation
+ */
+void state2State12(State* st, State1* st1) {
+	st1->map[0][0].pheromone = st->cell1_1;
+    	st1->map[0][1].pheromone =st->cell1_2;
+    	st1->map[0][2].pheromone =st->cell1_3;
+    	st1->map[0][3].pheromone =st->cell1_4;
+    	st1->map[0][4].pheromone =st->cell1_5;
+    	st1->map[0][5].pheromone =st->cell1_6;
+    	st1->map[0][6].pheromone =st->cell1_7;
+		st1->map[0][7].pheromone =st->cell1_8;
+		st1->map[0][8].pheromone =st->cell1_9;
+		st1->map[0][9].pheromone =st->cell1_10;
+		st1->map[1][0].pheromone =st->cell2_1;
+    	st1->map[1][1].pheromone =st->cell2_2;
+    	st1->map[1][2].pheromone =st->cell2_3;
+    	st1->map[1][3].pheromone =st->cell2_4;
+    	st1->map[1][4].pheromone =st->cell2_5;
+    	st1->map[1][5].pheromone =st->cell2_6;
+    	st1->map[1][6].pheromone =st->cell2_7;
+		st1->map[1][7].pheromone =st->cell2_8;
+		st1->map[1][8].pheromone =st->cell2_9;
+		st1->map[1][9].pheromone =st->cell2_10;
+		st1->map[2][0].pheromone =st->cell3_1;
+    	st1->map[2][1].pheromone =st->cell3_2;
+    	st1->map[2][2].pheromone =st->cell3_3;
+    	st1->map[2][3].pheromone =st->cell3_4;
+    	st1->map[2][4].pheromone =st->cell3_5;
+    	st1->map[2][5].pheromone =st->cell3_6;
+    	st1->map[2][6].pheromone =st->cell3_7;
+		st1->map[2][7].pheromone =st->cell3_8;
+		st1->map[2][8].pheromone =st->cell3_9;
+		st1->map[2][9].pheromone =st->cell3_10;
+		st1->map[3][0].pheromone =st->cell4_1;
+    	st1->map[3][1].pheromone =st->cell4_2;
+    	st1->map[3][2].pheromone =st->cell4_3;
+    	st1->map[3][3].pheromone =st->cell4_4;
+    	st1->map[3][4].pheromone =st->cell4_5;
+    	st1->map[3][5].pheromone =st->cell4_6;
+    	st1->map[3][6].pheromone =st->cell4_7;
+		st1->map[3][7].pheromone =st->cell4_8;
+		st1->map[3][8].pheromone =st->cell4_9;
+		st1->map[3][9].pheromone =st->cell4_10;
+		st1->map[4][0].pheromone =st->cell5_1;
+		st1->map[4][1].pheromone =st->cell5_2;
+    	st1->map[4][2].pheromone =st->cell5_3;
+    	st1->map[4][3].pheromone =st->cell5_4;
+    	st1->map[4][4].pheromone =st->cell5_5;
+    	st1->map[4][5].pheromone =st->cell5_6;
+    	st1->map[4][6].pheromone =st->cell5_7;
+		st1->map[4][7].pheromone =st->cell5_8;
+		st1->map[4][8].pheromone =st->cell5_9;
+		st1->map[4][9].pheromone =st->cell5_10;
+		st1->map[5][0].pheromone =st->cell6_1;
+    	st1->map[5][1].pheromone =st->cell6_2;
+    	st1->map[5][2].pheromone =st->cell6_3;
+    	st1->map[5][3].pheromone =st->cell6_4;
+    	st1->map[5][4].pheromone =st->cell6_5;
+    	st1->map[5][5].pheromone =st->cell6_6;
+    	st1->map[5][6].pheromone =st->cell6_7;
+		st1->map[5][7].pheromone =st->cell6_8;
+		st1->map[5][8].pheromone =st->cell6_9;
+		st1->map[5][9].pheromone =st->cell6_10;
+		st1->map[6][0].pheromone =st->cell7_1;
+    	st1->map[6][1].pheromone =st->cell7_2;
+    	st1->map[6][2].pheromone =st->cell7_3;
+    	st1->map[6][3].pheromone =st->cell7_4;
+    	st1->map[6][4].pheromone =st->cell7_5;
+    	st1->map[6][5].pheromone =st->cell7_6;
+    	st1->map[6][6].pheromone =st->cell7_7;
+		st1->map[6][7].pheromone =st->cell7_8;
+		st1->map[6][8].pheromone =st->cell7_9;
+		st1->map[6][9].pheromone =st->cell7_10;
+		st1->map[7][0].pheromone =st->cell8_1;
+    	st1->map[7][1].pheromone =st->cell8_2;
+    	st1->map[7][2].pheromone =st->cell8_3;
+    	st1->map[7][3].pheromone =st->cell8_4;
+    	st1->map[7][4].pheromone =st->cell8_5;
+    	st1->map[7][5].pheromone =st->cell8_6;
+    	st1->map[7][6].pheromone =st->cell8_7;
+		st1->map[7][7].pheromone =st->cell8_8;
+		st1->map[7][8].pheromone =st->cell8_9;
+		st1->map[7][9].pheromone =st->cell8_10;
+		st1->map[8][0].pheromone =st->cell9_1;
+    	st1->map[8][1].pheromone =st->cell9_2;
+    	st1->map[8][2].pheromone =st->cell9_3;
+    	st1->map[8][3].pheromone =st->cell9_4;
+    	st1->map[8][4].pheromone =st->cell9_5;
+    	st1->map[8][5].pheromone =st->cell9_6;
+    	st1->map[8][6].pheromone =st->cell9_7;
+		st1->map[8][7].pheromone =st->cell9_8;
+		st1->map[8][8].pheromone =st->cell9_9;
+		st1->map[8][9].pheromone =st->cell9_10;
+		st1->map[9][0].pheromone =st->cell10_1;
+    	st1->map[9][1].pheromone =st->cell10_2;
+    	st1->map[9][2].pheromone =st->cell10_3;
+    	st1->map[9][3].pheromone =st->cell10_4;
+    	st1->map[9][4].pheromone =st->cell10_5;
+    	st1->map[9][5].pheromone =st->cell10_6;
+    	st1->map[9][6].pheromone =st->cell10_7;
+		st1->map[9][7].pheromone =st->cell10_8;
+		st1->map[9][8].pheromone =st->cell10_9;
+		st1->map[9][9].pheromone =st->cell10_10;
 }
 
 /**
@@ -419,8 +523,112 @@ void state12State(State* st, State1* st1) {
 		st->yDesired2 = st1->y[1];
 		st->yDesired3 = st1->y[2];
 		st->yDesired4 = st1->y[3];
-		printf("x: %g\n", st->xDesired1);
-		printf("y: %g\n", st->yDesired1);
+}
+
+/**
+ * translation function from State1 to State only for evaporation
+ */
+void state12State2(State* st, State1* st1) {
+	st->cell1_1 = st1->map[0][0].pheromone;
+		st->cell1_2 = st1->map[0][1].pheromone;
+		st->cell1_3 = st1->map[0][2].pheromone;
+		st->cell1_4 = st1->map[0][3].pheromone;
+		st->cell1_5 = st1->map[0][4].pheromone;
+		st->cell1_6 = st1->map[0][5].pheromone;
+		st->cell1_7 = st1->map[0][6].pheromone;
+		st->cell1_8 = st1->map[0][7].pheromone;
+		st->cell1_9 = st1->map[0][8].pheromone;
+		st->cell1_10 = st1->map[0][9].pheromone;
+		st->cell2_1 = st1->map[1][0].pheromone;
+		st->cell2_2 = st1->map[1][1].pheromone;
+		st->cell2_3 = st1->map[1][2].pheromone;
+		st->cell2_4 = st1->map[1][3].pheromone;
+		st->cell2_5 = st1->map[1][4].pheromone;
+		st->cell2_6 = st1->map[1][5].pheromone;
+		st->cell2_7 = st1->map[1][6].pheromone;
+		st->cell2_8 = st1->map[1][7].pheromone;
+		st->cell2_9 = st1->map[1][8].pheromone;
+		st->cell2_10 = st1->map[1][9].pheromone;
+		st->cell3_1 = st1->map[2][0].pheromone;
+		st->cell3_2 = st1->map[2][1].pheromone;
+		st->cell3_3 = st1->map[2][2].pheromone;
+		st->cell3_4 = st1->map[2][3].pheromone;
+		st->cell3_5 = st1->map[2][4].pheromone;
+		st->cell3_6 = st1->map[2][5].pheromone;
+		st->cell3_7 = st1->map[2][6].pheromone;
+		st->cell3_8 = st1->map[2][7].pheromone;
+		st->cell3_9 = st1->map[2][8].pheromone;
+		st->cell3_10 = st1->map[2][9].pheromone;
+		st->cell4_1 = st1->map[3][0].pheromone;
+		st->cell4_2 = st1->map[3][1].pheromone;
+		st->cell4_3 = st1->map[3][2].pheromone;
+		st->cell4_4 = st1->map[3][3].pheromone;
+		st->cell4_5 = st1->map[3][4].pheromone;
+		st->cell4_6 = st1->map[3][5].pheromone;
+		st->cell4_7 = st1->map[3][6].pheromone;
+		st->cell4_8 = st1->map[3][7].pheromone;
+		st->cell4_9 = st1->map[3][8].pheromone;
+		st->cell4_10 = st1->map[3][9].pheromone;
+		st->cell5_1 = st1->map[4][0].pheromone;
+		st->cell5_2 = st1->map[4][1].pheromone;
+		st->cell5_3 = st1->map[4][2].pheromone;
+		st->cell5_4 = st1->map[4][3].pheromone;
+		st->cell5_5 = st1->map[4][4].pheromone;
+		st->cell5_6 = st1->map[4][5].pheromone;
+		st->cell5_7 = st1->map[4][6].pheromone;
+		st->cell5_8 = st1->map[4][7].pheromone;
+		st->cell5_9 = st1->map[4][8].pheromone;
+		st->cell5_10 = st1->map[4][9].pheromone;
+		st->cell6_1 = st1->map[5][0].pheromone;
+		st->cell6_2 = st1->map[5][1].pheromone;
+		st->cell6_3 = st1->map[5][2].pheromone;
+		st->cell6_4 = st1->map[5][3].pheromone;
+		st->cell6_5 = st1->map[5][4].pheromone;
+		st->cell6_6 = st1->map[5][5].pheromone;
+		st->cell6_7 = st1->map[5][6].pheromone;
+		st->cell6_8 = st1->map[5][7].pheromone;
+		st->cell6_9 = st1->map[5][8].pheromone;
+		st->cell6_10 = st1->map[5][9].pheromone;
+		st->cell7_1 = st1->map[6][0].pheromone;
+		st->cell7_2 = st1->map[6][1].pheromone;
+		st->cell7_3 = st1->map[6][2].pheromone;
+		st->cell7_4 = st1->map[6][3].pheromone;
+		st->cell7_5 = st1->map[6][4].pheromone;
+		st->cell7_6 = st1->map[6][5].pheromone;
+		st->cell7_7 = st1->map[6][6].pheromone;
+		st->cell7_8 = st1->map[6][7].pheromone;
+		st->cell7_9 = st1->map[6][8].pheromone;
+		st->cell7_10 = st1->map[6][9].pheromone;
+		st->cell8_1 = st1->map[7][0].pheromone;
+		st->cell8_2 = st1->map[7][1].pheromone;
+		st->cell8_3 = st1->map[7][2].pheromone;
+		st->cell8_4 = st1->map[7][3].pheromone;
+		st->cell8_5 = st1->map[7][4].pheromone;
+		st->cell8_6 = st1->map[7][5].pheromone;
+		st->cell8_7 = st1->map[7][6].pheromone;
+		st->cell8_8 = st1->map[7][7].pheromone;
+		st->cell8_9 = st1->map[7][8].pheromone;
+		st->cell8_10 = st1->map[7][9].pheromone;
+		st->cell9_1 = st1->map[8][0].pheromone;
+		st->cell9_2 = st1->map[8][1].pheromone;
+		st->cell9_3 = st1->map[8][2].pheromone;
+		st->cell9_4 = st1->map[8][3].pheromone;
+		st->cell9_5 = st1->map[8][4].pheromone;
+		st->cell9_6 = st1->map[8][5].pheromone;
+		st->cell9_7 = st1->map[8][6].pheromone;
+		st->cell9_8 = st1->map[8][7].pheromone;
+		st->cell9_9 = st1->map[8][8].pheromone;
+		st->cell9_10 = st1->map[8][9].pheromone;
+		st->cell10_1 = st1->map[9][0].pheromone;
+		st->cell10_2 = st1->map[9][1].pheromone;
+		st->cell10_3 = st1->map[9][2].pheromone;
+		st->cell10_4 = st1->map[9][3].pheromone;
+		st->cell10_5 = st1->map[9][4].pheromone;
+		st->cell10_6 = st1->map[9][5].pheromone;
+		st->cell10_7 = st1->map[9][6].pheromone;
+		st->cell10_8 = st1->map[9][7].pheromone;
+		st->cell10_9 = st1->map[9][8].pheromone;
+		st->cell10_10 = st1->map[9][9].pheromone;
 }
 
 //Print something to test
@@ -575,7 +783,7 @@ void updateContribution(State1* st1, Cell* c) {
 				if(i > 0 && j > 0 && i < MAP_SIZE + 1 && j < MAP_SIZE + 1) {
 					// The formula needs to know the euclidean distance among the current cell and that of the neighbour
 					eD = euclideanDistance((c->x)-0.5, (st1->map[i-1][j-1].x)-0.5, (c->y)-0.5, (st1->map[i-1][j-1].y)-0.5);
-					st1->map[i-1][j-1].contributions += pheromoneDisseminated(eD);
+					st1->map[i-1][j-1].pheromone += pheromoneDisseminated(eD);
 				}
 			}
 		}
@@ -584,11 +792,11 @@ void updateContribution(State1* st1, Cell* c) {
 /**
  * Find the rate of evaporation
  */
-float64_t evaporationRate(State* st, Cell* c) {
+/*float64_t evaporationRate(State* st, Cell* c) {
 		return ERTU_PERC*(st->stepCount - c->lastVisitTime);
-}
+}*/
 
-void updatePheromone(State* st, State1* st1, Cell* c) {
+/*void updatePheromone(State* st, State1* st1, Cell* c) {
 
 		int32_t i, j;
 
@@ -609,7 +817,7 @@ void updatePheromone(State* st, State1* st1, Cell* c) {
 				}
 			}
 		}
-}
+}*/
 
 /**
  * Move the robot
@@ -621,8 +829,9 @@ void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 		// The best neighbour should be an obstacle or to be occupied by another robot. In both cases we choise another neighbour at random
 		if((isOccupied(best) || hasObstacle(best)) && st1->nSize != 0) {
 			random = rand() / (RAND_MAX / st1->nSize);
-			*x = (st1->neighbourhood[random].x) - 0.5;
-			*y = (st1->neighbourhood[random].y) - 0.5;
+			best = &st1->neighbourhood[random];
+			*x = (best->x) - 0.5;
+			*y = (best->y) - 0.5;
 			curr->robot = FALSE;
 			st1->neighbourhood[random].robot = TRUE;
 		}
@@ -654,9 +863,9 @@ State* tick(State* st) {
 		Cell* currentCells[ROBOTS];
 		Cell* bestNeighbours[ROBOTS];
 		float64_t sum;
-		int32_t i;
+		int32_t i, j;
 
-		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1 && st->flag == 1) {
+		if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 1) {
 			//Translation from State to State1
 			state2State1(st, &st1);
 
@@ -671,31 +880,41 @@ State* tick(State* st) {
 				move(&st1, currentCells[i], bestNeighbours[i], &st1.x[i], &st1.y[i]);
 			}
 
+			//Evaporation
+			for(i = 0; i < MAP_SIZE; ++i) {
+				for(j = 0; j < MAP_SIZE; ++j) {
+					st1.map[i][j].pheromone -= ERTU_PERC * STEP * st1.map[i][j].pheromone;
+					if(st1.map[i][j].pheromone < 0)
+						st1.map[i][j].pheromone = 0;
+				}
+			}
+			
 			//Update of the pheromone contributions given by all the robots
 			for(i = 0; i < ROBOTS; ++i)
 				updateContribution(&st1, bestNeighbours[i]);
-
-			//Update of the pheromone contributions given by all the robots
-			for(i = 0; i < ROBOTS; ++i)
-				updatePheromone(st, &st1, bestNeighbours[i]);
-
-			//Increasing of the discrete simulation time
-			++st->stepCount;
 			
 			//Translation from State1 to State
 			state12State(st, &st1);
-			
-			printTest(st, &st1);
+
 			st->flag = 1 - st->flag;
-		}
-		else
-		if(st->onDestination1 == 1 && st->onDestination2 == 1 && st->onDestination3 == 1 && st->onDestination4 == 1 && st->flag == 0) {
-			++st->stepCount;
-			st->flag = 1 - st->flag;
+			st->onDestinationOutput = 1;
 		}
 		else {
-			//Increasing of the discrete simulation time
-			++st->stepCount;
+			state2State12(st, &st1);
+			//Evaporation
+			for(i = 0; i < MAP_SIZE; ++i) {
+				for(j = 0; j < MAP_SIZE; ++j) {
+					st1.map[i][j].pheromone -= ERTU_PERC * STEP * st1.map[i][j].pheromone;
+					if(st1.map[i][j].pheromone < 0)
+						st1.map[i][j].pheromone = 0;
+				}
+			}
+			state12State2(st, &st1);
+			
+			if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 0) {
+				st->flag = 1 - st->flag;
+				st->onDestinationOutput = 0;
+			}
 		}
 		
 		return st;
