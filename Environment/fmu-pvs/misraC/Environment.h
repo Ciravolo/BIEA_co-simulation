@@ -8,17 +8,6 @@
 #include <math.h>
 #include <time.h>
 #include "misraC_basic_types.h"
-#define S_RANGE 1
-#define ERTU_PERC 0.0002
-#define MAX_PH 2
-#define PHI 1
-#define LAMBDA 1
-#define ETA 0.9
-#define A1 0.5
-#define A2 0.5
-#define STEP 0.1
-#define ROBOTS 4
-#define MAP_SIZE 10
 
 /**
  * operating modes
@@ -31,133 +20,44 @@ typedef enum { X1 } Mode;
 typedef struct { 
     Mode mode;
     Mode previous_mode;
-    float64_t cell1_1; //-- real
-    float64_t cell1_10; //-- real
-    float64_t cell1_2; //-- real
-    float64_t cell1_3; //-- real
-    float64_t cell1_4; //-- real
-    float64_t cell1_5; //-- real
-    float64_t cell1_6; //-- real
-    float64_t cell1_7; //-- real
-    float64_t cell1_8; //-- real
-    float64_t cell1_9; //-- real
-    float64_t cell10_1; //-- real
-    float64_t cell10_10; //-- real
-    float64_t cell10_2; //-- real
-    float64_t cell10_3; //-- real
-    float64_t cell10_4; //-- real
-    float64_t cell10_5; //-- real
-    float64_t cell10_6; //-- real
-    float64_t cell10_7; //-- real
-    float64_t cell10_8; //-- real
-    float64_t cell10_9; //-- real
-    float64_t cell2_1; //-- real
-    float64_t cell2_10; //-- real
-    float64_t cell2_2; //-- real
-    float64_t cell2_3; //-- real
-    float64_t cell2_4; //-- real
-    float64_t cell2_5; //-- real
-    float64_t cell2_6; //-- real
-    float64_t cell2_7; //-- real
-    float64_t cell2_8; //-- real
-    float64_t cell2_9; //-- real
-    float64_t cell3_1; //-- real
-    float64_t cell3_10; //-- real
-    float64_t cell3_2; //-- real
-    float64_t cell3_3; //-- real
-    float64_t cell3_4; //-- real
-    float64_t cell3_5; //-- real
-    float64_t cell3_6; //-- real
-    float64_t cell3_7; //-- real
-    float64_t cell3_8; //-- real
-    float64_t cell3_9; //-- real
-    float64_t cell4_1; //-- real
-    float64_t cell4_10; //-- real
-    float64_t cell4_2; //-- real
-    float64_t cell4_3; //-- real
-    float64_t cell4_4; //-- real
-    float64_t cell4_5; //-- real
-    float64_t cell4_6; //-- real
-    float64_t cell4_7; //-- real
-    float64_t cell4_8; //-- real
-    float64_t cell4_9; //-- real
-    float64_t cell5_1; //-- real
-    float64_t cell5_10; //-- real
-    float64_t cell5_2; //-- real
-    float64_t cell5_3; //-- real
-    float64_t cell5_4; //-- real
-    float64_t cell5_5; //-- real
-    float64_t cell5_6; //-- real
-    float64_t cell5_7; //-- real
-    float64_t cell5_8; //-- real
-    float64_t cell5_9; //-- real
-    float64_t cell6_1; //-- real
-    float64_t cell6_10; //-- real
-    float64_t cell6_2; //-- real
-    float64_t cell6_3; //-- real
-    float64_t cell6_4; //-- real
-    float64_t cell6_5; //-- real
-    float64_t cell6_6; //-- real
-    float64_t cell6_7; //-- real
-    float64_t cell6_8; //-- real
-    float64_t cell6_9; //-- real
-    float64_t cell7_1; //-- real
-    float64_t cell7_10; //-- real
-    float64_t cell7_2; //-- real
-    float64_t cell7_3; //-- real
-    float64_t cell7_4; //-- real
-    float64_t cell7_5; //-- real
-    float64_t cell7_6; //-- real
-    float64_t cell7_7; //-- real
-    float64_t cell7_8; //-- real
-    float64_t cell7_9; //-- real
-    float64_t cell8_1; //-- real
-    float64_t cell8_10; //-- real
-    float64_t cell8_2; //-- real
-    float64_t cell8_3; //-- real
-    float64_t cell8_4; //-- real
-    float64_t cell8_5; //-- real
-    float64_t cell8_6; //-- real
-    float64_t cell8_7; //-- real
-    float64_t cell8_8; //-- real
-    float64_t cell8_9; //-- real
-    float64_t cell9_1; //-- real
-    float64_t cell9_10; //-- real
-    float64_t cell9_2; //-- real
-    float64_t cell9_3; //-- real
-    float64_t cell9_4; //-- real
-    float64_t cell9_5; //-- real
-    float64_t cell9_6; //-- real
-    float64_t cell9_7; //-- real
-    float64_t cell9_8; //-- real
-    float64_t cell9_9; //-- real
-    int32_t port; //-- int
-    int32_t stepCount; //-- int
-    int32_t flag; //-- int
-    float64_t tickSize; //-- real
-    float64_t time; //-- real
-    float64_t x_1; //-- real
-    float64_t x_2; //-- real
-    float64_t x_3; //-- real
-    float64_t x_4; //-- real
-    float64_t xDesired1; //-- real
-    float64_t xDesired2; //-- real
-    float64_t xDesired3; //-- real
-    float64_t xDesired4; //-- real
-    float64_t y_1; //-- real
-    float64_t y_2; //-- real
-    float64_t y_3; //-- real
-    float64_t y_4; //-- real
-    float64_t yDesired1; //-- real
-    float64_t yDesired2; //-- real
-    float64_t yDesired3; //-- real
-    float64_t yDesired4; //-- real
+    
+    int32_t nRobots;
+    int32_t mapSize;
+    int32_t port; 
+    int32_t stepCount; 
+    int32_t s_range; 
+    int32_t flag; 
+    float64_t a1; 
+    float64_t a2; 
+    float64_t ertu_perc; 
+    float64_t eta;  
+    float64_t max_ph; 
+    float64_t phi;
+    float64_t lambda;
+    float64_t step_size;
+    float64_t x_1; 
+    float64_t x_2; 
+    float64_t x_3; 
+    float64_t x_4;
+    float64_t xDesired1; 
+    float64_t xDesired2; 
+    float64_t xDesired3; 
+    float64_t xDesired4; 
+    float64_t y_1; 
+    float64_t y_2;
+    float64_t y_3; 
+    float64_t y_4; 
+    float64_t yDesired1; 
+    float64_t yDesired2; 
+    float64_t yDesired3; 
+    float64_t yDesired4; 
     float64_t onDestinationOutput;
     float64_t onDestination1Input;
     float64_t onDestination2Input;
     float64_t onDestination3Input;
     float64_t onDestination4Input;
 } State;
+
 /**
  * matrix structure
  */
@@ -170,21 +70,14 @@ typedef struct {
  } Cell;
 
 /**
- * state with matrix
- */
-typedef struct {
-		Cell map[10][10]; //-- real matrix
-		float64_t x[4];
-		float64_t y[4];
-		Cell* neighbourhood;
-		int32_t nSize;
-} State1;
-
-/**
  * Global variables
  */
-State1 st1;
-float64_t EPSLON;
+Cell** map; 
+float64_t* x;
+float64_t* y;
+Cell* neighbourhood;
+int32_t nSize;
+float64_t epslon;
 bool isInit;
 
 /**
@@ -206,7 +99,7 @@ bool isOccupied(Cell* c);
  * Compute pheromone disseminated (eD is the euclideanDistance between the cell where the robot is and the cell
  * where the robot is disseminating the pheromone)
  */
-float64_t pheromoneDisseminated(float64_t eD);
+float64_t pheromoneDisseminated(State* st, float64_t eD);
 
 /**
  * Euclidean distance
@@ -216,78 +109,51 @@ float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t 
 /**
  * Return the cell where the robot is located
  */
-Cell* findCellFromCoordinates(State1* st1, int32_t x, int32_t y);
+Cell* findCellFromCoordinates(Cell** map, State* st, float64_t x, float64_t y);
 
 /**
  * Find best neighbour
  */
-float64_t findNeighbourhood(State1* st1, Cell* c);
+float64_t findNeighbourhood(Cell** map, State* st, Cell* c);
 
 /**
  * Find best neighbour
  */
-Cell* findBestNeighbour(State1* st1, Cell* c, float64_t sum);
+Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum);
 
 /**
  * Move the robot
  */
-void move(State1* st1, Cell* curr, Cell* best, float64_t* x, float64_t* y);
-
-/**
- * Find the rate of evaporation
- */
-//float64_t evaporationRate(State* st, Cell* c);
+void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t* x, float64_t* y);
 
 /**
  * Update the contribution attribute to each cell where robot are moved and to each cell of the neighbourhoods
  */
-void updateContribution(State1* st1, Cell* c);
+void updateContribution(Cell** map, State* st, Cell* c);
 
 /**
- * Update the pheromone
+ * Update pheromone to each cell according to the evaporation law
  */
-//void updatePheromone(State* st, State1* st1, Cell* c);
+void updatePheromone(Cell** map, State* st);
 
 /**
- * translation function from State to State1
- */
-void state2State1(State* st, State1* st1);
-
-/**
- * translation function from State to State1 only for evaporation
- */
-void state2State12(State* st, State1* st1); 
-
-/**
- * translation function from State1 to State
- */
-void state12State(State* st, State1* st1);
-
-/**
- * translation function from State1 to State only for evaporation
- */
-void state12State2(State* st, State1* st1);
-
-/**
- * print matrix
- 
-void printTest(State* st, State1* st1);*/
-
-/**
- * uniform random number between 0 and 1
+ * Uniform random number between 0 and 1
  */
 float64_t unifRand();
 
 /**
- * triggers
+ * Function to obtain an array with all the robot position 
  */
-bool per_tick(State* st);
-State* tick(State* st);
+void positions2Array(State* st);
 
 /**
- * leave/enter functions
+ * Function to store the values in the arrays to the desired position variables 
  */
-void enter(Mode m, State* st);
-void leave(Mode m, State* st);
+void array2Desired(State* st);
+
+/**
+ * tick function 
+ */
+State* tick(State* st);
 
 #endif

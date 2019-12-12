@@ -13,7 +13,7 @@
  * of Overture Extension for FMI
  * */
 #include "fmu.h"
-
+#include "math.h"
 
 extern /*"C"*/fmi2Component fmi2Instantiate(fmi2String instanceName,
 				fmi2Type fmuType,
@@ -45,13 +45,12 @@ extern /*"C"*/fmi2Status fmi2EnterInitializationMode(fmi2Component c) {
 }
 
 extern /*"C"*/fmi2Status fmi2ExitInitializationMode(fmi2Component c) {
-	
 	ModelInstance* comp = (ModelInstance*) c;
 	comp->port = 0;
 	comp->websocket_open = 0;
 
 	// Create the websocket with the initial port number parameter	
-	create_websocket(comp, (int)comp->fmiBuffer.intBuffer[16]);
+	create_websocket(comp, (int)comp->fmiBuffer.intBuffer[107]);
 		
 	return fmi2OK;
 }

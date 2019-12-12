@@ -7,9 +7,13 @@ all:
 	gcc -fPIC -Wall -c fmu.c
 	gcc -fPIC -Wall -c skeleton.c
 	gcc -fPIC -Wall -c misraC/Environment.c
-	unzip -o resources/libWS.zip
+	cp resources/libwebsockets.* .
+	cp resources/libcrypto.so.* .
+	cp resources/libssl.so.* .
 	gcc -fPIC -shared -o Environment.so skeleton.o fmu.o Environment.o -Wl,-rpath,. -L. -lwebsockets -lm
-	
+	rm libwebsockets.*
+	rm libcrypto.so.*
+	rm libssl.so.*
 	rm -rf sources
 	rm -rf binaries
 	mkdir sources
@@ -23,21 +27,29 @@ all:
 	cp -r misraC sources
 	cp -r fmi sources
 	mv Environment.so binaries/linux64/
-	cp libWS/libwebsockets.* binaries/linux64/
-	cp libWS/libcrypto.so.* binaries/linux64/
-	cp libWS/libssl.so.* binaries/linux64/
+	cp resources/libwebsockets.* binaries/linux64/
+	cp resources/libcrypto.so.* binaries/linux64/
+	cp resources/libssl.so.* binaries/linux64/
 	zip -r Environment.fmu modelDescription.xml binaries/ resources/ sources/
 	rm -rf sources
 	rm -rf binaries
-	rm -rf libWS/
-	rm -rf  Environment.o fmu.o skeleton.o
+
 run:
-	unzip -o resources/libWS.zip
-	mv libWS/fmuCheck.linux64 ../fmu-pvs/
+	cp resources/libwebsockets.* .
+	cp resources/libcrypto.so.* .
+	cp resources/libssl.so.* .
 	./fmuCheck.linux64 -h 1E-01 Environment.fmu
-	rm -rf libWS/
+	rm libwebsockets.*
+	rm libcrypto.so.*
+	rm libssl.so.*
 run1:
-	unzip -o resources/libWS.zip
-	mv libWS/fmuCheck.linux64 ../fmu-pvs/
+	cp resources/libwebsockets.* .
+	cp resources/libcrypto.so.* .
+	cp resources/libssl.so.* .
 	./fmuCheck.linux64 -h 1E-02 Environment.fmu
-	rm -rf libWS/
+	rm libwebsockets.*
+	rm libcrypto.so.*
+	rm libssl.so.*
+
+clean:
+	rm -rf  Environment.o fmu.o skeleton.o
