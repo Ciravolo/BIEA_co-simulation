@@ -15,13 +15,15 @@
 
 #include "./fmi/fmi2Functions.h"
 #include "FmuGUID.h"
-#include "misraC/Environment.h"
+#include "misraC/Environment_old.h"
+
 #include <libwebsockets.h>
 
-#define BOOL_COUNT 114
-#define INT_COUNT 114
-#define REAL_COUNT 114
-#define STRING_COUNT 114
+
+#define BOOL_COUNT 46
+#define INT_COUNT 46
+#define REAL_COUNT 46
+#define STRING_COUNT 46
 #define FMI_COSIMULATION
 
 typedef struct {
@@ -35,18 +37,21 @@ typedef struct {
 	FmiBuffer fmiBuffer;
 	State st; 		// Structure containing the state of the model
 	int first;	 	// Variable for execution of setup option during first step only
+	
 	int port;
 	int websocket_open;
 	struct lws_context* context;
 	char lwssendstate[LWS_SEND_BUFFER_PRE_PADDING + LWS_SEND_BUFFER_POST_PADDING+2800];
+	
 } ModelInstance;
 
 void initialize(ModelInstance*, fmi2String);
+void doStep(ModelInstance*, const char*);
+void stateToString(State, char*);
+void terminate(ModelInstance*);
+
 void create_websocket(ModelInstance*, int);
 int open_websocket(ModelInstance*);
-void doStep(ModelInstance*, const char*);
-void terminate(ModelInstance*);
-void stateToString(State, char*);
 void messageHandler(ModelInstance*, char*);
 void close_websocket(ModelInstance*);
 

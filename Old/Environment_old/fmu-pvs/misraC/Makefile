@@ -4,8 +4,8 @@ CC = gcc
 CFLAGS = -Wall -O2 -Werror -Wmissing-noreturn -Wpacked -Wunreachable-code
 LDFLAGS= -lm
 DEBUG = -Wall -O2 -Werror -Wmissing-noreturn -Wpacked -Wunreachable-code -D DEBUG
-HEAD = Environment.h
-SOURCES = Environment.c main.c
+HEAD = Environment_old.h
+SOURCES = Environment_old.c main.c
 OBJ = $(SOURCES:.c=.o)
 DEBUGFILES = main.dSYM
 

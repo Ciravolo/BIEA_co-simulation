@@ -6,14 +6,10 @@ CFLAGS=-I.
 all:
 	gcc -fPIC -Wall -c fmu.c
 	gcc -fPIC -Wall -c skeleton.c
-	gcc -fPIC -Wall -c misraC/Environment.c
-	cp resources/libwebsockets.* .
-	cp resources/libcrypto.so.* .
-	cp resources/libssl.so.* .
-	gcc -fPIC -shared -o Environment.so skeleton.o fmu.o Environment.o -Wl,-rpath,. -L. -lwebsockets -lm
-	rm libwebsockets.*
-	rm libcrypto.so.*
-	rm libssl.so.*
+	gcc -fPIC -Wall -c misraC/Environment_old.c
+	unzip -o resources/libWS.zip
+	gcc -fPIC -shared -o Environment_old.so skeleton.o fmu.o Environment_old.o -Wl,-rpath,. -L. -lwebsockets -lm
+	
 	rm -rf sources
 	rm -rf binaries
 	mkdir sources
@@ -26,30 +22,22 @@ all:
 	rm -f misraC/main.c
 	cp -r misraC sources
 	cp -r fmi sources
-	mv Environment.so binaries/linux64/
-	cp resources/libwebsockets.* binaries/linux64/
-	cp resources/libcrypto.so.* binaries/linux64/
-	cp resources/libssl.so.* binaries/linux64/
-	zip -r Environment.fmu modelDescription.xml binaries/ resources/ sources/
+	mv Environment_old.so binaries/linux64/
+	cp libWS/libwebsockets.* binaries/linux64/
+	cp libWS/libcrypto.so.* binaries/linux64/
+	cp libWS/libssl.so.* binaries/linux64/
+	zip -r Environment_old.fmu modelDescription.xml binaries/ resources/ sources/
 	rm -rf sources
 	rm -rf binaries
-
+	rm -rf libWS/
+	rm -rf  Environment_old.o fmu.o skeleton.o
 run:
-	cp resources/libwebsockets.* .
-	cp resources/libcrypto.so.* .
-	cp resources/libssl.so.* .
-	./fmuCheck.linux64 -h 1E-01 Environment.fmu
-	rm libwebsockets.*
-	rm libcrypto.so.*
-	rm libssl.so.*
+	unzip -o resources/libWS.zip
+	mv libWS/fmuCheck.linux64 ../fmu-pvs/
+	./fmuCheck.linux64 -h 1E-01 Environment_old.fmu
+	rm -rf libWS/
 run1:
-	cp resources/libwebsockets.* .
-	cp resources/libcrypto.so.* .
-	cp resources/libssl.so.* .
-	./fmuCheck.linux64 -h 1E-02 Environment.fmu
-	rm libwebsockets.*
-	rm libcrypto.so.*
-	rm libssl.so.*
-
-clean:
-	rm -rf  Environment.o fmu.o skeleton.o
+	unzip -o resources/libWS.zip
+	mv libWS/fmuCheck.linux64 ../fmu-pvs/
+	./fmuCheck.linux64 -h 1E-02 Environment_old.fmu
+	rm -rf libWS/

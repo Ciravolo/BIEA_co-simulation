@@ -954,22 +954,6 @@
     "scope": "Local"
    },
    {
-    "id": "VAR_time:real(Local)",
-    "name": "time",
-    "type": "real",
-    "repr": "float64_t",
-    "value": "0",
-    "scope": "Local"
-   },
-   {
-    "id": "VAR_tickSize:real(Local)",
-    "name": "tickSize",
-    "type": "real",
-    "repr": "float64_t",
-    "value": "0.01",
-    "scope": "Local"
-   },
-   {
     "id": "VAR_port:int(Local)",
     "name": "port",
     "type": "int",

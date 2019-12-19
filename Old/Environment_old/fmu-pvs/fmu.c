@@ -13,7 +13,7 @@
  * of Overture Extension for FMI
  * */
 #include "fmu.h"
-#include "math.h"
+
 
 extern /*"C"*/fmi2Component fmi2Instantiate(fmi2String instanceName,
 				fmi2Type fmuType,
@@ -24,7 +24,6 @@ extern /*"C"*/fmi2Component fmi2Instantiate(fmi2String instanceName,
 				fmi2Boolean loggingOn
 			) {
 	ModelInstance *comp = (ModelInstance *)malloc(sizeof(ModelInstance));	
-	
 	
 	initialize(comp, fmuResourceLocation);
 	
@@ -46,12 +45,13 @@ extern /*"C"*/fmi2Status fmi2EnterInitializationMode(fmi2Component c) {
 }
 
 extern /*"C"*/fmi2Status fmi2ExitInitializationMode(fmi2Component c) {
+	
 	ModelInstance* comp = (ModelInstance*) c;
 	comp->port = 0;
 	comp->websocket_open = 0;
 
 	// Create the websocket with the initial port number parameter	
-	create_websocket(comp, (int)comp->fmiBuffer.intBuffer[102]);
+	create_websocket(comp, (int)comp->fmiBuffer.intBuffer[12]);
 		
 	return fmi2OK;
 }
@@ -244,9 +244,9 @@ extern /*"C"*/fmi2Status fmi2GetStringStatus(fmi2Component c, const fmi2StatusKi
 }
 
 /* INTO cps specific*/
-extern /*"C"*/fmi2Status fmi2GetMaxStepsize(fmi2Component c, fmi2Real* size) {
-	return fmi2OK;
-}
+//extern /*"C"*/fmi2Status fmi2GetMaxStepsize(fmi2Component c, fmi2Real* size) {
+//	return fmi2OK;
+//}
 
 // ---------------------------------------------------------------------------
 // Functions for FMI2 for Model Exchange

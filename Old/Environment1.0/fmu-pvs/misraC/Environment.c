@@ -419,8 +419,6 @@ void state12State(State* st, State1* st1) {
 		st->yDesired2 = st1->y[1];
 		st->yDesired3 = st1->y[2];
 		st->yDesired4 = st1->y[3];
-		printf("x: %g\n", st->xDesired1);
-		printf("y: %g\n", st->yDesired1);
 }
 
 //Print something to test
