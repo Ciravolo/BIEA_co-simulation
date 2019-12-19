@@ -36,6 +36,11 @@ require([
 
         var DBG = false;
         var previous_mode; // this is used to keep track of mode changes, useful for voice feedback
+        
+        
+
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext('2d');
 
         // Function automatically invoked by PVSio-web when the back-end sends states updates
         function onMessageReceived(err, res) {
@@ -162,6 +167,60 @@ require([
                     var pos_y_4 = PVSioStateParser.evaluate(state_aux["y_4"]);
                     car.navigator_4.render([{ x: pos_x_4 - 5, y: pos_y_4 - 5}]);;
                     car.position_4.render("(x: " + pos_x_4 + ", y: " + pos_y_4 + ")");
+                    // Box width
+					var bw = PVSioStateParser.evaluate(state_aux["mapSize"]) * 30;
+					// Box height
+					var bh = PVSioStateParser.evaluate(state_aux["mapSize"]) * 30;
+					//Obstacles
+					var obstacles = {x: [(PVSioStateParser.evaluate(state_aux["ox_1"]) - 1) * 30, 
+										 (PVSioStateParser.evaluate(state_aux["ox_2"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_3"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_4"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_5"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_6"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_7"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_8"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_9"]) - 1) * 30,
+										 (PVSioStateParser.evaluate(state_aux["ox_10"]) - 1) * 30
+										], 
+									 y: [(10 - PVSioStateParser.evaluate(state_aux["oy_1"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_2"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_3"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_4"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_5"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_6"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_7"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_8"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_9"])) * 30,
+										 (10 - PVSioStateParser.evaluate(state_aux["oy_10"])) * 30,
+										]
+									};
+					
+					function drawBoard(){
+						context.fill();
+						context.beginPath();
+						for (var i = 0; i <= bw; i += 30) {
+							for (var j = 0; j <= bh; j += 30) {
+								context.moveTo(i, 0);
+								context.lineTo(i, bh);
+								context.moveTo(0, j);
+								context.lineTo(bw, j);9
+							}
+						}
+						context.strokeStyle = "black";
+						context.lineWidth = 1.5;
+						context.stroke();
+						
+						for(i = 0; i < PVSioStateParser.evaluate(state_aux["nObstacles"]); i += 1) {
+							if((obstacles.x[i] > 0) && (obstacles.y[i] > 0) && (obstacles.x[i] <= bw) && (obstacles.y[i] <= bw)) {
+								context.rect(obstacles.x[i], obstacles.y[i], 30, 30);
+								context.fillStyle = "black";
+								context.fill();
+							}
+						}
+					}
+					
+					drawBoard();
                 }
             }
         }

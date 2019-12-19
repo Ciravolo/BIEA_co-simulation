@@ -59,8 +59,8 @@ void init(State* st) {
 		
 		x = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
 		y = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
-		ox = (float64_t*)malloc(st->nObstacles*sizeof(int32_t));
-		oy = (float64_t*)malloc(st->nObstacles*sizeof(int32_t));
+		ox = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
+		oy = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
 		
 		epslon = unifRand();
 		isInit = TRUE;
