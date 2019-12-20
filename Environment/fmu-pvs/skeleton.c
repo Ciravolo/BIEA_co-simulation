@@ -27,6 +27,8 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[33] = comp->st.yDesired2;
     comp->fmiBuffer.realBuffer[34] = comp->st.yDesired3;
     comp->fmiBuffer.realBuffer[35] = comp->st.yDesired4;
+    comp->fmiBuffer.intBuffer[57] = comp->st.nCells;
+    comp->fmiBuffer.intBuffer[58] = comp->st.vCells;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     comp->fmiBuffer.realBuffer[2] = comp->st.a2;
@@ -42,6 +44,27 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.intBuffer[9] = comp->st.nRobots;
     comp->fmiBuffer.intBuffer[16] = comp->st.port;
     comp->fmiBuffer.intBuffer[19] = comp->st.stepCount;
+    comp->fmiBuffer.intBuffer[36] = comp->st.nObstacles;
+    comp->fmiBuffer.intBuffer[37] = comp->st.ox_1;
+    comp->fmiBuffer.intBuffer[38] = comp->st.ox_2;
+    comp->fmiBuffer.intBuffer[39] = comp->st.ox_3;
+    comp->fmiBuffer.intBuffer[40] = comp->st.ox_4;
+    comp->fmiBuffer.intBuffer[41] = comp->st.ox_5;
+    comp->fmiBuffer.intBuffer[42] = comp->st.ox_6;
+    comp->fmiBuffer.intBuffer[43] = comp->st.ox_7;
+    comp->fmiBuffer.intBuffer[44] = comp->st.ox_8;
+    comp->fmiBuffer.intBuffer[45] = comp->st.ox_9;
+    comp->fmiBuffer.intBuffer[46] = comp->st.ox_10;
+    comp->fmiBuffer.intBuffer[47] = comp->st.oy_1;
+    comp->fmiBuffer.intBuffer[48] = comp->st.oy_2;
+    comp->fmiBuffer.intBuffer[49] = comp->st.oy_3;
+    comp->fmiBuffer.intBuffer[50] = comp->st.oy_4;
+    comp->fmiBuffer.intBuffer[51] = comp->st.oy_5;
+    comp->fmiBuffer.intBuffer[52] = comp->st.oy_6;
+    comp->fmiBuffer.intBuffer[53] = comp->st.oy_7;
+    comp->fmiBuffer.intBuffer[54] = comp->st.oy_8;
+    comp->fmiBuffer.intBuffer[55] = comp->st.oy_9;
+    comp->fmiBuffer.intBuffer[56] = comp->st.oy_10;
 
     comp->first = 0;   
 }
@@ -60,12 +83,37 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.a2 = comp->fmiBuffer.realBuffer[2];
 		comp->st.ertu_perc = comp->fmiBuffer.realBuffer[3];
 		comp->st.eta = comp->fmiBuffer.realBuffer[4];
+		comp->st.flag = comp->fmiBuffer.intBuffer[5];
 		comp->st.lambda = comp->fmiBuffer.realBuffer[6];
 		comp->st.mapSize = comp->fmiBuffer.realBuffer[7];
 		comp->st.max_ph = comp->fmiBuffer.realBuffer[8];
+		comp->st.nRobots = comp->fmiBuffer.intBuffer[9];
 		comp->st.phi = comp->fmiBuffer.realBuffer[15];
+		comp->st.port = comp->fmiBuffer.intBuffer[16];
 		comp->st.s_range = comp->fmiBuffer.realBuffer[17];
 		comp->st.step_size = comp->fmiBuffer.realBuffer[18];
+		comp->st.stepCount = comp->fmiBuffer.intBuffer[19];
+		comp->st.nObstacles = comp->fmiBuffer.intBuffer[36];
+		comp->st.ox_1 = comp->fmiBuffer.intBuffer[37];
+		comp->st.ox_2 = comp->fmiBuffer.intBuffer[38];
+		comp->st.ox_3 = comp->fmiBuffer.intBuffer[39];
+		comp->st.ox_4 = comp->fmiBuffer.intBuffer[40];
+		comp->st.ox_5 = comp->fmiBuffer.intBuffer[41];
+		comp->st.ox_6 = comp->fmiBuffer.intBuffer[42];
+		comp->st.ox_7 = comp->fmiBuffer.intBuffer[43];
+		comp->st.ox_8 = comp->fmiBuffer.intBuffer[44] ;
+		comp->st.ox_9 = comp->fmiBuffer.intBuffer[45];
+		comp->st.ox_10 = comp->fmiBuffer.intBuffer[46];
+		comp->st.oy_1 = comp->fmiBuffer.intBuffer[47];
+		comp->st.oy_2 = comp->fmiBuffer.intBuffer[48];
+		comp->st.oy_3 = comp->fmiBuffer.intBuffer[49];
+		comp->st.oy_4 = comp->fmiBuffer.intBuffer[50];
+		comp->st.oy_5 = comp->fmiBuffer.intBuffer[51];
+		comp->st.oy_6 = comp->fmiBuffer.intBuffer[52];
+		comp->st.oy_7 = comp->fmiBuffer.intBuffer[53];
+		comp->st.oy_8 = comp->fmiBuffer.intBuffer[54];
+		comp->st.oy_9 = comp->fmiBuffer.intBuffer[55];
+		comp->st.oy_10 = comp->fmiBuffer.intBuffer[56];
 		
 		comp->first = 1;
 	}
@@ -95,6 +143,8 @@ void doStep(ModelInstance* comp, const char* action) {
     comp->fmiBuffer.realBuffer[33] = comp->st.yDesired2;
     comp->fmiBuffer.realBuffer[34] = comp->st.yDesired3;
     comp->fmiBuffer.realBuffer[35] = comp->st.yDesired4;
+    comp->fmiBuffer.intBuffer[57] = comp->st.nCells;
+	comp->fmiBuffer.intBuffer[58] = comp->st.vCells;
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     //comp->fmiBuffer.realBuffer[2] = comp->st.a2;
@@ -125,6 +175,50 @@ void stateToString(State st, char* str) {
 	
 	strcpy(str, "(#");
 	
+	sprintf(temp, " mapSize := %d,", st.mapSize);
+	strcat(str, temp);
+	sprintf(temp, " nObstacles := %d,", st.nObstacles);
+	strcat(str, temp);
+	sprintf(temp, " ox_1 := %d,", st.ox_1);
+	strcat(str, temp);
+	sprintf(temp, " ox_2 := %d,", st.ox_2);
+	strcat(str, temp);
+	sprintf(temp, " ox_3 := %d,", st.ox_3);
+	strcat(str, temp);
+	sprintf(temp, " ox_4 := %d,", st.ox_4);
+	strcat(str, temp);
+	sprintf(temp, " ox_5 := %d,", st.ox_5);
+	strcat(str, temp);
+	sprintf(temp, " ox_6 := %d,", st.ox_6);
+	strcat(str, temp);
+	sprintf(temp, " ox_7 := %d,", st.ox_7);
+	strcat(str, temp);
+	sprintf(temp, " ox_8 := %d,", st.ox_8);
+	strcat(str, temp);
+	sprintf(temp, " ox_9 := %d,", st.ox_9);
+	strcat(str, temp);
+	sprintf(temp, " ox_10 := %d,", st.ox_10);
+	strcat(str, temp);
+	sprintf(temp, " oy_1 := %d,", st.oy_1);
+	strcat(str, temp);
+	sprintf(temp, " oy_2 := %d,", st.oy_2);
+	strcat(str, temp);
+	sprintf(temp, " oy_3 := %d,", st.oy_3);
+	strcat(str, temp);
+	sprintf(temp, " oy_4 := %d,", st.oy_4);
+	strcat(str, temp);
+	sprintf(temp, " oy_5 := %d,", st.oy_5);
+	strcat(str, temp);
+	sprintf(temp, " oy_6 := %d,", st.oy_6);
+	strcat(str, temp);
+	sprintf(temp, " oy_7 := %d,", st.oy_7);
+	strcat(str, temp);
+	sprintf(temp, " oy_8 := %d,", st.oy_8);
+	strcat(str, temp);
+	sprintf(temp, " oy_9 := %d,", st.oy_9);
+	strcat(str, temp);
+	sprintf(temp, " oy_10 := %d,", st.oy_10);
+	strcat(str, temp);
 	sprintf(temp, " a1 := %f,", st.a1);
 	strcat(str, temp);
 	sprintf(temp, " a2 := %f,", st.a2);

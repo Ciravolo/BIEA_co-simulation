@@ -8,19 +8,40 @@ void init(State* st) {
     int32_t i, j;
     
     st->nRobots = 4;
-    st->a1 = 0.5; 
-    st->a2 = 0.5; 
-    st->ertu_perc = 0.0002; 
-    st->eta = 0.9; 
+    st->a1 = 0.5f; 
+    st->a2 = 0.5f; 
+    st->ertu_perc = 0.002f; 
+    st->eta = 0.9f; 
     st->mapSize = 10; 
     st->max_ph = 2; 
     st->s_range = 1; 
     st->phi = 1;
-    st->step_size = 0.1;
+    st->step_size = 0.1f;
     st->lambda = 1;
     st->port = 8087;
     st->stepCount = 0;
     st->flag = 1;
+    st->nObstacles = 10;
+	st->ox_1 = 3;
+	st->ox_2 = 4;
+	st->ox_3 = 2;
+	st->ox_4 = 5;
+	st->ox_5 = 5;
+	st->ox_6 = 7;
+	st->ox_7 = 8;
+	st->ox_8 = 8;
+	st->ox_9 = 0;
+	st->ox_10 = 0;
+	st->oy_1 = 1;	
+	st->oy_2 = 1;
+	st->oy_3 = 9;
+	st->oy_4 = 4;
+	st->oy_5 = 5;
+	st->oy_6 = 8;
+	st->oy_7 = 8;
+	st->oy_8 = 9;
+	st->oy_9 = 0;
+	st->oy_10 = 0;
     st->x_1 = 0.5f;
     st->x_2 = 9.5f;
     st->x_3 = 9.5f;
@@ -42,6 +63,8 @@ void init(State* st) {
     st->onDestination3Input = 0.0f;
     st->onDestination4Input = 0.0f;
     st->onDestinationOutput = 0.0f;
+    st->nCells = st->mapSize * st->mapSize;
+	st->vCells = 0.0f;
     
     map = (Cell**)malloc(st->mapSize*sizeof(Cell*));
     for(i = 0; i < st->mapSize; ++i)
@@ -49,6 +72,8 @@ void init(State* st) {
 		
 	x = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
 	y = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
+	ox = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
+	oy = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
     
     epslon = unifRand();
 	isInit = TRUE;
@@ -57,6 +82,8 @@ void init(State* st) {
 	//General initialization
 	for(i = 0; i < st->mapSize; ++i) {
 		for(j = 0; j < st->mapSize; ++j) {
+			map[i][j].pheromone = 0;
+			map[i][j].visited = 0;
 			map[i][j].robot = FALSE;
 			map[i][j].obstacle = FALSE;
 			map[i][j].x = i + 1;
@@ -66,21 +93,22 @@ void init(State* st) {
 
 	positions2Array(st);
 	
+	//Set occupied cells
 	for(i = 0; i < st->nRobots; ++i) {
 		occupiedCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
 		updateContribution(map, st, occupiedCells[i]);
 		occupiedCells[i]->robot = TRUE;
+		occupiedCells[i]->visited = TRUE;
+		++st->vCells;
 	}
 
 	//Set obstacles
-	map[2][0].obstacle = TRUE;
-	map[3][0].obstacle = TRUE;
-	map[1][8].obstacle = TRUE;
-	map[4][3].obstacle = TRUE;
-	map[4][4].obstacle = TRUE;
-	map[6][7].obstacle = TRUE;
-	map[7][7].obstacle = TRUE;
-	map[7][8].obstacle = TRUE;
+	for(i = 0; i < st->nObstacles; ++i) {
+		if((ox[i] > 0) && (oy[i] > 0) && (ox[i] <= st->mapSize) && (oy[i] <= st->mapSize)) {
+			map[ox[i] - 1][oy[i] - 1].obstacle = TRUE;
+			--st->nCells;
+		}
+	}
 }
 
 /**
@@ -110,6 +138,29 @@ void positions2Array(State* st) {
 	y[1] = st->y_2;
 	y[2] = st->y_3;
 	y[3] = st->y_4;
+	if(isInit == TRUE) {
+		ox[0] = st->ox_1;
+		ox[1] = st->ox_2;
+		ox[2] = st->ox_3;
+		ox[3] = st->ox_4;
+		ox[4] = st->ox_5;
+		ox[5] = st->ox_6;
+		ox[6] = st->ox_7;
+		ox[7] = st->ox_8;
+		ox[8] = st->ox_9;
+		ox[9] = st->ox_10;
+		oy[0] = st->oy_1;
+		oy[1] = st->oy_2;
+		oy[2] = st->oy_3;
+		oy[3] = st->oy_4;
+		oy[4] = st->oy_5;
+		oy[5] = st->oy_6;
+		oy[6] = st->oy_7;
+		oy[7] = st->oy_8;
+		oy[8] = st->oy_9;
+		oy[9] = st->oy_10;
+		isInit = FALSE;
+	}
 }
 
 /**
@@ -291,6 +342,12 @@ void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t* x, float64_t
 			curr->robot = FALSE;
 			best->robot = TRUE;
 		}
+		
+		if(best->visited == FALSE) {
+			best->visited = TRUE;
+			++st->vCells;
+		}
+		
 		free(neighbourhood);
 		nSize = 0;
 }
@@ -307,7 +364,7 @@ State* tick(State* st) {
 		Cell* currentCells[st->nRobots];
 		Cell* bestNeighbours[st->nRobots];
 		float64_t sum;
-		int32_t i;
+		int32_t i, j;
 
 		if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 1) {
 
@@ -346,6 +403,17 @@ State* tick(State* st) {
 				st->onDestinationOutput = 0;
 			}
 		}
+		
+		for(i = 0; i < st->mapSize; ++i) {
+			for(j = 0; j < st->mapSize; ++j) {
+				printf("Cella %d-%d: %g.\n", i + 1, j + 1, map[i][j].pheromone);
+			}
+		}
+		printf("Numero totale di celle: %d.\n", st->nCells);
+		printf("Numero di celle visitate: %d.\n", st->vCells);
+		
+		//Increasing of the discrete simulation time
+		++st->stepCount;
 		
 		return st;
 }

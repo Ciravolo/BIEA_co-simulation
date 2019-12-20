@@ -42,7 +42,7 @@
     
 		<ScalarVariable name="a2" valueReference="2" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="ertu_perc" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.0002" /></ScalarVariable>
+		<ScalarVariable name="ertu_perc" valueReference="3" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.002" /></ScalarVariable>
     
 		<ScalarVariable name="eta" valueReference="4" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.9" /></ScalarVariable>
     
@@ -107,6 +107,52 @@
 		<ScalarVariable name="yDesired3" valueReference="34" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
 		<ScalarVariable name="yDesired4" valueReference="35" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		
+		<ScalarVariable name="nObstacles" valueReference="36" causality="parameter" variability="fixed"  initial="exact" ><Integer start="10" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_1" valueReference="37" causality="parameter" variability="fixed"  initial="exact" ><Integer start="3" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_2" valueReference="38" causality="parameter" variability="fixed"  initial="exact" ><Integer start="4" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_3" valueReference="39" causality="parameter" variability="fixed"  initial="exact" ><Integer start="2" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_4" valueReference="40" causality="parameter" variability="fixed"  initial="exact" ><Integer start="5" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_5" valueReference="41" causality="parameter" variability="fixed"  initial="exact" ><Integer start="5" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_6" valueReference="42" causality="parameter" variability="fixed"  initial="exact" ><Integer start="7" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_7" valueReference="43" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_8" valueReference="44" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_9" valueReference="45" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
+		
+		<ScalarVariable name="ox_10" valueReference="46" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_1" valueReference="47" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_2" valueReference="48" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_3" valueReference="49" causality="parameter" variability="fixed"  initial="exact" ><Integer start="9" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_4" valueReference="50" causality="parameter" variability="fixed"  initial="exact" ><Integer start="4" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_5" valueReference="51" causality="parameter" variability="fixed"  initial="exact" ><Integer start="5" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_6" valueReference="52" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_7" valueReference="53" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_8" valueReference="54" causality="parameter" variability="fixed"  initial="exact" ><Integer start="9" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_9" valueReference="55" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
+		
+		<ScalarVariable name="oy_10" valueReference="56" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
+		
+		<ScalarVariable name="nCells" valueReference="57" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
+		
+		<ScalarVariable name="vCells" valueReference="58" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
     </ModelVariables>
 
 	<ModelStructure>
@@ -128,6 +174,10 @@
 			<Unknown index="34"  dependencies=""/>
             
 			<Unknown index="35"  dependencies=""/>
+			
+			<Unknown index="57"  dependencies=""/>
+			
+			<Unknown index="58"  dependencies=""/>
 	</Outputs>
 	</ModelStructure>
 </fmiModelDescription>

@@ -10,23 +10,17 @@
 #include "misraC_basic_types.h"
 
 /**
- * operating modes
- */
-typedef enum { X1 } Mode;
-
-/**
  * state attributes
  */
 typedef struct { 
-    Mode mode;
-    Mode previous_mode;
-    
+
     int32_t nRobots;
     int32_t mapSize;
     int32_t port; 
     int32_t stepCount; 
     int32_t s_range; 
     int32_t flag; 
+    int32_t nObstacles;
     float64_t a1; 
     float64_t a2; 
     float64_t ertu_perc; 
@@ -35,6 +29,26 @@ typedef struct {
     float64_t phi;
     float64_t lambda;
     float64_t step_size;
+    int32_t ox_1;
+	int32_t ox_2;
+	int32_t ox_3;
+	int32_t ox_4;
+	int32_t ox_5;
+	int32_t ox_6;
+	int32_t ox_7;
+	int32_t ox_8;
+	int32_t ox_9;
+	int32_t ox_10;
+	int32_t oy_1;
+	int32_t oy_2;
+	int32_t oy_3;
+	int32_t oy_4;
+	int32_t oy_5;
+	int32_t oy_6;
+	int32_t oy_7;
+	int32_t oy_8;
+	int32_t oy_9;
+	int32_t oy_10;
     float64_t x_1; 
     float64_t x_2; 
     float64_t x_3; 
@@ -56,6 +70,8 @@ typedef struct {
     float64_t onDestination2Input;
     float64_t onDestination3Input;
     float64_t onDestination4Input;
+    int32_t nCells;
+	int32_t vCells;
 } State;
 
 /**
@@ -64,6 +80,7 @@ typedef struct {
  typedef struct {
 		 bool obstacle;
 		 bool robot;
+		 bool visited;
 		 float64_t pheromone; //-- real matrix
 		 int x;
 		 int y;
@@ -75,6 +92,8 @@ typedef struct {
 Cell** map; 
 float64_t* x;
 float64_t* y;
+int32_t* ox;
+int32_t* oy;
 Cell* neighbourhood;
 int32_t nSize;
 float64_t epslon;
