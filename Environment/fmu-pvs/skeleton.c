@@ -65,6 +65,14 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.intBuffer[54] = comp->st.oy_8;
     comp->fmiBuffer.intBuffer[55] = comp->st.oy_9;
     comp->fmiBuffer.intBuffer[56] = comp->st.oy_10;
+    comp->fmiBuffer.realBuffer[59] = comp->st.lx_1;
+    comp->fmiBuffer.realBuffer[60] = comp->st.lx_2;
+    comp->fmiBuffer.realBuffer[61] = comp->st.lx_3;
+    comp->fmiBuffer.realBuffer[62] = comp->st.lx_4;
+    comp->fmiBuffer.realBuffer[63] = comp->st.ly_1;
+    comp->fmiBuffer.realBuffer[64] = comp->st.ly_2;
+    comp->fmiBuffer.realBuffer[65] = comp->st.ly_3;
+    comp->fmiBuffer.realBuffer[66] = comp->st.ly_4;
 
     comp->first = 0;   
 }
@@ -114,6 +122,14 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.oy_8 = comp->fmiBuffer.intBuffer[54];
 		comp->st.oy_9 = comp->fmiBuffer.intBuffer[55];
 		comp->st.oy_10 = comp->fmiBuffer.intBuffer[56];
+		comp->st.lx_1 = comp->fmiBuffer.realBuffer[59];
+		comp->st.lx_2 = comp->fmiBuffer.realBuffer[60];
+		comp->st.lx_3 = comp->fmiBuffer.realBuffer[61];
+		comp->st.lx_4 = comp->fmiBuffer.realBuffer[62];
+		comp->st.ly_1 = comp->fmiBuffer.realBuffer[63];
+		comp->st.ly_2 = comp->fmiBuffer.realBuffer[64];
+		comp->st.ly_3 = comp->fmiBuffer.realBuffer[65];
+		comp->st.ly_4 = comp->fmiBuffer.realBuffer[66];
 		
 		comp->first = 1;
 	}
@@ -122,14 +138,14 @@ void doStep(ModelInstance* comp, const char* action) {
     comp->st.onDestination2Input = comp->fmiBuffer.realBuffer[11];
     comp->st.onDestination3Input = comp->fmiBuffer.realBuffer[12];
     comp->st.onDestination4Input = comp->fmiBuffer.realBuffer[13];
-    comp->st.x_1 = comp->fmiBuffer.realBuffer[20];
-    comp->st.x_2 = comp->fmiBuffer.realBuffer[21];
-    comp->st.x_3 = comp->fmiBuffer.realBuffer[22];
-    comp->st.x_4 = comp->fmiBuffer.realBuffer[23];
-    comp->st.y_1 = comp->fmiBuffer.realBuffer[28];
-    comp->st.y_2 = comp->fmiBuffer.realBuffer[29];
-    comp->st.y_3 = comp->fmiBuffer.realBuffer[30];
-    comp->st.y_4 = comp->fmiBuffer.realBuffer[31];
+	comp->st.x_1 = comp->fmiBuffer.realBuffer[20];
+	comp->st.x_2 = comp->fmiBuffer.realBuffer[21];
+	comp->st.x_3 = comp->fmiBuffer.realBuffer[22];
+	comp->st.x_4 = comp->fmiBuffer.realBuffer[23];
+	comp->st.y_1 = comp->fmiBuffer.realBuffer[28];
+	comp->st.y_2 = comp->fmiBuffer.realBuffer[29];
+	comp->st.y_3 = comp->fmiBuffer.realBuffer[30];
+	comp->st.y_4 = comp->fmiBuffer.realBuffer[31];
 	
     tick(&comp->st);
        
@@ -171,7 +187,8 @@ void doStep(ModelInstance* comp, const char* action) {
 * Function used to convert the state into a string
 */
 void stateToString(State st, char* str) {
-	char* temp = (char*)malloc(2048);
+	char* temp = (char*)malloc(1024);
+	int i;
 	
 	strcpy(str, "(#");
 	
@@ -179,46 +196,12 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " nObstacles := %d,", st.nObstacles);
 	strcat(str, temp);
-	sprintf(temp, " ox_1 := %d,", st.ox_1);
-	strcat(str, temp);
-	sprintf(temp, " ox_2 := %d,", st.ox_2);
-	strcat(str, temp);
-	sprintf(temp, " ox_3 := %d,", st.ox_3);
-	strcat(str, temp);
-	sprintf(temp, " ox_4 := %d,", st.ox_4);
-	strcat(str, temp);
-	sprintf(temp, " ox_5 := %d,", st.ox_5);
-	strcat(str, temp);
-	sprintf(temp, " ox_6 := %d,", st.ox_6);
-	strcat(str, temp);
-	sprintf(temp, " ox_7 := %d,", st.ox_7);
-	strcat(str, temp);
-	sprintf(temp, " ox_8 := %d,", st.ox_8);
-	strcat(str, temp);
-	sprintf(temp, " ox_9 := %d,", st.ox_9);
-	strcat(str, temp);
-	sprintf(temp, " ox_10 := %d,", st.ox_10);
-	strcat(str, temp);
-	sprintf(temp, " oy_1 := %d,", st.oy_1);
-	strcat(str, temp);
-	sprintf(temp, " oy_2 := %d,", st.oy_2);
-	strcat(str, temp);
-	sprintf(temp, " oy_3 := %d,", st.oy_3);
-	strcat(str, temp);
-	sprintf(temp, " oy_4 := %d,", st.oy_4);
-	strcat(str, temp);
-	sprintf(temp, " oy_5 := %d,", st.oy_5);
-	strcat(str, temp);
-	sprintf(temp, " oy_6 := %d,", st.oy_6);
-	strcat(str, temp);
-	sprintf(temp, " oy_7 := %d,", st.oy_7);
-	strcat(str, temp);
-	sprintf(temp, " oy_8 := %d,", st.oy_8);
-	strcat(str, temp);
-	sprintf(temp, " oy_9 := %d,", st.oy_9);
-	strcat(str, temp);
-	sprintf(temp, " oy_10 := %d,", st.oy_10);
-	strcat(str, temp);
+	for(i = 0; i < st.nObstacles; ++i) {
+		sprintf(temp, " ox_%d := %d,", i + 1, ox[i]);
+		strcat(str, temp);
+		sprintf(temp, " oy_%d := %d,", i + 1, oy[i]);
+		strcat(str, temp);
+	}
 	sprintf(temp, " a1 := %f,", st.a1);
 	strcat(str, temp);
 	sprintf(temp, " a2 := %f,", st.a2);
@@ -257,38 +240,14 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " stepCount := %d,", st.stepCount);
 	strcat(str, temp);
-	sprintf(temp, " x_1 := %f,", st.x_1);
-	strcat(str, temp);
-	sprintf(temp, " x_2 := %f,", st.x_2);
-	strcat(str, temp);
-	sprintf(temp, " x_3 := %f,", st.x_3);
-	strcat(str, temp);
-	sprintf(temp, " x_4 := %f,", st.x_4);
-	strcat(str, temp);
-	sprintf(temp, " xDesired1 := %f,", st.xDesired1);
-	strcat(str, temp);
-	sprintf(temp, " xDesired2 := %f,", st.xDesired2);
-	strcat(str, temp);
-	sprintf(temp, " xDesired3 := %f,", st.xDesired3);
-	strcat(str, temp);
-	sprintf(temp, " xDesired4 := %f,", st.xDesired4);
-	strcat(str, temp);
-	sprintf(temp, " y_1 := %f,", st.y_1);
-	strcat(str, temp);
-	sprintf(temp, " y_2 := %f,", st.y_2);
-	strcat(str, temp);
-	sprintf(temp, " y_3 := %f,", st.y_3);
-	strcat(str, temp);
-	sprintf(temp, " y_4 := %f,", st.y_4);
-	strcat(str, temp);
-	sprintf(temp, " yDesired1 := %f,", st.yDesired1);
-	strcat(str, temp);
-	sprintf(temp, " yDesired2 := %f,", st.yDesired2);
-	strcat(str, temp);
-	sprintf(temp, " yDesired3 := %f,", st.yDesired3);
-	strcat(str, temp);
-	sprintf(temp, " yDesired4 := %f,", st.yDesired4);
-	strcat(str, temp);	
+	for(i = 0; i < st.nRobots; ++i) {
+		sprintf(temp, " x_%d := %f,", i + 1, x[i]);
+		strcat(str, temp);
+	}
+	for(i = 0; i < st.nRobots; ++i) {
+		sprintf(temp, " y_%d := %f,", i + 1, y[i]);
+		strcat(str, temp);
+	}	
 	//Remove the last char ','
 	str[strlen(str)-1] = '\0';	
 	strcat(str, " #);");

@@ -20,10 +20,10 @@
 #include <libwebsockets.h>
 
 
-#define BOOL_COUNT 59
-#define INT_COUNT 59
-#define REAL_COUNT 59
-#define STRING_COUNT 59
+#define BOOL_COUNT 67
+#define INT_COUNT 67
+#define REAL_COUNT 67
+#define STRING_COUNT 67
 #define FMI_COSIMULATION
 
 typedef struct {

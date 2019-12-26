@@ -56,13 +56,13 @@
     
 		<ScalarVariable name="nRobots" valueReference="9" causality="parameter" variability="fixed"  initial="exact" ><Integer start="4" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination1Input" valueReference="10" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination1Input" valueReference="10" causality="input" variability="continuous" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination2Input" valueReference="11" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination2Input" valueReference="11" causality="input" variability="continuous" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination3Input" valueReference="12" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination3Input" valueReference="12" causality="input" variability="continuous" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="onDestination4Input" valueReference="13" causality="input" variability="continuous" ><Real start="0" /></ScalarVariable>
+		<ScalarVariable name="onDestination4Input" valueReference="13" causality="input" variability="continuous" ><Real start="1" /></ScalarVariable>
     
 		<ScalarVariable name="onDestinationOutput" valueReference="14" causality="output" variability="continuous" ><Real  /></ScalarVariable>
     
@@ -153,6 +153,22 @@
 		<ScalarVariable name="nCells" valueReference="57" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
 		
 		<ScalarVariable name="vCells" valueReference="58" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
+		
+		<ScalarVariable name="lx_1" valueReference="59" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
+		
+		<ScalarVariable name="lx_2" valueReference="60" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
+		
+		<ScalarVariable name="lx_3" valueReference="61" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
+		
+		<ScalarVariable name="lx_4" valueReference="62" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
+		
+		<ScalarVariable name="ly_1" valueReference="63" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
+		
+		<ScalarVariable name="ly_2" valueReference="64" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
+		
+		<ScalarVariable name="ly_3" valueReference="65" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
+		
+		<ScalarVariable name="ly_4" valueReference="66" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
     </ModelVariables>
 
 	<ModelStructure>
