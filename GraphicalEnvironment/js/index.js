@@ -151,56 +151,65 @@ require([
                 state_aux = PVSioStateParser.parse(ans[0]);
                 console.log(state_aux);
 				if (state_aux) {
+					
+					//Map size
+					var ms = PVSioStateParser.evaluate(state_aux["mapSize"]);
+					var pos = PVSioStateParser.evaluate(state_aux["mapSize"]) / 2;
+					
 					var pos_x_1 = PVSioStateParser.evaluate(state_aux["x_1"]);
                     var pos_y_1 = PVSioStateParser.evaluate(state_aux["y_1"]);
-                    car.navigator_1.render([{ x: pos_x_1 - 5, y: pos_y_1 - 5}]);;
+                    car.navigator_1.render([{ x: (pos_x_1 * 10 / ms - 5), y: (pos_y_1 * 10 / ms - 5)}]);;
 					car.position_1.render("(x: " + pos_x_1 + ", y: " + pos_y_1 + ")");
                     var pos_x_2 = PVSioStateParser.evaluate(state_aux["x_2"]);
                     var pos_y_2 = PVSioStateParser.evaluate(state_aux["y_2"]);
-                    car.navigator_2.render([{ x: pos_x_2 - 5, y: pos_y_2 - 5}]);;
+                    car.navigator_2.render([{ x: (pos_x_2 * 10 / ms - 5), y: (pos_y_2 * 10 / ms - 5)}]);;
                     car.position_2.render("(x: " + pos_x_2 + ", y: " + pos_y_2 + ")");
                     var pos_x_3 = PVSioStateParser.evaluate(state_aux["x_3"]);
                     var pos_y_3 = PVSioStateParser.evaluate(state_aux["y_3"]);
-                    car.navigator_3.render([{ x: pos_x_3 - 5, y: pos_y_3 - 5}]);;
+                    car.navigator_3.render([{ x: (pos_x_3 * 10 / ms - 5), y: (pos_y_3 * 10 / ms - 5)}]);;
                     car.position_3.render("(x: " + pos_x_3 + ", y: " + pos_y_3 + ")");
                     var pos_x_4 = PVSioStateParser.evaluate(state_aux["x_4"]);
                     var pos_y_4 = PVSioStateParser.evaluate(state_aux["y_4"]);
-                    car.navigator_4.render([{ x: pos_x_4 - 5, y: pos_y_4 - 5}]);;
+                    car.navigator_4.render([{ x: (pos_x_4 * 10 / ms - 5), y: (pos_y_4 * 10 / ms - 5)}]);;
                     car.position_4.render("(x: " + pos_x_4 + ", y: " + pos_y_4 + ")");
+                    
+                    
+                    //Cell width
+                    var cw = (300 / ms);
                     // Box width
-					var bw = PVSioStateParser.evaluate(state_aux["mapSize"]) * 30;
+					var bw = ms * cw;
 					// Box height
-					var bh = PVSioStateParser.evaluate(state_aux["mapSize"]) * 30;
+					var bh = ms * cw;
 					//Obstacles
-					var obstacles = {x: [(PVSioStateParser.evaluate(state_aux["ox_1"]) - 1) * 30, 
-										 (PVSioStateParser.evaluate(state_aux["ox_2"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_3"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_4"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_5"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_6"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_7"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_8"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_9"]) - 1) * 30,
-										 (PVSioStateParser.evaluate(state_aux["ox_10"]) - 1) * 30
+					var obstacles = {x: [(PVSioStateParser.evaluate(state_aux["ox_1"]) - 1) * cw, 
+										 (PVSioStateParser.evaluate(state_aux["ox_2"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_3"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_4"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_5"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_6"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_7"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_8"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_9"]) - 1) * cw,
+										 (PVSioStateParser.evaluate(state_aux["ox_10"]) - 1) * cw
 										], 
-									 y: [(10 - PVSioStateParser.evaluate(state_aux["oy_1"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_2"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_3"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_4"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_5"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_6"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_7"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_8"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_9"])) * 30,
-										 (10 - PVSioStateParser.evaluate(state_aux["oy_10"])) * 30,
+									 y: [(ms - PVSioStateParser.evaluate(state_aux["oy_1"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_2"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_3"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_4"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_5"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_6"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_7"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_8"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_9"])) * cw,
+										 (ms - PVSioStateParser.evaluate(state_aux["oy_10"])) * cw,
 										]
 									};
 					
 					function drawBoard(){
 						context.fill();
 						context.beginPath();
-						for (var i = 0; i <= bw; i += 30) {
-							for (var j = 0; j <= bh; j += 30) {
+						for (var i = 0; i <= bw; i += cw) {
+							for (var j = 0; j <= bh; j += cw) {
 								context.moveTo(i, 0);
 								context.lineTo(i, bh);
 								context.moveTo(0, j);
@@ -213,7 +222,7 @@ require([
 						
 						for(i = 0; i < PVSioStateParser.evaluate(state_aux["nObstacles"]); i += 1) {
 							if((obstacles.x[i] > 0) && (obstacles.y[i] > 0) && (obstacles.x[i] <= bw) && (obstacles.y[i] <= bw)) {
-								context.rect(obstacles.x[i], obstacles.y[i], 30, 30);
+								context.rect(obstacles.x[i], obstacles.y[i], cw, cw);
 								context.fillStyle = "black";
 								context.fill();
 							}
