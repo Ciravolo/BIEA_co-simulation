@@ -27,8 +27,8 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[33] = comp->st.yDesired2;
     comp->fmiBuffer.realBuffer[34] = comp->st.yDesired3;
     comp->fmiBuffer.realBuffer[35] = comp->st.yDesired4;
-    comp->fmiBuffer.intBuffer[57] = comp->st.nCells;
-    comp->fmiBuffer.intBuffer[58] = comp->st.vCells;
+    comp->fmiBuffer.realBuffer[57] = comp->st.eP;
+    comp->fmiBuffer.realBuffer[58] = comp->st.sTime;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     comp->fmiBuffer.realBuffer[2] = comp->st.a2;
@@ -159,8 +159,8 @@ void doStep(ModelInstance* comp, const char* action) {
     comp->fmiBuffer.realBuffer[33] = comp->st.yDesired2;
     comp->fmiBuffer.realBuffer[34] = comp->st.yDesired3;
     comp->fmiBuffer.realBuffer[35] = comp->st.yDesired4;
-    comp->fmiBuffer.intBuffer[57] = comp->st.nCells;
-	comp->fmiBuffer.intBuffer[58] = comp->st.vCells;
+    comp->fmiBuffer.realBuffer[57] = comp->st.eP;
+	comp->fmiBuffer.realBuffer[58] = comp->st.sTime;
     
     //comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     //comp->fmiBuffer.realBuffer[2] = comp->st.a2;

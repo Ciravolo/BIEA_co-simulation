@@ -150,9 +150,9 @@
 		
 		<ScalarVariable name="oy_10" valueReference="56" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
 		
-		<ScalarVariable name="nCells" valueReference="57" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
+		<ScalarVariable name="eP" valueReference="57" causality="output" variability="continuous" ><Real   /></ScalarVariable>
 		
-		<ScalarVariable name="vCells" valueReference="58" causality="output" variability="discrete" ><Integer   /></ScalarVariable>
+		<ScalarVariable name="sTime" valueReference="58" causality="output" variability="continuous" ><Real   /></ScalarVariable>
 		
 		<ScalarVariable name="lx_1" valueReference="59" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
 		

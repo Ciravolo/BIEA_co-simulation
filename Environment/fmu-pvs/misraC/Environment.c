@@ -71,12 +71,14 @@ void init(State* st) {
     st->onDestination3Input = 1.0f;
     st->onDestination4Input = 1.0f;
     st->onDestinationOutput = 0.0f;
-    st->nCells = st->mapSize * st->mapSize;
-	st->vCells = 0.0f;
+    st->eP = 0.0f;
+	st->sTime = 0.0f;
     
     epslon = unifRand();
 	isInit1 = TRUE;
 	isInit2 = TRUE;
+	nCells = st->mapSize * st->mapSize;
+	vCells = 0;
 }
 
 /**
@@ -140,14 +142,14 @@ void setEnvironment(State* st) {
 		updateContribution(map, st, occupiedCells[i]);
 		occupiedCells[i]->robot = TRUE;
 		occupiedCells[i]->visited = TRUE;
-		++st->vCells;
+		++vCells;
 	}
 
 	//Set obstacles
 	for(i = 0; i < st->nObstacles; ++i) {
 		if((ox[i] > 0) && (oy[i] > 0) && (ox[i] <= st->mapSize) && (oy[i] <= st->mapSize)) {
 			map[ox[i] - 1][oy[i] - 1].obstacle = TRUE;
-			--st->nCells;
+			--nCells;
 		}
 	}
 	
@@ -425,7 +427,7 @@ void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t x, float64_t 
 		
 		if(best->visited == FALSE) {
 			best->visited = TRUE;
-			++st->vCells;
+			++vCells;
 		}
 		
 		*xD = x;
@@ -502,6 +504,12 @@ State* tick(State* st) {
 		
 		//Increasing of the discrete simulation time
 		++st->stepCount;
+		
+		//Percentuale di esplorazione
+		st->eP = (vCells * 100) / nCells;
+		
+		//Exploration time
+		st->sTime = st->stepCount * st->step_size;
 		
 		return st;
 }

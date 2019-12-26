@@ -78,8 +78,8 @@ typedef struct {
     float64_t onDestination2Input;
     float64_t onDestination3Input;
     float64_t onDestination4Input;
-    int32_t nCells;
-	int32_t vCells;
+    float64_t eP;
+	float64_t sTime;
 } State;
 
 /**
@@ -106,6 +106,8 @@ float64_t* yD;
 int32_t* oD;
 int32_t* ox;
 int32_t* oy;
+int32_t nCells;
+int32_t vCells;
 Cell* neighbourhood;
 int32_t nSize;
 float64_t epslon;
