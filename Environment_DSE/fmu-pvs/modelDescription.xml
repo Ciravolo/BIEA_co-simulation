@@ -65,23 +65,23 @@
     
 		<ScalarVariable name="stepCount" valueReference="13" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
 		
-		<ScalarVariable name="dummy" valueReference="14" causality="output" variability="continuous" ><Real  /></ScalarVariable>
+		<ScalarVariable name="dummy" valueReference="14" causality="input" variability="discrete" ><Integer  start="0" /></ScalarVariable>
     
-		<ScalarVariable name="x_1" valueReference="15" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="x_1" valueReference="15" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="x_2" valueReference="16" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="x_2" valueReference="16" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="x_3" valueReference="17" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="x_3" valueReference="17" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="x_4" valueReference="18" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="x_4" valueReference="18" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_1" valueReference="19" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="y_1" valueReference="19" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_2" valueReference="20" causality="input" variability="continuous" ><Real start="0.5" /></ScalarVariable>
+		<ScalarVariable name="y_2" valueReference="20" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_3" valueReference="21" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="y_3" valueReference="21" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
     
-		<ScalarVariable name="y_4" valueReference="22" causality="input" variability="continuous" ><Real start="9.5" /></ScalarVariable>
+		<ScalarVariable name="y_4" valueReference="22" causality="parameter" variability="fixed"  initial="exact" ><Real start="9.5" /></ScalarVariable>
 		
 		<ScalarVariable name="nObstacles" valueReference="23" causality="parameter" variability="fixed"  initial="exact" ><Integer start="10" /></ScalarVariable>
 		
@@ -125,16 +125,14 @@
 		
 		<ScalarVariable name="oy_10" valueReference="43" causality="parameter" variability="fixed"  initial="exact" ><Integer start="0" /></ScalarVariable>
 		
-		<ScalarVariable name="nCells" valueReference="44" causality="output" variability="continuous" ><Real   /></ScalarVariable>
+		<ScalarVariable name="eP" valueReference="44" causality="output" variability="continuous" ><Real   /></ScalarVariable>
 		
-		<ScalarVariable name="vCells" valueReference="45" causality="output" variability="continuous" ><Real   /></ScalarVariable>
+		<ScalarVariable name="sTime" valueReference="45" causality="output" variability="continuous" ><Real   /></ScalarVariable>
 		
     </ModelVariables>
 
 	<ModelStructure>
 	<Outputs>
-			<Unknown index="14"  dependencies=""/>
-			
 			<Unknown index="44"  dependencies=""/>
 			
 			<Unknown index="45"  dependencies=""/>

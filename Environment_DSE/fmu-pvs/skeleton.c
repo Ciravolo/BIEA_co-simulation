@@ -6,8 +6,6 @@
 #include "fmu.h"
 #include <string.h>
 
-int connection = 0;
-
 static int WebSocketCallback(struct lws*, enum lws_callback_reasons, void*, void*, size_t);
 
  /**
@@ -20,9 +18,8 @@ static int WebSocketCallback(struct lws*, enum lws_callback_reasons, void*, void
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    comp->fmiBuffer.realBuffer[14] = comp->st.dummy;
-    comp->fmiBuffer.realBuffer[44] = comp->st.nCells;
-    comp->fmiBuffer.realBuffer[45] = comp->st.vCells;
+    comp->fmiBuffer.intBuffer[44] = comp->st.eP;
+    comp->fmiBuffer.intBuffer[45] = comp->st.sTime;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     comp->fmiBuffer.realBuffer[2] = comp->st.a2;
@@ -37,6 +34,14 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[11] = comp->st.step_size;
     comp->fmiBuffer.intBuffer[12] = comp->st.port;
     comp->fmiBuffer.intBuffer[13] = comp->st.stepCount;
+    comp->fmiBuffer.realBuffer[15] = comp->st.x_1;
+    comp->fmiBuffer.realBuffer[16] = comp->st.x_2;
+    comp->fmiBuffer.realBuffer[17] = comp->st.x_3;
+    comp->fmiBuffer.realBuffer[18] = comp->st.x_4;
+    comp->fmiBuffer.realBuffer[19] = comp->st.y_1;
+    comp->fmiBuffer.realBuffer[20] = comp->st.y_2;
+    comp->fmiBuffer.realBuffer[21] = comp->st.y_3;
+    comp->fmiBuffer.realBuffer[22] = comp->st.y_4;
     comp->fmiBuffer.intBuffer[23] = comp->st.nObstacles;
     comp->fmiBuffer.intBuffer[24] = comp->st.ox_1;
     comp->fmiBuffer.intBuffer[25] = comp->st.ox_2;
@@ -106,21 +111,28 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.oy_8 = comp->fmiBuffer.intBuffer[41];
 		comp->st.oy_9 = comp->fmiBuffer.intBuffer[42];
 		comp->st.oy_10 = comp->fmiBuffer.intBuffer[43];
+		comp->st.x_1 = comp->fmiBuffer.realBuffer[15];
+		comp->st.x_2 = comp->fmiBuffer.realBuffer[16];
+		comp->st.x_3 = comp->fmiBuffer.realBuffer[17];
+		comp->st.x_4 = comp->fmiBuffer.realBuffer[18];
+		comp->st.y_1 = comp->fmiBuffer.realBuffer[19];
+		comp->st.y_2 = comp->fmiBuffer.realBuffer[20];
+		comp->st.y_3 = comp->fmiBuffer.realBuffer[21];
+		comp->st.y_4 = comp->fmiBuffer.realBuffer[22];
 		
 		comp->first = 1;
 	}
 	
-	if(comp->websocket_open == 1)
-		lws_service(comp->context, 0);
+	comp->st.dummy = comp->fmiBuffer.intBuffer[14];
 	
-    if (connection == 1) {
+	tick(&comp->st);
+	
+	comp->fmiBuffer.intBuffer[44] = comp->st.eP;
+	comp->fmiBuffer.intBuffer[45] = comp->st.sTime;
+	
+	if (comp->websocket_open == 1) {
 		lws_service(comp->context, 0);
-		tick(&comp->st);
 	}
-	
-	comp->fmiBuffer.realBuffer[14] = comp->st.dummy;
-	comp->fmiBuffer.realBuffer[44] = comp->st.nCells;
-	comp->fmiBuffer.realBuffer[45] = comp->st.vCells;
 }
 
 /**
@@ -128,6 +140,7 @@ void doStep(ModelInstance* comp, const char* action) {
 */
 void stateToString(State st, char* str) {
 	char* temp = (char*)malloc(1024);
+	int i;
 	
 	strcpy(str, "(#");
 	
@@ -135,62 +148,44 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " nObstacles := %d,", st.nObstacles);
 	strcat(str, temp);
-	sprintf(temp, " ox_1 := %d,", st.ox_1);
+	for(i = 0; i < st.nObstacles; ++i) {
+		sprintf(temp, " ox_%d := %d,", i + 1, ox[i]);
+		strcat(str, temp);
+		sprintf(temp, " oy_%d := %d,", i + 1, oy[i]);
+		strcat(str, temp);
+	}
+	sprintf(temp, " a1 := %f,", st.a1);
 	strcat(str, temp);
-	sprintf(temp, " ox_2 := %d,", st.ox_2);
+	sprintf(temp, " a2 := %f,", st.a2);
 	strcat(str, temp);
-	sprintf(temp, " ox_3 := %d,", st.ox_3);
+	sprintf(temp, " ertu_perc := %f,", st.ertu_perc);
 	strcat(str, temp);
-	sprintf(temp, " ox_4 := %d,", st.ox_4);
+	sprintf(temp, " eta := %f,", st.eta);
 	strcat(str, temp);
-	sprintf(temp, " ox_5 := %d,", st.ox_5);
+	sprintf(temp, " lambda := %f,", st.lambda);
 	strcat(str, temp);
-	sprintf(temp, " ox_6 := %d,", st.ox_6);
+	sprintf(temp, " max_ph := %f,", st.max_ph);
 	strcat(str, temp);
-	sprintf(temp, " ox_7 := %d,", st.ox_7);
+	sprintf(temp, " nRobots := %d,", st.nRobots);
 	strcat(str, temp);
-	sprintf(temp, " ox_8 := %d,", st.ox_8);
+	sprintf(temp, " phi := %f,", st.phi);
 	strcat(str, temp);
-	sprintf(temp, " ox_9 := %d,", st.ox_9);
+	sprintf(temp, " port := %d,", st.port);
 	strcat(str, temp);
-	sprintf(temp, " ox_10 := %d,", st.ox_10);
+	sprintf(temp, " s_range := %d,", st.s_range);
 	strcat(str, temp);
-	sprintf(temp, " oy_1 := %d,", st.oy_1);
+	sprintf(temp, " step_size := %f,", st.step_size);
 	strcat(str, temp);
-	sprintf(temp, " oy_2 := %d,", st.oy_2);
+	sprintf(temp, " stepCount := %d,", st.stepCount);
 	strcat(str, temp);
-	sprintf(temp, " oy_3 := %d,", st.oy_3);
-	strcat(str, temp);
-	sprintf(temp, " oy_4 := %d,", st.oy_4);
-	strcat(str, temp);
-	sprintf(temp, " oy_5 := %d,", st.oy_5);
-	strcat(str, temp);
-	sprintf(temp, " oy_6 := %d,", st.oy_6);
-	strcat(str, temp);
-	sprintf(temp, " oy_7 := %d,", st.oy_7);
-	strcat(str, temp);
-	sprintf(temp, " oy_8 := %d,", st.oy_8);
-	strcat(str, temp);
-	sprintf(temp, " oy_9 := %d,", st.oy_9);
-	strcat(str, temp);
-	sprintf(temp, " oy_10 := %d,", st.oy_10);
-	strcat(str, temp);
-	sprintf(temp, " x_1 := %f,", st.x_1);
-	strcat(str, temp);
-	sprintf(temp, " x_2 := %f,", st.x_2);
-	strcat(str, temp);
-	sprintf(temp, " x_3 := %f,", st.x_3);
-	strcat(str, temp);
-	sprintf(temp, " x_4 := %f,", st.x_4);
-	strcat(str, temp);
-	sprintf(temp, " y_1 := %f,", st.y_1);
-	strcat(str, temp);
-	sprintf(temp, " y_2 := %f,", st.y_2);
-	strcat(str, temp);
-	sprintf(temp, " y_3 := %f,", st.y_3);
-	strcat(str, temp);
-	sprintf(temp, " y_4 := %f,", st.y_4);
-	strcat(str, temp);	
+	for(i = 0; i < st.nRobots; ++i) {
+		sprintf(temp, " x_%d := %f,", i + 1, x[i]);
+		strcat(str, temp);
+	}
+	for(i = 0; i < st.nRobots; ++i) {
+		sprintf(temp, " y_%d := %f,", i + 1, y[i]);
+		strcat(str, temp);
+	}	
 	//Remove the last char ','
 	str[strlen(str)-1] = '\0';	
 	strcat(str, " #);");
@@ -199,6 +194,18 @@ void stateToString(State st, char* str) {
 }
 
 void terminate(ModelInstance* comp) {
+	
+	int i;
+	
+	for(i = 0; i < comp->st.mapSize; ++i)
+		free(map[i]);
+	free(map);
+	
+	free(occupiedCells);
+	free(x);
+	free(y);
+	free(ox);
+	free(oy);
 	
 	close_websocket(comp);
 	
@@ -281,7 +288,6 @@ static int WebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, 
 			printf("**********************************************\n");
 			printf("***             (FMI Protocol)             ***\n");
 			printf("**********************************************\n");
-			connection = 1;
 			break;
 		case LWS_CALLBACK_CLOSED:
 			printf("CLIENT DISCONNECTED!\n\n");

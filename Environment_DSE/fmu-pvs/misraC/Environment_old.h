@@ -7,17 +7,6 @@
 #include <math.h>
 #include <time.h>
 #include "misraC_basic_types.h"
-#define S_RANGE 1
-#define ERTU_PERC 0.2
-#define MAX_PH 2
-#define PHI 1
-#define LAMBDA 1
-#define ETA 0.9
-#define A1 0.5
-#define A2 0.5
-#define STEP 1
-#define ROBOTS 4
-#define MAP_SIZE 10
 
 /**
  * state attributes
@@ -30,7 +19,7 @@ typedef struct {
 		int32_t port; 
 		int32_t stepCount; 
 		int32_t s_range;  
-		float64_t dummy;
+		int32_t dummy;
 		float64_t a1; 
 		float64_t a2; 
 		float64_t ertu_perc; 
@@ -67,8 +56,8 @@ typedef struct {
 		float64_t y_2;
 		float64_t y_3;
 		float64_t y_4;
-		float64_t nCells;
-		float64_t vCells;
+		float64_t eP;
+		float64_t sTime;
 } State;
 
 /**
@@ -88,19 +77,28 @@ typedef struct {
  * Global variables
  */
 Cell** map; 
+Cell** occupiedCells;
 float64_t* x;
 float64_t* y;
 int32_t* ox;
 int32_t* oy;
 Cell* neighbourhood;
 int32_t nSize;
+int32_t nCells;
+int32_t vCells;
 float64_t epslon;
-bool isInit;
+bool isInit1;
+bool isInit2;
 
 /**
  * init function
  */
 void init(State* st);
+
+/**
+ * set the environment
+ */ 
+void setEnvironment(State* st);
 
 /**
  * sais if there is an obstacle in the cell

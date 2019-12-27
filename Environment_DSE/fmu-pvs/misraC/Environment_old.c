@@ -5,8 +5,6 @@
  */
 void init(State* st) {
 	
-		int32_t i, j;
-		
 		st->nRobots = 4;
 		st->a1 = 0.5f; 
 		st->a2 = 0.5f; 
@@ -20,7 +18,7 @@ void init(State* st) {
 		st->lambda = 1;
 		st->stepCount = 0;
 		st->port = 8087;
-		st->dummy = 0.0f;
+		st->dummy = 0;
 		st->nObstacles = 10;
 		st->ox_1 = 3;
 		st->ox_2 = 4;
@@ -43,60 +41,71 @@ void init(State* st) {
 		st->oy_9 = 0;
 		st->oy_10 = 0;	
 		st->x_1 = 0.5f;
-	    st->x_2 = 9.5f;
-	    st->x_3 = 9.5f;
-	    st->x_4 = 0.5f;
-	    st->y_1 = 0.5f;
-	    st->y_2 = 0.5f;
-	    st->y_3 = 9.5f;
-	    st->y_4 = 9.5f;
-	    st->nCells = st->mapSize * st->mapSize;
-	    st->vCells = 0.0f;
-		
-		map = (Cell**)malloc(st->mapSize*sizeof(Cell*));
-		for(i = 0; i < st->mapSize; ++i)
-			map[i] = (Cell*)malloc(st->mapSize*sizeof(Cell));
-		
-		x = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
-		y = (float64_t*)malloc(st->nRobots*sizeof(float64_t));
-		ox = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
-		oy = (int32_t*)malloc(st->nObstacles*sizeof(int32_t));
+		st->x_2 = 9.5f;
+		st->x_3 = 9.5f;
+		st->x_4 = 0.5f;
+		st->y_1 = 0.5f;
+		st->y_2 = 0.5f;
+		st->y_3 = 9.5f;
+		st->y_4 = 9.5;
+	    st->eP = 0.0f;
+	    st->sTime = 0.0f;
 		
 		epslon = unifRand();
-		isInit = TRUE;
-		
-		Cell* occupiedCells[st->nRobots];
-		
-		//General initialization
-		for(i = 0; i < st->mapSize; ++i) {
-			for(j = 0; j < st->mapSize; ++j) {
-				map[i][j].pheromone = 0;
-				map[i][j].visited = 0;
-				map[i][j].robot = FALSE;
-				map[i][j].obstacle = FALSE;
-				map[i][j].x = i + 1;
-				map[i][j].y = j + 1;
-			}
-		}
+		isInit1 = TRUE;
+		isInit2 = TRUE;
+}
 
-		positions2Array(st);
-		
-		//Set occupied cells
-		for(i = 0; i < st->nRobots; ++i) {
-			occupiedCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
-			updateContribution(map, st, occupiedCells[i]);
-			occupiedCells[i]->robot = TRUE;
-			occupiedCells[i]->visited = TRUE;
-			++st->vCells;
+/**
+ * set the environment
+ */ 
+void setEnvironment(State* st) {
+	int32_t i, j;
+	nCells = st->mapSize * st->mapSize;
+	vCells = 0;
+	
+	map = (Cell**)malloc(st->mapSize*sizeof(Cell*));
+	occupiedCells = (Cell**)malloc(st->nRobots*sizeof(Cell*));
+	for(i = 0; i < st->mapSize; ++i)
+		map[i] = (Cell*)malloc(st->mapSize*sizeof(Cell));
+	
+	x = (float64_t*)malloc(4*sizeof(float64_t));
+	y = (float64_t*)malloc(4*sizeof(float64_t));
+	ox = (int32_t*)malloc(10*sizeof(int32_t));
+	oy = (int32_t*)malloc(10*sizeof(int32_t));
+	
+	positions2Array(st);
+	
+	//General initialization
+	for(i = 0; i < st->mapSize; ++i) {
+		for(j = 0; j < st->mapSize; ++j) {
+			map[i][j].pheromone = 0;
+			map[i][j].visited = 0;
+			map[i][j].robot = FALSE;
+			map[i][j].obstacle = FALSE;
+			map[i][j].x = i + 1;
+			map[i][j].y = j + 1;
 		}
+	}
+	
+	//Set occupied cells
+	for(i = 0; i < st->nRobots; ++i) {
+		occupiedCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
+		updateContribution(map, st, occupiedCells[i]);
+		occupiedCells[i]->robot = TRUE;
+		occupiedCells[i]->visited = TRUE;
+		++vCells;
+	}
 
-		//Set obstacles
-		for(i = 0; i < st->nObstacles; ++i) {
-			if((ox[i] > 0) && (oy[i] > 0) && (ox[i] <= st->mapSize) && (oy[i] <= st->mapSize)) {
-				map[ox[i] - 1][oy[i] - 1].obstacle = TRUE;
-				--st->nCells;
-			}
+	//Set obstacles
+	for(i = 0; i < st->nObstacles; ++i) {
+		if((ox[i] > 0) && (oy[i] > 0) && (ox[i] <= st->mapSize) && (oy[i] <= st->mapSize)) {
+			map[ox[i] - 1][oy[i] - 1].obstacle = TRUE;
+			--nCells;
 		}
+	}
+	
+	isInit2 = FALSE;	
 }
 
 /**
@@ -126,7 +135,7 @@ void positions2Array(State* st) {
 	y[1] = st->y_2;
 	y[2] = st->y_3;
 	y[3] = st->y_4;
-	if(isInit == TRUE) {
+	if(isInit1 == TRUE) {
 		ox[0] = st->ox_1;
 		ox[1] = st->ox_2;
 		ox[2] = st->ox_3;
@@ -147,7 +156,7 @@ void positions2Array(State* st) {
 		oy[7] = st->oy_8;
 		oy[8] = st->oy_9;
 		oy[9] = st->oy_10;
-		isInit = FALSE;
+		isInit1 = FALSE;
 	}
 }
 
@@ -333,7 +342,7 @@ void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t* x, float64_t
 		
 		if(best->visited == FALSE) {
 			best->visited = TRUE;
-			++st->vCells;
+			++vCells;
 		}
 			
 		free(neighbourhood);
@@ -348,15 +357,19 @@ float64_t unifRand() {
 }
 
 State* tick(State* st) {
-
-		Cell* currentCells[ROBOTS];
-		Cell* bestNeighbours[ROBOTS];
+	
 		float64_t sum;
 		int32_t i, j;
-
+		
+		if(isInit2 == TRUE)
+			setEnvironment(st);
+		
+		Cell* currentCells[st->nRobots];
+		Cell* bestNeighbours[st->nRobots];
+		
 		positions2Array(st);
 
-		for(i = 0; i < ROBOTS; ++i) {
+		for(i = 0; i < st->nRobots; ++i) {
 			//Find the cell where robot is located
 			currentCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
 			//Find neighbourhood
@@ -379,11 +392,17 @@ State* tick(State* st) {
 		//Increasing of the discrete simulation time
 		++st->stepCount;
 		
-		for(i = 0; i < st->mapSize; ++i) {
-			for(j = 0; j < st->mapSize; ++j) {
-				printf("Cella %d-%d: %g.\n", i+1, j+1, map[i][j].pheromone);
-			}
-		}
+		//Percentuale di esplorazione
+		st->eP = (vCells * 100) / nCells;
+		
+		//Exploration time
+		st->sTime = st->stepCount * st->step_size;
+		
+		//for(i = 0; i < st->mapSize; ++i) {
+			//for(j = 0; j < st->mapSize; ++j) {
+				//printf("Cella %d-%d: %g.\n", i+1, j+1, map[i][j].pheromone);
+			//}
+		//}
 
 		return st;
 }
