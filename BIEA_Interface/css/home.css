@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+/*-------------------------------------------------*/
+
+body {
+	background:url(../images/home_bg.png);
+	background-repeat: no-repeat;
+	background-size: auto;
+}
+
+.container {
+	margin-top:50px;
+	width: 400px;
+	float: left;
+	border-radius: 25px;
+}
+
+.slide {
+	width:765px;
+	border-radius:15px;
+	overflow:hidden;
+}
+
+.panel {
+	width: 550px;
+}
