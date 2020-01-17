@@ -26,11 +26,11 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[3] = comp->st.ertu_perc;
     comp->fmiBuffer.realBuffer[4] = comp->st.eta;
     comp->fmiBuffer.realBuffer[5] = comp->st.lambda;
-    comp->fmiBuffer.realBuffer[6] = comp->st.mapSize;
+    comp->fmiBuffer.intBuffer[6] = comp->st.mapSize;
     comp->fmiBuffer.realBuffer[7] = comp->st.max_ph;
     comp->fmiBuffer.intBuffer[8] = comp->st.nRobots;
     comp->fmiBuffer.realBuffer[9] = comp->st.phi;
-    comp->fmiBuffer.realBuffer[10] = comp->st.s_range;
+    comp->fmiBuffer.intBuffer[10] = comp->st.s_range;
     comp->fmiBuffer.realBuffer[11] = comp->st.step_size;
     comp->fmiBuffer.intBuffer[12] = comp->st.port;
     comp->fmiBuffer.intBuffer[13] = comp->st.stepCount;
@@ -82,11 +82,11 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.ertu_perc = comp->fmiBuffer.realBuffer[3];
 		comp->st.eta = comp->fmiBuffer.realBuffer[4];
 		comp->st.lambda = comp->fmiBuffer.realBuffer[5];
-		comp->st.mapSize = comp->fmiBuffer.realBuffer[6];
+		comp->st.mapSize = comp->fmiBuffer.intBuffer[6];
 		comp->st.max_ph = comp->fmiBuffer.realBuffer[7];
 		comp->st.nRobots = comp->fmiBuffer.intBuffer[8];
 		comp->st.phi = comp->fmiBuffer.realBuffer[9];
-		comp->st.s_range = comp->fmiBuffer.realBuffer[10];
+		comp->st.s_range = comp->fmiBuffer.intBuffer[10];
 		comp->st.step_size = comp->fmiBuffer.realBuffer[11];
 		comp->st.port = comp->fmiBuffer.intBuffer[12];
 		comp->st.stepCount = comp->fmiBuffer.intBuffer[13];
@@ -120,6 +120,50 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.y_3 = comp->fmiBuffer.realBuffer[21];
 		comp->st.y_4 = comp->fmiBuffer.realBuffer[22];
 		
+		comp->fmiBuffer.realBuffer[44] = comp->st.eP;
+		comp->fmiBuffer.realBuffer[45] = comp->st.sTime;
+		comp->fmiBuffer.realBuffer[1] = comp->st.a1;
+		comp->fmiBuffer.realBuffer[2] = comp->st.a2;
+		comp->fmiBuffer.realBuffer[3] = comp->st.ertu_perc;
+		comp->fmiBuffer.realBuffer[4] = comp->st.eta;
+		comp->fmiBuffer.realBuffer[5] = comp->st.lambda;
+		comp->fmiBuffer.intBuffer[6] = comp->st.mapSize;
+		comp->fmiBuffer.realBuffer[7] = comp->st.max_ph;
+		comp->fmiBuffer.intBuffer[8] = comp->st.nRobots;
+		comp->fmiBuffer.realBuffer[9] = comp->st.phi;
+		comp->fmiBuffer.intBuffer[10] = comp->st.s_range;
+		comp->fmiBuffer.realBuffer[11] = comp->st.step_size;
+		comp->fmiBuffer.intBuffer[12] = comp->st.port;
+		comp->fmiBuffer.intBuffer[13] = comp->st.stepCount;
+		comp->fmiBuffer.realBuffer[15] = comp->st.x_1;
+		comp->fmiBuffer.realBuffer[16] = comp->st.x_2;
+		comp->fmiBuffer.realBuffer[17] = comp->st.x_3;
+		comp->fmiBuffer.realBuffer[18] = comp->st.x_4;
+		comp->fmiBuffer.realBuffer[19] = comp->st.y_1;
+		comp->fmiBuffer.realBuffer[20] = comp->st.y_2;
+		comp->fmiBuffer.realBuffer[21] = comp->st.y_3;
+		comp->fmiBuffer.realBuffer[22] = comp->st.y_4;
+		comp->fmiBuffer.intBuffer[23] = comp->st.nObstacles;
+		comp->fmiBuffer.intBuffer[24] = comp->st.ox_1;
+		comp->fmiBuffer.intBuffer[25] = comp->st.ox_2;
+		comp->fmiBuffer.intBuffer[26] = comp->st.ox_3;
+		comp->fmiBuffer.intBuffer[27] = comp->st.ox_4;
+		comp->fmiBuffer.intBuffer[28] = comp->st.ox_5;
+		comp->fmiBuffer.intBuffer[29] = comp->st.ox_6;
+		comp->fmiBuffer.intBuffer[30] = comp->st.ox_7;
+		comp->fmiBuffer.intBuffer[31] = comp->st.ox_8;
+		comp->fmiBuffer.intBuffer[32] = comp->st.ox_9;
+		comp->fmiBuffer.intBuffer[33] = comp->st.ox_10;
+		comp->fmiBuffer.intBuffer[34] = comp->st.oy_1;
+		comp->fmiBuffer.intBuffer[35] = comp->st.oy_2;
+		comp->fmiBuffer.intBuffer[36] = comp->st.oy_3;
+		comp->fmiBuffer.intBuffer[37] = comp->st.oy_4;
+		comp->fmiBuffer.intBuffer[38] = comp->st.oy_5;
+		comp->fmiBuffer.intBuffer[39] = comp->st.oy_6;
+		comp->fmiBuffer.intBuffer[40] = comp->st.oy_7;
+		comp->fmiBuffer.intBuffer[41] = comp->st.oy_8;
+		comp->fmiBuffer.intBuffer[42] = comp->st.oy_9;
+		comp->fmiBuffer.intBuffer[43] = comp->st.oy_10;
 		comp->first = 1;
 	}
 	
@@ -127,8 +171,8 @@ void doStep(ModelInstance* comp, const char* action) {
 	
 	tick(&comp->st);
 	
-	comp->fmiBuffer.intBuffer[44] = comp->st.eP;
-	comp->fmiBuffer.intBuffer[45] = comp->st.sTime;
+	comp->fmiBuffer.realBuffer[44] = comp->st.eP;
+	comp->fmiBuffer.realBuffer[45] = comp->st.sTime;
 	
 	if (comp->websocket_open == 1) {
 		lws_service(comp->context, 0);

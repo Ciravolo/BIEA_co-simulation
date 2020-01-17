@@ -104,7 +104,7 @@ void setEnvironment(State* st) {
 			--nCells;
 		}
 	}
-	
+	printf("Ciao.\n");
 	isInit2 = FALSE;	
 }
 
@@ -342,7 +342,6 @@ void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t* x, float64_t
 		
 		if(best->visited == FALSE) {
 			best->visited = TRUE;
-			++vCells;
 		}
 			
 		free(neighbourhood);
@@ -379,6 +378,13 @@ State* tick(State* st) {
 			//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
 			move(map, st, currentCells[i], bestNeighbours[i], &x[i], &y[i]);
 		}
+		
+		for(i = 0; i < st->mapSize; ++i) {
+			for(j = 0; j < st->mapSize; ++j) {
+				if(map[i][j].visited == TRUE)
+					++vCells;
+			}
+		}
 
 		array2Desired(st);
 		
@@ -392,17 +398,25 @@ State* tick(State* st) {
 		//Increasing of the discrete simulation time
 		++st->stepCount;
 		
-		//Percentuale di esplorazione
-		st->eP = (vCells * 100) / nCells;
+		printf("Numero totale di celle: %d.\n", nCells);
+		printf("Numero di celle visitate: %d.\n", vCells);
 		
-		//Exploration time
-		st->sTime = st->stepCount * st->step_size;
+		//Percentuale di esplorazione
+		st->eP = ((double)vCells / nCells) * 100;
+		vCells = 0;
+		
+		if(st->eP < 100)
+			//Exploration time
+			st->sTime = st->stepCount * st->step_size;
 		
 		//for(i = 0; i < st->mapSize; ++i) {
 			//for(j = 0; j < st->mapSize; ++j) {
 				//printf("Cella %d-%d: %g.\n", i+1, j+1, map[i][j].pheromone);
 			//}
 		//}
+		printf("Simulation time: %g.\n", st->sTime);
+		printf("Exploration percentage: %g.\n", st->eP);
+		printf("Simulation time: %g.\n", st->sTime);
 
 		return st;
 }

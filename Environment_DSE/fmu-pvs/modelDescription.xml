@@ -49,7 +49,7 @@
     
 		<ScalarVariable name="lambda" valueReference="5" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="mapSize" valueReference="6" causality="parameter" variability="fixed"  initial="exact" ><Real start="10" /></ScalarVariable>
+		<ScalarVariable name="mapSize" valueReference="6" causality="parameter" variability="fixed"  initial="exact" ><Integer start="10" /></ScalarVariable>
     
 		<ScalarVariable name="max_ph" valueReference="7" causality="parameter" variability="fixed"  initial="exact" ><Real start="2" /></ScalarVariable>
     
@@ -57,7 +57,7 @@
 		
 		<ScalarVariable name="phi" valueReference="9" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
 		
-		<ScalarVariable name="s_range" valueReference="10" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
+		<ScalarVariable name="s_range" valueReference="10" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
     
 		<ScalarVariable name="step_size" valueReference="11" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
     
