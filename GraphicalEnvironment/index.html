@@ -14,17 +14,21 @@
 
     </head>
     <body>
+		<div style="background-image: url('figures/background.png');"> 
         <!-- IMPORTANT: div content must be the first one from the top, otherwise the coordinates of the buttons are not computed correctly -->
-        
         <div id="content" class="content" style="display:flex; z-index:0;">
+			<h1 width="200px" height="27px" style="position:absolute; top:18px; left:30px; background: transparent; margin-left:50px; border: 0px;font-size:50pt;font-weight:bold;">BIEA co-simulation view</h1>
             <div id="monitor" class="monitor" style="display:block;">
                 <img src="monitor.png"  id="prototypeImage" style="width:100%; heigth:auto"/>
             </div>
             <!-- <div id="navigator" class="navigator" style="display:block;">
                 <img src="headsup-display.jpg" usemap="#prototypeMap" id="headsup-display"/>
             </div> -->
-            <canvas id="canvas" width="300px" height="300px" style="position:absolute; top:215px; left:165px; background: transparent; margin:20px; border: 2px solid black;"></canvas>			
+            <canvas id="canvas1" width="300px" height="300px" style="position:absolute; top:215px; left:165px; background: transparent; margin:20px; border: 2px solid black;"></canvas>	
+            <div id="pos" class="monitor" width="200px" height="27px" style="position:absolute; top:248px; left:545px; background: transparent; margin-left:0px; border: 0px;  font-size: large;font-weight:bold;">Robot positions</div>
+            <div id="eP" class="monitor" width="200px" height="27px" style="position:absolute; top:508px; left:545px; background: transparent; margin-left:0px; border: 0px;  font-size: large;font-weight:bold;">Exploration %:</div>			
         </div>
+        <div id="info" class="monitor" width="53px" height="756px" style="color:red; position:absolute; top:671px; left:325px; background: transparent; margin-left:0px; border: 0px;  font-size: 30px;font-weight:bold;">Start the INTO-CPS simulation</div>
         <div id="open_connection" style="padding:0; border-style: solid; border-width: 1px; display: flex;">
 			<input type="submit" id="open" value="Open Connection" style="display:none;">
 			<div id="connection_status" style="padding: 10px 28px 10px 28px; background-color: red; border-width: 1px; display:none;">

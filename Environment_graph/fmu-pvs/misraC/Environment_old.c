@@ -54,6 +54,7 @@ void init(State* st) {
 		epslon = unifRand();
 		isInit1 = TRUE;
 		isInit2 = TRUE;
+		stop = FALSE;
 }
 
 /**
@@ -94,7 +95,6 @@ void setEnvironment(State* st) {
 		updateContribution(map, st, occupiedCells[i]);
 		occupiedCells[i]->robot = TRUE;
 		occupiedCells[i]->visited = TRUE;
-		++vCells;
 	}
 
 	//Set obstacles
@@ -104,8 +104,14 @@ void setEnvironment(State* st) {
 			--nCells;
 		}
 	}
-	printf("Ciao.\n");
+	
 	isInit2 = FALSE;	
+	
+	//Percentuale di esplorazione
+	st->eP = ((double)st->nRobots / nCells) * 100;
+	vCells = 0;
+	//Exploration time
+	st->sTime = st->stepCount * st->step_size;
 }
 
 /**
@@ -398,25 +404,16 @@ State* tick(State* st) {
 		//Increasing of the discrete simulation time
 		++st->stepCount;
 		
-		printf("Numero totale di celle: %d.\n", nCells);
-		printf("Numero di celle visitate: %d.\n", vCells);
-		
-		//Percentuale di esplorazione
-		st->eP = ((double)vCells / nCells) * 100;
-		vCells = 0;
-		
-		if(st->eP < 100)
+		if(stop == FALSE) {
+			//Percentuale di esplorazione
+			st->eP = ((double)vCells / nCells) * 100;
+			vCells = 0;
 			//Exploration time
 			st->sTime = st->stepCount * st->step_size;
+		}
 		
-		//for(i = 0; i < st->mapSize; ++i) {
-			//for(j = 0; j < st->mapSize; ++j) {
-				//printf("Cella %d-%d: %g.\n", i+1, j+1, map[i][j].pheromone);
-			//}
-		//}
-		printf("Simulation time: %g.\n", st->sTime);
-		printf("Exploration percentage: %g.\n", st->eP);
-		printf("Simulation time: %g.\n", st->sTime);
+		if(st->eP == 100)
+			stop = TRUE;
 
 		return st;
 }

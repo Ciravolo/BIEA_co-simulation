@@ -50,7 +50,7 @@
     
 		<ScalarVariable name="lambda" valueReference="6" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
     
-		<ScalarVariable name="mapSize" valueReference="7" causality="parameter" variability="fixed"  initial="exact" ><Real start="10" /></ScalarVariable>
+		<ScalarVariable name="mapSize" valueReference="7" causality="parameter" variability="fixed"  initial="exact" ><Integer start="10" /></ScalarVariable>
     
 		<ScalarVariable name="max_ph" valueReference="8" causality="parameter" variability="fixed"  initial="exact" ><Real start="2" /></ScalarVariable>
     
@@ -70,7 +70,7 @@
     
 		<ScalarVariable name="port" valueReference="16" causality="parameter" variability="fixed"  initial="exact" ><Integer start="8087" /></ScalarVariable>
     
-		<ScalarVariable name="s_range" valueReference="17" causality="parameter" variability="fixed"  initial="exact" ><Real start="1" /></ScalarVariable>
+		<ScalarVariable name="s_range" valueReference="17" causality="parameter" variability="fixed"  initial="exact" ><Integer start="1" /></ScalarVariable>
     
 		<ScalarVariable name="step_size" valueReference="18" causality="parameter" variability="fixed"  initial="exact" ><Real start="0.1" /></ScalarVariable>
     

@@ -6,12 +6,13 @@
 	  	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script type="text/javascript" src="js/jquery.js"></script>
 	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	  	<link rel="stylesheet" type="text/css" href="css/home.css">
+	  	<link rel="stylesheet" type="text/css" href="css/page.css">
 	  	<script type="text/javascript" src="js/addCoordinates.js"></script>
 	  	<script type="text/javascript" src="js/validateForm.js"></script>
 	</head>
 	<body>
-		<div class="container">
+		<h1 width="200px" height="27px" style="position:absolute; top:4px; left:236px; background: transparent; margin-left:50px; border: 0px;font-size:60pt;font-weight:bold;">BIEA Interface</h1>
+		<div class="container" style="position:absolute;top:123px;left:136px;">
 			<div class="row vertical-offset-100">
 			    <div class="col-md-4 col-md-offset-4">
 			    	<div class="panel panel-default">
@@ -21,36 +22,36 @@
 					  	<div class="panel-body">
 							<form accept-charset="UTF-8" role="form" method="post">
 								<fieldset>
-									<strong>Map side length:</strong><input style="width:50%;" type="number" min="5" class="form-control" name="mapSize" id="mapSize"><br>
+									<strong>Map side length:</strong><input style="width:50%;" type="number" min="5" class="form-control" name="mapSize" id="mapSize" value="6"><br>
 									<span id="mapSize_error_msg" style="color:red"></span><br>
-									<strong>Number of robots (max 4):</strong><input style="width:50%;" type="number" min="1" class="form-control" name="nRobots" id="nRobots"><br>
+									<strong>Number of robots (max 4):</strong><input style="width:50%;" type="number" min="1" class="form-control" name="nRobots" id="nRobots" value="3"><br>
 									<span id="nRobots_error_msg" style="color:red"></span><br>
 									<input type="button" class="btn btn-success" value="Click to set the robots coordinates" onClick="addCoordinates(document.getElementById('nRobots').value, document.getElementById('coordinates1'))"><br><br>
 									<div id="coordinates1"></div>
-									<strong>Number of obstacles (max 10):</strong><input style="width:50%;" type="number" min="0" class="form-control" name="nObstacles" id="nObstacles" ><br>
+									<strong>Number of obstacles (max 10):</strong><input style="width:50%;" type="number" min="0" class="form-control" name="nObstacles" id="nObstacles" value="3"><br>
 									<span id="nObstacles_error_msg" style="color:red"></span><br>
 									<input type="button" class="btn btn-success" value="Click to set the obstacles coordinates" onClick="addCoordinates(document.getElementById('nObstacles').value, document.getElementById('coordinates2'))"><br><br>
 									<div id="coordinates2"></div>
 									<div class="heading">
 										<h3 class="panel-title">Exploration algorithm parameters</h3>
 									</div><br>
-									<strong>A1:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="a1" id="a1" ><br>
+									<strong>A1:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="a1" id="a1" value="0.5"><br>
 									<span id="a1_error_msg" style="color:red"></span><br>
-									<strong>A2:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="a2" id="a2" ><br>
+									<strong>A2:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="a2" id="a2" value="0.5"><br>
 									<span id="a2_error_msg" style="color:red"></span><br>
-									<strong>ERTU%:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="ertu" id="ertu" ><br>
+									<strong>ERTU%:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="ertu" id="ertu" value="0.002"><br>
 									<span id="ertu_error_msg" style="color:red"></span><br>
-									<strong>&#951:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="eta" id="eta" ><br>
+									<strong>&#951:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="eta" id="eta" value="0.9"><br>
 									<span id="eta_error_msg" style="color:red"></span><br>
-									<strong>&#955:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="lambda" id="lambda" ><br>
+									<strong>&#955:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="lambda" id="lambda" value="1"><br>
 									<span id="lambda_error_msg" style="color:red"></span><br>
-									<strong>&#966:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="phi" id="phi" ><br>
+									<strong>&#966:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="phi" id="phi" value="1"><br>
 									<span id="phi_error_msg" style="color:red"></span><br>
-									<strong>Spore range:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="sRange" id="sRange" ><br>
+									<strong>Spore range:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="sRange" id="sRange" value="1"><br>
 									<span id="sRange_error_msg" style="color:red"></span><br>
-									<strong>Step size:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="step" id="step" ><br>
+									<strong>Step size:</strong><input style="width:50%;" type="number" min="0" class="form-control" name="step" id="step" value="0.1"><br>
 									<span id="step_error_msg" style="color:red"></span><br>
-									<strong>Port:</strong><input style="width:50%;" type="number" min="1" class="form-control" name="port" id="port" ><br>
+									<strong>Port:</strong><input style="width:50%;" type="number" min="1" class="form-control" name="port" id="port" value="8087"><br>
 									<span id="port_error_msg" style="color:red"></span><br>
 									<input type="button" class="btn btn-success" value="Generate multi-model configuration file" onClick="validateForm()"><br><br>
 								</fieldset>

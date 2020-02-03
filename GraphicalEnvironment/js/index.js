@@ -39,7 +39,7 @@ require([
         
         
 
-		var canvas = document.getElementById("canvas");
+		var canvas = document.getElementById("canvas1");
 		var context = canvas.getContext('2d');
 
         // Function automatically invoked by PVSio-web when the back-end sends states updates
@@ -50,8 +50,13 @@ require([
             //start_tick(250);
         }
 
-        var car = {};
-        car.navigator_1 = new Navigator("navDisplay_1",
+        var car = new Array(4);
+        
+        for(var i = 0; i < 4; ++i) {
+			car[i] = {};
+		}
+        
+        car[0].navigator = new Navigator("navDisplay_1",
 			{ top: 235, left: 185, width: 300, height: 300 },
 			{
 				// autoscale: true,
@@ -62,14 +67,14 @@ require([
         		y0: 0,
                 lineColor: "red"
              });
-        car.position_1 = new BasicDisplay("position_1",
+        car[0].position = new BasicDisplay("position_1",
             { top: 285, left: 545, width: 200, height: 27 },
             {
                 parent: "monitor",
                 fontsize: 16,
                 backgroundColor: "red"
             });
-        car.navigator_2 = new Navigator("navDisplay_2",
+        car[1].navigator = new Navigator("navDisplay_2",
             { top: 235, left: 185, width: 300, height: 300 },
 			{
 				// autoscale: true,
@@ -81,14 +86,14 @@ require([
         		lineColor: "blue",
                 backgroundColor: "transparent"
             });
-        car.position_2 = new BasicDisplay("position_2",
+        car[1].position = new BasicDisplay("position_2",
             { top: 332, left: 545, width: 200, height: 27 },
             {
                 parent: "monitor",
                 fontsize: 16,
                 backgroundColor: "blue"
             });
-        car.navigator_3 = new Navigator("navDisplay_3",
+        car[2].navigator = new Navigator("navDisplay_3",
             { top: 235, left: 185, width: 300, height: 300 },
 			{
 				// autoscale: true,
@@ -100,14 +105,14 @@ require([
                 lineColor: "green",
                 backgroundColor: "transparent"
             });
-        car.position_3 = new BasicDisplay("position_3",
+        car[2].position = new BasicDisplay("position_3",
             { top: 379, left: 545, width: 200, height: 27},
             {
                 parent: "monitor",
                 fontsize: 16,
                 backgroundColor: "green"
             });
-        car.navigator_4 = new Navigator("navDisplay_4",
+        car[3].navigator = new Navigator("navDisplay_4",
             { top: 235, left: 185, width: 300, height: 300 },
             {
 				// autoscale: true,
@@ -119,7 +124,7 @@ require([
                 lineColor: "#FFA500",
                 backgroundColor: "transparent"
              });
-        car.position_4 = new BasicDisplay("position_4",
+        car[3].position = new BasicDisplay("position_4",
 			{ top: 421, left: 545, width: 200, height: 27},
             {
                 parent: "monitor",
@@ -135,10 +140,10 @@ require([
 
         // Render car dashboard components
         function render(res) {
-            car.navigator_1.reveal();
-            car.navigator_2.reveal();
-            car.navigator_3.reveal();
-            car.navigator_4.reveal();
+            car[0].navigator.reveal();
+            car[1].navigator.reveal();
+            car[2].navigator.reveal();
+            car[3].navigator.reveal();
 
             // gauges
             if (res) {
@@ -155,24 +160,23 @@ require([
 					//Map size
 					var ms = PVSioStateParser.evaluate(state_aux["mapSize"]);
 					var pos = PVSioStateParser.evaluate(state_aux["mapSize"]) / 2;
+					var nRobots = PVSioStateParser.evaluate(state_aux["nRobots"]);
+					var eP = PVSioStateParser.evaluate(state_aux["explorationPercentage"]);
+					var finished = PVSioStateParser.evaluate(state_aux["finished"]);
+					var pos_x = new Array(parseInt(nRobots)); 
+					var pos_y = new Array(parseInt(nRobots));
 					
-					var pos_x_1 = PVSioStateParser.evaluate(state_aux["x_1"]);
-                    var pos_y_1 = PVSioStateParser.evaluate(state_aux["y_1"]);
-                    car.navigator_1.render([{ x: (pos_x_1 * 10 / ms - 5), y: (pos_y_1 * 10 / ms - 5)}]);;
-					car.position_1.render("(x: " + pos_x_1 + ", y: " + pos_y_1 + ")");
-                    var pos_x_2 = PVSioStateParser.evaluate(state_aux["x_2"]);
-                    var pos_y_2 = PVSioStateParser.evaluate(state_aux["y_2"]);
-                    car.navigator_2.render([{ x: (pos_x_2 * 10 / ms - 5), y: (pos_y_2 * 10 / ms - 5)}]);;
-                    car.position_2.render("(x: " + pos_x_2 + ", y: " + pos_y_2 + ")");
-                    var pos_x_3 = PVSioStateParser.evaluate(state_aux["x_3"]);
-                    var pos_y_3 = PVSioStateParser.evaluate(state_aux["y_3"]);
-                    car.navigator_3.render([{ x: (pos_x_3 * 10 / ms - 5), y: (pos_y_3 * 10 / ms - 5)}]);;
-                    car.position_3.render("(x: " + pos_x_3 + ", y: " + pos_y_3 + ")");
-                    var pos_x_4 = PVSioStateParser.evaluate(state_aux["x_4"]);
-                    var pos_y_4 = PVSioStateParser.evaluate(state_aux["y_4"]);
-                    car.navigator_4.render([{ x: (pos_x_4 * 10 / ms - 5), y: (pos_y_4 * 10 / ms - 5)}]);;
-                    car.position_4.render("(x: " + pos_x_4 + ", y: " + pos_y_4 + ")");
-                    
+					for(var i = 0; i < parseInt(nRobots); ++i) {
+						pos_x[i] = PVSioStateParser.evaluate(state_aux["x_" + (i+1)]);
+						pos_y[i] = PVSioStateParser.evaluate(state_aux["y_" + (i+1)]);
+						car[i].navigator.render([{ x: (pos_x[i] * 10 / ms - 5), y: (pos_y[i] * 10 / ms - 5)}]);;
+						car[i].position.render("(x: " + pos_x[i] + ", y: " + pos_y[i] + ")");
+					}
+					
+					var div = document.getElementById("eP");
+					div.innerHTML = "Exploration %: " + eP + "%";
+					div = document.getElementById("info");
+					div.innerHTML = "Simulation started";
                     
                     //Cell width
                     var cw = (300 / ms);
@@ -221,7 +225,7 @@ require([
 						context.stroke();
 						
 						for(i = 0; i < PVSioStateParser.evaluate(state_aux["nObstacles"]); i += 1) {
-							if((obstacles.x[i] > 0) && (obstacles.y[i] > 0) && (obstacles.x[i] <= bw) && (obstacles.y[i] <= bw)) {
+							if((obstacles.x[i] >= 0) && (obstacles.y[i] >= 0) && (obstacles.x[i] <= bw) && (obstacles.y[i] <= bh)) {
 								context.rect(obstacles.x[i], obstacles.y[i], cw, cw);
 								context.fillStyle = "black";
 								context.fill();
@@ -236,19 +240,19 @@ require([
 
         ButtonActionsQueue.getInstance().addListener("FMI_TRYING_TO_CONNECT", function (evt) {
             console.log("trying to connect...");
-			car.navigator_1.resetDisplay({
+			car[0].navigator.resetDisplay({
 				keepOldTrace: true,
                 changeColor: false
             });
-            car.navigator_2.resetDisplay({
+            car[1].navigator.resetDisplay({
                 keepOldTrace: true,
                 changeColor: false
             });
-             car.navigator_3.resetDisplay({
+             car[2].navigator.resetDisplay({
                 keepOldTrace: true,
                 changeColor: false
             });
-            car.navigator_4.resetDisplay({
+            car[3].navigator.resetDisplay({
                keepOldTrace: true,
                changeColor: false
            });

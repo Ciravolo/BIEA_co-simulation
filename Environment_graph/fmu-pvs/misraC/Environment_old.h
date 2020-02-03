@@ -89,6 +89,7 @@ int32_t vCells;
 float64_t epslon;
 bool isInit1;
 bool isInit2;
+bool stop;
 
 /**
  * init function

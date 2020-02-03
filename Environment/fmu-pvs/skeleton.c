@@ -35,10 +35,10 @@ void initialize(ModelInstance* comp, const char* location) {
     comp->fmiBuffer.realBuffer[3] = comp->st.ertu_perc;
     comp->fmiBuffer.realBuffer[4] = comp->st.eta;
     comp->fmiBuffer.realBuffer[6] = comp->st.lambda;
-    comp->fmiBuffer.realBuffer[7] = comp->st.mapSize;
+    comp->fmiBuffer.intBuffer[7] = comp->st.mapSize;
     comp->fmiBuffer.realBuffer[8] = comp->st.max_ph;
     comp->fmiBuffer.realBuffer[15] = comp->st.phi;
-    comp->fmiBuffer.realBuffer[17] = comp->st.s_range;
+    comp->fmiBuffer.intBuffer[17] = comp->st.s_range;
     comp->fmiBuffer.realBuffer[18] = comp->st.step_size;
     comp->fmiBuffer.intBuffer[5] = comp->st.flag;
     comp->fmiBuffer.intBuffer[9] = comp->st.nRobots;
@@ -93,12 +93,12 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.eta = comp->fmiBuffer.realBuffer[4];
 		comp->st.flag = comp->fmiBuffer.intBuffer[5];
 		comp->st.lambda = comp->fmiBuffer.realBuffer[6];
-		comp->st.mapSize = comp->fmiBuffer.realBuffer[7];
+		comp->st.mapSize = comp->fmiBuffer.intBuffer[7];
 		comp->st.max_ph = comp->fmiBuffer.realBuffer[8];
 		comp->st.nRobots = comp->fmiBuffer.intBuffer[9];
 		comp->st.phi = comp->fmiBuffer.realBuffer[15];
 		comp->st.port = comp->fmiBuffer.intBuffer[16];
-		comp->st.s_range = comp->fmiBuffer.realBuffer[17];
+		comp->st.s_range = comp->fmiBuffer.intBuffer[17];
 		comp->st.step_size = comp->fmiBuffer.realBuffer[18];
 		comp->st.stepCount = comp->fmiBuffer.intBuffer[19];
 		comp->st.nObstacles = comp->fmiBuffer.intBuffer[36];
@@ -131,6 +131,61 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->st.ly_3 = comp->fmiBuffer.realBuffer[65];
 		comp->st.ly_4 = comp->fmiBuffer.realBuffer[66];
 		
+		comp->fmiBuffer.realBuffer[14] = comp->st.onDestinationOutput;
+		comp->fmiBuffer.realBuffer[24] = comp->st.xDesired1;
+		comp->fmiBuffer.realBuffer[25] = comp->st.xDesired2;
+		comp->fmiBuffer.realBuffer[26] = comp->st.xDesired3;
+		comp->fmiBuffer.realBuffer[27] = comp->st.xDesired4;
+		comp->fmiBuffer.realBuffer[32] = comp->st.yDesired1;
+		comp->fmiBuffer.realBuffer[33] = comp->st.yDesired2;
+		comp->fmiBuffer.realBuffer[34] = comp->st.yDesired3;
+		comp->fmiBuffer.realBuffer[35] = comp->st.yDesired4;
+		comp->fmiBuffer.realBuffer[57] = comp->st.eP;
+		comp->fmiBuffer.realBuffer[58] = comp->st.sTime;
+		comp->fmiBuffer.realBuffer[1] = comp->st.a1;
+		comp->fmiBuffer.realBuffer[2] = comp->st.a2;
+		comp->fmiBuffer.realBuffer[3] = comp->st.ertu_perc;
+		comp->fmiBuffer.realBuffer[4] = comp->st.eta;
+		comp->fmiBuffer.realBuffer[6] = comp->st.lambda;
+		comp->fmiBuffer.intBuffer[7] = comp->st.mapSize;
+		comp->fmiBuffer.realBuffer[8] = comp->st.max_ph;
+		comp->fmiBuffer.realBuffer[15] = comp->st.phi;
+		comp->fmiBuffer.intBuffer[17] = comp->st.s_range;
+		comp->fmiBuffer.realBuffer[18] = comp->st.step_size;
+		comp->fmiBuffer.intBuffer[5] = comp->st.flag;
+		comp->fmiBuffer.intBuffer[9] = comp->st.nRobots;
+		comp->fmiBuffer.intBuffer[16] = comp->st.port;
+		comp->fmiBuffer.intBuffer[19] = comp->st.stepCount;
+		comp->fmiBuffer.intBuffer[36] = comp->st.nObstacles;
+		comp->fmiBuffer.intBuffer[37] = comp->st.ox_1;
+		comp->fmiBuffer.intBuffer[38] = comp->st.ox_2;
+		comp->fmiBuffer.intBuffer[39] = comp->st.ox_3;
+		comp->fmiBuffer.intBuffer[40] = comp->st.ox_4;
+		comp->fmiBuffer.intBuffer[41] = comp->st.ox_5;
+		comp->fmiBuffer.intBuffer[42] = comp->st.ox_6;
+		comp->fmiBuffer.intBuffer[43] = comp->st.ox_7;
+		comp->fmiBuffer.intBuffer[44] = comp->st.ox_8;
+		comp->fmiBuffer.intBuffer[45] = comp->st.ox_9;
+		comp->fmiBuffer.intBuffer[46] = comp->st.ox_10;
+		comp->fmiBuffer.intBuffer[47] = comp->st.oy_1;
+		comp->fmiBuffer.intBuffer[48] = comp->st.oy_2;
+		comp->fmiBuffer.intBuffer[49] = comp->st.oy_3;
+		comp->fmiBuffer.intBuffer[50] = comp->st.oy_4;
+		comp->fmiBuffer.intBuffer[51] = comp->st.oy_5;
+		comp->fmiBuffer.intBuffer[52] = comp->st.oy_6;
+		comp->fmiBuffer.intBuffer[53] = comp->st.oy_7;
+		comp->fmiBuffer.intBuffer[54] = comp->st.oy_8;
+		comp->fmiBuffer.intBuffer[55] = comp->st.oy_9;
+		comp->fmiBuffer.intBuffer[56] = comp->st.oy_10;
+		comp->fmiBuffer.realBuffer[59] = comp->st.lx_1;
+		comp->fmiBuffer.realBuffer[60] = comp->st.lx_2;
+		comp->fmiBuffer.realBuffer[61] = comp->st.lx_3;
+		comp->fmiBuffer.realBuffer[62] = comp->st.lx_4;
+		comp->fmiBuffer.realBuffer[63] = comp->st.ly_1;
+		comp->fmiBuffer.realBuffer[64] = comp->st.ly_2;
+		comp->fmiBuffer.realBuffer[65] = comp->st.ly_3;
+		comp->fmiBuffer.realBuffer[66] = comp->st.ly_4;
+		
 		comp->first = 1;
 	}
 	
@@ -162,22 +217,6 @@ void doStep(ModelInstance* comp, const char* action) {
     comp->fmiBuffer.realBuffer[57] = comp->st.eP;
 	comp->fmiBuffer.realBuffer[58] = comp->st.sTime;
     
-    //comp->fmiBuffer.realBuffer[1] = comp->st.a1;
-    //comp->fmiBuffer.realBuffer[2] = comp->st.a2;
-    //comp->fmiBuffer.realBuffer[3] = comp->st.ertu_perc;
-    //comp->fmiBuffer.realBuffer[4] = comp->st.eta;
-    //comp->fmiBuffer.realBuffer[6] = comp->st.lambda;
-    //comp->fmiBuffer.realBuffer[7] = comp->st.mapSize;
-    //comp->fmiBuffer.realBuffer[8] = comp->st.max_ph;
-    //comp->fmiBuffer.realBuffer[15] = comp->st.phi;
-    //comp->fmiBuffer.realBuffer[17] = comp->st.s_range;
-    //comp->fmiBuffer.realBuffer[18] = comp->st.step_size;
-    //comp->fmiBuffer.intBuffer[5] = comp->st.flag;
-    //comp->fmiBuffer.intBuffer[9] = comp->st.nRobots;
-    //comp->fmiBuffer.intBuffer[16] = comp->st.port;
-    //comp->fmiBuffer.intBuffer[19] = comp->st.stepCount;
-    
-    
     if (comp->websocket_open == 1) {
 		lws_service(comp->context, 0);
 	}
@@ -196,49 +235,15 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " nObstacles := %d,", st.nObstacles);
 	strcat(str, temp);
+	sprintf(temp, " explorationPercentage := %g,", st.eP);
+	strcat(str, temp);
 	for(i = 0; i < st.nObstacles; ++i) {
 		sprintf(temp, " ox_%d := %d,", i + 1, ox[i]);
 		strcat(str, temp);
 		sprintf(temp, " oy_%d := %d,", i + 1, oy[i]);
 		strcat(str, temp);
 	}
-	sprintf(temp, " a1 := %f,", st.a1);
-	strcat(str, temp);
-	sprintf(temp, " a2 := %f,", st.a2);
-	strcat(str, temp);
-	sprintf(temp, " ertu_perc := %f,", st.ertu_perc);
-	strcat(str, temp);
-	sprintf(temp, " eta := %f,", st.eta);
-	strcat(str, temp);
-	sprintf(temp, " flag := %d,", st.flag);
-	strcat(str, temp);
-	sprintf(temp, " lambda := %f,", st.lambda);
-	strcat(str, temp);
-	sprintf(temp, " mapSize := %d,", st.mapSize);
-	strcat(str, temp);
-	sprintf(temp, " max_ph := %f,", st.max_ph);
-	strcat(str, temp);
 	sprintf(temp, " nRobots := %d,", st.nRobots);
-	strcat(str, temp);
-	sprintf(temp, " onDestination1Input := %f,", st.onDestination1Input);
-	strcat(str, temp);
-	sprintf(temp, " onDestination2Input := %f,", st.onDestination2Input);
-	strcat(str, temp);
-	sprintf(temp, " onDestination3Input := %f,", st.onDestination3Input);
-	strcat(str, temp);
-	sprintf(temp, " onDestination4Input := %f,", st.onDestination4Input);
-	strcat(str, temp);
-	sprintf(temp, " onDestinationOutput := %f,", st.onDestinationOutput);
-	strcat(str, temp);
-	sprintf(temp, " phi := %f,", st.phi);
-	strcat(str, temp);
-	sprintf(temp, " port := %d,", st.port);
-	strcat(str, temp);
-	sprintf(temp, " s_range := %d,", st.s_range);
-	strcat(str, temp);
-	sprintf(temp, " step_size := %f,", st.step_size);
-	strcat(str, temp);
-	sprintf(temp, " stepCount := %d,", st.stepCount);
 	strcat(str, temp);
 	for(i = 0; i < st.nRobots; ++i) {
 		sprintf(temp, " x_%d := %f,", i + 1, x[i]);
@@ -262,9 +267,14 @@ void terminate(ModelInstance* comp) {
 	for(i = 0; i < comp->st.mapSize; ++i)
 		free(map[i]);
 	free(map);
-	
+	free(occupiedCells);
 	free(x);
 	free(y);
+	free(oD);
+	free(ox);
+	free(oy);
+	free(xD);
+	free(yD);
 	
 	close_websocket(comp);
 	

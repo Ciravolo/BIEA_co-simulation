@@ -18,8 +18,8 @@ static int WebSocketCallback(struct lws*, enum lws_callback_reasons, void*, void
 void initialize(ModelInstance* comp, const char* location) {
     init(&comp->st);
     
-    comp->fmiBuffer.intBuffer[44] = comp->st.eP;
-    comp->fmiBuffer.intBuffer[45] = comp->st.sTime;
+    comp->fmiBuffer.realBuffer[44] = comp->st.eP;
+    comp->fmiBuffer.realBuffer[45] = comp->st.sTime;
     
     comp->fmiBuffer.realBuffer[1] = comp->st.a1;
     comp->fmiBuffer.realBuffer[2] = comp->st.a2;
@@ -135,12 +135,8 @@ void doStep(ModelInstance* comp, const char* action) {
 		comp->fmiBuffer.realBuffer[11] = comp->st.step_size;
 		comp->fmiBuffer.intBuffer[12] = comp->st.port;
 		comp->fmiBuffer.intBuffer[13] = comp->st.stepCount;
-		comp->fmiBuffer.realBuffer[15] = comp->st.x_1;
-		comp->fmiBuffer.realBuffer[16] = comp->st.x_2;
 		comp->fmiBuffer.realBuffer[17] = comp->st.x_3;
 		comp->fmiBuffer.realBuffer[18] = comp->st.x_4;
-		comp->fmiBuffer.realBuffer[19] = comp->st.y_1;
-		comp->fmiBuffer.realBuffer[20] = comp->st.y_2;
 		comp->fmiBuffer.realBuffer[21] = comp->st.y_3;
 		comp->fmiBuffer.realBuffer[22] = comp->st.y_4;
 		comp->fmiBuffer.intBuffer[23] = comp->st.nObstacles;
@@ -171,6 +167,11 @@ void doStep(ModelInstance* comp, const char* action) {
 	
 	tick(&comp->st);
 	
+	
+	comp->fmiBuffer.realBuffer[15] = comp->st.x_1;
+	comp->fmiBuffer.realBuffer[16] = comp->st.x_2;
+	comp->fmiBuffer.realBuffer[19] = comp->st.y_1;
+	comp->fmiBuffer.realBuffer[20] = comp->st.y_2;
 	comp->fmiBuffer.realBuffer[44] = comp->st.eP;
 	comp->fmiBuffer.realBuffer[45] = comp->st.sTime;
 	
@@ -192,35 +193,15 @@ void stateToString(State st, char* str) {
 	strcat(str, temp);
 	sprintf(temp, " nObstacles := %d,", st.nObstacles);
 	strcat(str, temp);
+	sprintf(temp, " explorationPercentage := %g,", st.eP);
+	strcat(str, temp);
 	for(i = 0; i < st.nObstacles; ++i) {
 		sprintf(temp, " ox_%d := %d,", i + 1, ox[i]);
 		strcat(str, temp);
 		sprintf(temp, " oy_%d := %d,", i + 1, oy[i]);
 		strcat(str, temp);
 	}
-	sprintf(temp, " a1 := %f,", st.a1);
-	strcat(str, temp);
-	sprintf(temp, " a2 := %f,", st.a2);
-	strcat(str, temp);
-	sprintf(temp, " ertu_perc := %f,", st.ertu_perc);
-	strcat(str, temp);
-	sprintf(temp, " eta := %f,", st.eta);
-	strcat(str, temp);
-	sprintf(temp, " lambda := %f,", st.lambda);
-	strcat(str, temp);
-	sprintf(temp, " max_ph := %f,", st.max_ph);
-	strcat(str, temp);
 	sprintf(temp, " nRobots := %d,", st.nRobots);
-	strcat(str, temp);
-	sprintf(temp, " phi := %f,", st.phi);
-	strcat(str, temp);
-	sprintf(temp, " port := %d,", st.port);
-	strcat(str, temp);
-	sprintf(temp, " s_range := %d,", st.s_range);
-	strcat(str, temp);
-	sprintf(temp, " step_size := %f,", st.step_size);
-	strcat(str, temp);
-	sprintf(temp, " stepCount := %d,", st.stepCount);
 	strcat(str, temp);
 	for(i = 0; i < st.nRobots; ++i) {
 		sprintf(temp, " x_%d := %f,", i + 1, x[i]);

@@ -305,7 +305,7 @@ function validateForm() {
 		return false;
 	}
 	else
-	if(lamda.value < 0) {
+	if(lambda.value < 0) {
 		resetErrorMsg();
 
 		document.getElementById("lambda_error_msg").innerHTML = "Invalid input!";
@@ -575,14 +575,14 @@ function createConfigurationFile() {
 	for(i = 0; i < nRobots.value; ++i) {
 		if(rx[i] != null) {
 			newKey = "{Environment}.EnvironmentInstance.lx_" + (i+1);
-			newValue = parseFloat(rx[i].value);
+			newValue = parseFloat(rx[i].value) - 0.5;
 			text.parameters[newKey] = newValue;
 			newKey = "{Robot" + (i+1) + "}.Robot" + (i+1) + "Instance.initial_position[0]";
 			text.parameters[newKey] = newValue; 
 		}
 		if(ry[i] != null) {
 			newKey = "{Environment}.EnvironmentInstance.ly_" + (i+1);
-			newValue = parseFloat(ry[i].value);
+			newValue = parseFloat(ry[i].value) - 0.5;
 			text.parameters[newKey] = newValue;
 			newKey = "{Robot" + (i+1) + "}.Robot" + (i+1) + "Instance.initial_position[1]";
 			text.parameters[newKey] = newValue;
