@@ -1,0 +1,7 @@
+Rank,explorationPercentage,simulationTime,EnvironmentInstance.x_1,EnvironmentInstance.ox_4,EnvironmentInstance.x_3,EnvironmentInstance.oy_3,EnvironmentInstance.ox_1,EnvironmentInstance.x_4,EnvironmentInstance.ox_3,EnvironmentInstance.ox_2,EnvironmentInstance.y_1,EnvironmentInstance.y_2,EnvironmentInstance.y_3,EnvironmentInstance.y_4,EnvironmentInstance.mapSize,EnvironmentInstance.x_2,EnvironmentInstance.nRobots,EnvironmentInstance.oy_4,EnvironmentInstance.step_size,EnvironmentInstance.nObstacles,EnvironmentInstance.oy_1,EnvironmentInstance.oy_2,EnvironmentInstance.ertu_perc
+1,100.0,1404.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.02
+2,100.0,1494.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.009
+3,100.0,1782.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.03
+4,100.0,2556.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.05
+5,100.0,2592.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.01
+6,100.0,3528.0,0.5,6,9.5,5,5,0.5,6,5,0.5,0.5,9.5,9.5,10,9.5,4,6,18,4,5,6,0.04

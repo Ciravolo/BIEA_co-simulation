@@ -1,0 +1,45 @@
+{
+    "algorithm": {
+        "size": 0.1,
+        "type": "fixed-step"
+    },
+    "connections": {
+        "{Environment}.EnvironmentInstance.eP": [
+            "{ShowOutput}.ShowOutputInstance.eP"
+        ],
+        "{Environment}.EnvironmentInstance.sTime": [
+            "{ShowOutput}.ShowOutputInstance.sTime"
+        ],
+        "{ShowOutput}.ShowOutputInstance.dummy": [
+            "{Environment}.EnvironmentInstance.dummy"
+        ]
+    },
+    "fmus": {
+        "{Environment}": "file:////home/pietro/into-cps-projects/BIEA_old/FMUs/Environment_old.fmu",
+        "{ShowOutput}": "file:////home/pietro/into-cps-projects/BIEA_old/FMUs/ShowOutput.fmu"
+    },
+    "parameters": {
+        "{Environment}.EnvironmentInstance.dse_samples": 8,
+        "{Environment}.EnvironmentInstance.ertu_perc": 0.15,
+        "{Environment}.EnvironmentInstance.mapSize": 10,
+        "{Environment}.EnvironmentInstance.nObstacles": 4,
+        "{Environment}.EnvironmentInstance.nRobots": 4,
+        "{Environment}.EnvironmentInstance.ox_1": 5,
+        "{Environment}.EnvironmentInstance.ox_2": 5,
+        "{Environment}.EnvironmentInstance.ox_3": 6,
+        "{Environment}.EnvironmentInstance.ox_4": 6,
+        "{Environment}.EnvironmentInstance.oy_1": 5,
+        "{Environment}.EnvironmentInstance.oy_2": 6,
+        "{Environment}.EnvironmentInstance.oy_3": 5,
+        "{Environment}.EnvironmentInstance.oy_4": 6,
+        "{Environment}.EnvironmentInstance.step_size": 18,
+        "{Environment}.EnvironmentInstance.x_1": 0.5,
+        "{Environment}.EnvironmentInstance.x_2": 9.5,
+        "{Environment}.EnvironmentInstance.x_3": 9.5,
+        "{Environment}.EnvironmentInstance.x_4": 0.5,
+        "{Environment}.EnvironmentInstance.y_1": 0.5,
+        "{Environment}.EnvironmentInstance.y_2": 0.5,
+        "{Environment}.EnvironmentInstance.y_3": 9.5,
+        "{Environment}.EnvironmentInstance.y_4": 9.5
+    }
+}

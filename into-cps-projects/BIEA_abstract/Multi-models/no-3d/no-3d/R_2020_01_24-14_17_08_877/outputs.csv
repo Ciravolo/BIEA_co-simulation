@@ -1,0 +1,4 @@
+time,step-size,{Environment}.EnvironmentInstance.eP,{Environment}.EnvironmentInstance.sTime,{ShowOutput}.ShowOutputInstance.dummy
+0.0,0.0,0.0,0.0,0
+0.1,0.1,8.333333333333332,20.0,0
+0.2,0.1,11.458333333333332,40.0,0
