@@ -1,0 +1,114 @@
+{
+ "descriptor": {
+  "file_type": "emdl",
+  "version": "2.0",
+  "description": "emucharts model",
+  "chart_name": "EMUCHART__0"
+ },
+ "chart": {
+  "states": [
+   {
+    "id": "X1",
+    "name": "ShowOutput",
+    "color": "#1f77b4",
+    "width": 36,
+    "height": 36,
+    "x": 513,
+    "y": 241,
+    "enter": "",
+    "exit": "",
+    "pmr": [],
+    "widgets": [],
+    "components": []
+   }
+  ],
+  "transitions": [
+   {
+    "id": "T1",
+    "name": "tick\n[TRUE]\n{\n\tnCells := nCells;\n    vCells := vCells;\n}",
+    "source": {
+     "id": "X1",
+     "name": "ShowOutput",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 513,
+     "y": 241,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "target": {
+     "id": "X1",
+     "name": "ShowOutput",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 513,
+     "y": 241,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "controlPoint": {
+     "x": 613,
+     "y": 291.4
+    }
+   }
+  ],
+  "initial_transitions": [
+   {
+    "id": "IT1",
+    "name": "IT1",
+    "target": {
+     "id": "X1",
+     "name": "ShowOutput",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 513,
+     "y": 241,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    }
+   }
+  ],
+  "variables": [
+   {
+    "id": "VAR_nCells:int(Input)",
+    "name": "nCells",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_vCells:int(Input)",
+    "name": "vCells",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_dummy:int(Output)",
+    "name": "dummy",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "0",
+    "scope": "Output"
+   }
+  ],
+  "constants": [],
+  "datatypes": [],
+  "pmr": {},
+  "isPIM": false
+ }
+}
