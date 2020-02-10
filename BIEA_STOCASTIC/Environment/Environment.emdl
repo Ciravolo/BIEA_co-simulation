@@ -1,0 +1,370 @@
+{
+ "descriptor": {
+  "file_type": "emdl",
+  "version": "2.0",
+  "description": "emucharts model",
+  "chart_name": "Environment"
+ },
+ "chart": {
+  "states": [
+   {
+    "id": "X1",
+    "name": "X1",
+    "color": "#1f77b4",
+    "width": 36,
+    "height": 36,
+    "x": 532,
+    "y": 262,
+    "enter": "",
+    "exit": "",
+    "pmr": [],
+    "widgets": [],
+    "components": []
+   }
+  ],
+  "transitions": [
+   {
+    "id": "T1",
+    "name": "tick\n{cell1_1 := 5;}",
+    "source": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 532,
+     "y": 262,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "target": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 532,
+     "y": 262,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    },
+    "controlPoint": {
+     "x": 645,
+     "y": 187
+    }
+   }
+  ],
+  "initial_transitions": [
+   {
+    "id": "IT1",
+    "name": "IT1",
+    "target": {
+     "id": "X1",
+     "name": "X1",
+     "color": "#1f77b4",
+     "width": 36,
+     "height": 36,
+     "x": 532,
+     "y": 262,
+     "enter": "",
+     "exit": "",
+     "pmr": [],
+     "widgets": [],
+     "components": []
+    }
+   }
+  ],
+  "variables": [
+   {
+    "id": "VAR_x_1:real(Input)",
+    "name": "x_1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_1:real(Input)",
+    "name": "y_1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_x_2:real(Input)",
+    "name": "x_2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_2:real(Input)",
+    "name": "y_2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_x_3:real(Input)",
+    "name": "x_3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_3:real(Input)",
+    "name": "y_3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_x_4:real(Input)",
+    "name": "x_4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_y_4:real(Input)",
+    "name": "y_4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "9.5",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_stepCount:int(Local)",
+    "name": "stepCount",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_xDesired1:real(Output)",
+    "name": "xDesired1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired1:real(Output)",
+    "name": "yDesired1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired2:real(Output)",
+    "name": "yDesired2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired2:real(Output)",
+    "name": "xDesired2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired3:real(Output)",
+    "name": "xDesired3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired3:real(Output)",
+    "name": "yDesired3",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_xDesired4:real(Output)",
+    "name": "xDesired4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_yDesired4:real(Output)",
+    "name": "yDesired4",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_port:int(Local)",
+    "name": "port",
+    "type": "int",
+    "repr": "int64_t",
+    "value": "8087",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_flag:int(Local)",
+    "name": "flag",
+    "type": "int",
+    "repr": "int32_t",
+    "value": "1",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_onDestination1Input:real(Input)",
+    "name": "onDestination1Input",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination2Input:real(Input)",
+    "name": "onDestination2Input",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination3Input:real(Input)",
+    "name": "onDestination3Input",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestination4Input:real(Input)",
+    "name": "onDestination4Input",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Input"
+   },
+   {
+    "id": "VAR_onDestinationOutput:real(Output)",
+    "name": "onDestinationOutput",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Output"
+   },
+   {
+    "id": "VAR_s_range:real(Local)",
+    "name": "s_range",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_ertu_perc:real(Local)",
+    "name": "ertu_perc",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_max_ph:real(Local)",
+    "name": "max_ph",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_phi:real(Local)",
+    "name": "phi",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_eta:real(Local)",
+    "name": "eta",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_a1:real(Local)",
+    "name": "a1",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_a2:real(Local)",
+    "name": "a2",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_mapSize:real(Local)",
+    "name": "mapSize",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "10",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_nRobots:int(Local)",
+    "name": "nRobots",
+    "type": "int",
+    "repr": "uint32_t",
+    "value": "1",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_lambda:real(Local)",
+    "name": "lambda",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "1",
+    "scope": "Local"
+   },
+   {
+    "id": "VAR_step_size:real(Local)",
+    "name": "step_size",
+    "type": "real",
+    "repr": "float64_t",
+    "value": "0.1",
+    "scope": "Local"
+   }
+  ],
+  "constants": [],
+  "datatypes": [],
+  "pmr": {},
+  "isPIM": false
+ }
+}

@@ -59,21 +59,21 @@ State* tick(State* st) {
 		
 			deltaX = st->x-st->xDesired;
 			deltaY = st->y-st->yDesired;
-
 			
-			
-			//Questo è l'uniplanner. Ho lasciato il valore di TOLLERANCE a 1. Ho tolto il numero di waypoints perchè nel mio caso è sempre 1 e lo fornisco in input al controllore.
-			
+			//Movement toward objective
 			if(st->maneuver == 2) {
+				//If the maneuver is two I consider the absolute value of beta
 				st->beta = fabs(atan2((deltaY),(deltaX)) - st->phi + M_PI/2);
-				if((fabs(deltaX) + fabs(deltaY)) < TOLLERANCE) {
+				if((fabs(deltaX) + fabs(deltaY)) < 0.3) {
 					st->maneuver = 1;
 					st->onDestinationOutput = 1;
 					st->servoLeft = 0;
 					st->servoRight = 0;
 				}
 			}
+			//Orientation 
 			else if(st->maneuver == 1) {
+				// This fix the co-simulation problem
 				if(!((fabs(deltaX) < TOLLERANCE) && (fabs(deltaY) < TOLLERANCE))) {
 					if(fabs(deltaX) < TOLLERANCE){
 						deltaX = 0;
@@ -88,23 +88,21 @@ State* tick(State* st) {
 				}
 			}
 			
-			//Questo è il codice del controllore nelle due differenti fasi
-			if(st->maneuver == 1) {
+			//This is the code of the controller in the two differents phases
+			if(st->maneuver == 1) 
 				st->v = 0;
-				st->w = -st->k_beta * st->beta;
-			}
 			else
 			if(st->maneuver == 2) {
 				st->rho = sqrt(pow((deltaX), 2) + pow((deltaY), 2));
 				st->v = st->rho*st->k_v*(pow(st->rho, 2)*cos(st->beta) + st->beta*sin(st->beta));
-				st->w = -st->k_beta * st->beta;;
 			}
-			
-			//La formula per il calcolo dei servo che è uguale per entrambe le fasi
+			st->w = -st->k_beta * st->beta;
+
+			//Formulas to compute the motors powers
 			st->servoLeft = ((1 / R)*st->v + (L / (2*R))*st->w);
 			st->servoRight = -(((1 / R)*st->v - (L / (2*R))*st->w));
 			
-			//Questa è una mia aggiunta, poichè i valori dei servo a volte diventavano troppo alti, mentre io voglio che si mantengano nell'intervallo [-1,1] 
+			//This code is neaded to mantain servoLeft and servoRight between -1 and 1
 			if(st->servoLeft > 1)
 				st->servoLeft = 1;
 			else
@@ -119,7 +117,9 @@ State* tick(State* st) {
 		}
 		else{
 			st->servoLeft = 0;
-			st->servoRight = 0;}}
+			st->servoRight = 0;
+		}
+	}
 	else {
 		st->onDestinationOutput = 0;
 		st->servoLeft = 0;

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "misraC_basic_types.h"
-#define TOLLERANCE 0.2
+#define TOLLERANCE 0.4
 /**
  * operating modes
  */
@@ -17,22 +17,20 @@ typedef enum { X1 } Mode;
 typedef struct { 
     Mode mode;
     Mode previous_mode;
-    float64_t beta; 
-    float64_t k_beta; 
-    float64_t k_v; 
-    int32_t maneuver; 
-    float64_t onDestinationOutput; 
-    float64_t onDestinationInput; 
-    float64_t phi; 
-    float64_t rho; 
-    float64_t servoLeft; 
-    float64_t servoRight; 
-    float64_t v; 
-    float64_t w; 
-    float64_t x; 
-    float64_t xDesired; 
-    float64_t y; 
-    float64_t yDesired; 
+    float64_t beta; //-- real
+    float64_t k_beta; //-- real
+    float64_t k_v; //-- real
+    int32_t maneuver; //-- int
+    float64_t phi; //-- real
+    float64_t rho; //-- real
+    float64_t servoLeft; //-- real
+    float64_t servoRight; //-- real
+    float64_t v; //-- real
+    float64_t w; //-- real
+    float64_t x; //-- real
+    float64_t xDesired; //-- real
+    float64_t y; //-- real
+    float64_t yDesired; //-- real
 } State;
 
 /**
