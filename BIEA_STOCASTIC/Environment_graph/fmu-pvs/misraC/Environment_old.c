@@ -1,118 +1,77 @@
-#include "Environment.h"
+#include "Environment_old.h"
+
 /**
  * init function
  */
- 
-void init(State* st) { 
-    
-    st->nRobots = 4;
-    st->a1 = 0.5f; 
-    st->a2 = 0.5f; 
-    st->ertu_perc = 0.002f; 
-    st->eta = 0.9f; 
-    st->mapSize = 10; 
-    st->max_ph = 2; 
-    st->s_range = 1; 
-    st->phi = 1;
-    st->step_size = 0.1f;
-    st->lambda = 1;
-    st->port = 8087;
-    st->stepCount = 0;
-    st->flag = 1;
-    st->nObstacles = 10;
-	st->ox_1 = 3;
-	st->ox_2 = 4;
-	st->ox_3 = 2;
-	st->ox_4 = 5;
-	st->ox_5 = 5;
-	st->ox_6 = 7;
-	st->ox_7 = 8;
-	st->ox_8 = 8;
-	st->ox_9 = 0;
-	st->ox_10 = 0;
-	st->oy_1 = 1;	
-	st->oy_2 = 1;
-	st->oy_3 = 9;
-	st->oy_4 = 4;
-	st->oy_5 = 5;
-	st->oy_6 = 8;
-	st->oy_7 = 8;
-	st->oy_8 = 9;
-	st->oy_9 = 0;
-	st->oy_10 = 0;
-	st->lx_1 = 0.5f;
-	st->lx_2 = 9.5f;
-	st->lx_3 = 9.5f;
-	st->lx_4 = 0.5f;
-	st->ly_1 = 0.5f;
-	st->ly_2 = 0.5f;
-	st->ly_3 = 9.5f;
-	st->ly_4 = 9.5f;
-	st->x_1 = 0.5f;
-	st->x_2 = 9.5f;
-	st->x_3 = 9.5f;
-	st->x_4 = 0.5f;
-	st->y_1 = 0.5f;
-	st->y_2 = 0.5f;
-	st->y_3 = 9.5f;
-	st->y_4 = 9.5;
-	st->xDesired1 = 0.5f;
-	st->xDesired2 = 9.5f;
-	st->xDesired3 = 9.5f;
-	st->xDesired4 = 0.5f;
-	st->yDesired1 = 0.5f;
-	st->yDesired2 = 0.5f;
-	st->yDesired3 = 9.5f;
-	st->yDesired4 = 9.5f;
-    st->onDestination1Input = 1.0f;
-    st->onDestination2Input = 1.0f;
-    st->onDestination3Input = 1.0f;
-    st->onDestination4Input = 1.0f;
-    st->onDestinationOutput = 0.0f;
-    st->eP = 0.0f;
-	st->sTime = 0.0f;
-    
-    epslon = unifRand();
-	isInit1 = TRUE;
-	isInit2 = TRUE;
+void init(State* st) {
+	
+		st->nRobots = 4;
+		st->a1 = 0.5f; 
+		st->a2 = 0.5f; 
+		st->ertu_perc = 0.002f; 
+		st->eta = 0.9f; 
+		st->mapSize = 10; 
+		st->max_ph = 2; 
+		st->s_range = 1; 
+		st->phi = 1;
+		st->step_size = 1.0f;
+		st->lambda = 1;
+		st->stepCount = 0;
+		st->port = 8087;
+		st->dummy = 0;
+		st->nObstacles = 10;
+		st->ox_1 = 3;
+		st->ox_2 = 4;
+		st->ox_3 = 2;
+		st->ox_4 = 5;
+		st->ox_5 = 5;
+		st->ox_6 = 7;
+		st->ox_7 = 8;
+		st->ox_8 = 8;
+		st->ox_9 = 0;
+		st->ox_10 = 0;
+		st->oy_1 = 1;	
+		st->oy_2 = 1;
+		st->oy_3 = 9;
+		st->oy_4 = 4;
+		st->oy_5 = 5;
+		st->oy_6 = 8;
+		st->oy_7 = 8;
+		st->oy_8 = 9;
+		st->oy_9 = 0;
+		st->oy_10 = 0;	
+		st->x_1 = 0.5f;
+		st->x_2 = 9.5f;
+		st->x_3 = 9.5f;
+		st->x_4 = 0.5f;
+		st->y_1 = 0.5f;
+		st->y_2 = 0.5f;
+		st->y_3 = 9.5f;
+		st->y_4 = 9.5;
+	    st->eP = 0.0f;
+	    st->sTime = 0.0f;
+		
+		epslon = unifRand();
+		isInit1 = TRUE;
+		isInit2 = TRUE;
+		stop = FALSE;
 }
 
 /**
- * Set the initial environment 
- */
+ * set the environment
+ */ 
 void setEnvironment(State* st) {
-	
-	int32_t i,j;
+	int32_t i, j;
 	nCells = st->mapSize * st->mapSize;
 	vCells = 0;
 	
-	st->x_1 = st->lx_1;
-	st->x_2 = st->lx_2;
-	st->x_3 = st->lx_3;
-	st->x_4 = st->lx_4;
-	st->y_1 = st->ly_1;
-	st->y_2 = st->ly_2;
-	st->y_3 = st->ly_3;
-	st->y_4 = st->ly_4;
-	st->xDesired1 = st->lx_1;
-	st->xDesired2 = st->lx_2;
-	st->xDesired3 = st->lx_3;
-	st->xDesired4 = st->lx_4;
-	st->yDesired1 = st->ly_1;
-	st->yDesired2 = st->ly_2;
-	st->yDesired3 = st->ly_3;
-	st->yDesired4 = st->ly_4;
-	
 	map = (Cell**)malloc(st->mapSize*sizeof(Cell*));
 	occupiedCells = (Cell**)malloc(st->nRobots*sizeof(Cell*));
-    for(i = 0; i < st->mapSize; ++i)
+	for(i = 0; i < st->mapSize; ++i)
 		map[i] = (Cell*)malloc(st->mapSize*sizeof(Cell));
-		
+	
 	x = (float64_t*)malloc(4*sizeof(float64_t));
 	y = (float64_t*)malloc(4*sizeof(float64_t));
-	xD = (float64_t*)malloc(4*sizeof(float64_t));
-	yD = (float64_t*)malloc(4*sizeof(float64_t));
-	oD = (int32_t*)malloc(4*sizeof(int32_t));
 	ox = (int32_t*)malloc(10*sizeof(int32_t));
 	oy = (int32_t*)malloc(10*sizeof(int32_t));
 	
@@ -146,13 +105,7 @@ void setEnvironment(State* st) {
 		}
 	}
 	
-	for(i = 0; i < st->nRobots; ++i)
-		oD[i] = 0;
-		
-	array2Desired(st);
-	
-	isInit2 = FALSE;
-	stop = FALSE;
+	isInit2 = FALSE;	
 	
 	//Percentuale di esplorazione
 	st->eP = ((double)st->nRobots / nCells) * 100;
@@ -188,18 +141,6 @@ void positions2Array(State* st) {
 	y[1] = st->y_2;
 	y[2] = st->y_3;
 	y[3] = st->y_4;
-	xD[0] = st->xDesired1;
-	xD[1] = st->xDesired2;
-	xD[2] = st->xDesired3;
-	xD[3] = st->xDesired4;
-	yD[0] = st->yDesired1;
-	yD[1] = st->yDesired2;
-	yD[2] = st->yDesired3;
-	yD[3] = st->yDesired4;
-	oD[0] = st->onDestination1Input;
-	oD[1] = st->onDestination2Input;
-	oD[2] = st->onDestination3Input;
-	oD[3] = st->onDestination4Input;
 	if(isInit1 == TRUE) {
 		ox[0] = st->ox_1;
 		ox[1] = st->ox_2;
@@ -230,18 +171,14 @@ void positions2Array(State* st) {
  */
 void array2Desired(State* st) {
 	
-	st->xDesired1 = xD[0];
-	st->xDesired2 = xD[1];
-	st->xDesired3 = xD[2];
-	st->xDesired4 = xD[3];
-	st->yDesired1 = yD[0];
-	st->yDesired2 = yD[1];
-	st->yDesired3 = yD[2];
-	st->yDesired4 = yD[3];
-	st->onDestination1Input = oD[0];
-	st->onDestination2Input = oD[1];
-	st->onDestination3Input = oD[2];
-	st->onDestination4Input = oD[3];
+	st->x_1 = x[0];
+	st->x_2 = x[1];
+	st->x_3 = x[2];
+	st->x_4 = x[3];
+	st->y_1 = y[0];
+	st->y_2 = y[1];
+	st->y_3 = y[2];
+	st->y_4 = y[3];
 }
 
 /**
@@ -268,9 +205,9 @@ Cell* findCellFromCoordinates(Cell** map, State* st, float64_t x, float64_t y) {
 }
 
 /**
- * Find neighbourhood
+ * Find the denominator of the probability formula
  */
-float64_t findNeighbourhood(Cell** map, State* st, Cell* c) {
+float64_t findSum(Cell** map, State* st, Cell* c) {
 
 		float64_t sum = 0.0f;
 		int32_t i, j;
@@ -302,7 +239,7 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 		Cell* bestChosen;
 		float64_t pBest;
 		float64_t pCurrent;
-		int32_t i, j, random, nBest;
+		int32_t i, j, random, nBest = 0;
 
 		// If sum is zero the algorithm stops
 		if(sum == 0) {
@@ -310,7 +247,7 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 				return 0;
 		}
 		else {
-			pBest = (pow(1000, st->phi) * pow(st->eta, st->lambda)) / sum;;
+			pBest = pCurrent = 1;
 			for(i = c->x - st->s_range; i <= c->x + st->s_range; ++i) {
 				for(j = c->y - st->s_range; j <= c->y + st->s_range; ++j) {
 					if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && (i != c->x || j != c->y)) {
@@ -383,7 +320,7 @@ void updatePheromone(Cell** map, State* st) {
 /**
  * Move the robot
  */
-void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t x, float64_t y, float64_t* xD, float64_t* yD) {
+void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t* x, float64_t* y) {
 
 		int32_t random;
 
@@ -398,8 +335,8 @@ void move(Cell** map, State* st, Cell* curr, Cell* best, float64_t x, float64_t 
 			best = curr;
 		}
 		
-		*xD = (best->x) - 0.5;
-		*yD = (best->y) - 0.5;
+		*x = (best->x) - 0.5;
+		*y = (best->y) - 0.5;
 		curr->robot = FALSE;
 		best->robot = TRUE;
 		
@@ -419,80 +356,58 @@ float64_t unifRand() {
 }
 
 State* tick(State* st) {
-
+	
 		float64_t sum;
 		int32_t i, j;
 		
-		if(isInit2 == TRUE) 
+		if(isInit2 == TRUE)
 			setEnvironment(st);
-			
+		
 		Cell* currentCells[st->nRobots];
 		Cell* bestNeighbours[st->nRobots];
-
-		positions2Array(st);
 		
-		if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 1) {
+		positions2Array(st);
 
-			
-			
-			for(i = 0; i < st->nRobots; ++i) {
-				
-				//Find the cell where robot is located
-				currentCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
-				//Find neighbourhood
-				sum = findNeighbourhood(map, st, currentCells[i]);
-				//Find the best neighbour
-				bestNeighbours[i] = findBestNeighbour(map, st, currentCells[i], sum);
-				//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
-				move(map, st, currentCells[i], bestNeighbours[i], x[i], y[i], &xD[i], &yD[i]);
+		for(i = 0; i < st->nRobots; ++i) {
+			//Find the cell where robot is located
+			currentCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
+			//Find the denominator of the probability formula
+			sum = findSum(map, st, currentCells[i]);
+			//Find the best neighbour
+			bestNeighbours[i] = findBestNeighbour(map, st, currentCells[i], sum);
+			//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
+			move(map, st, currentCells[i], bestNeighbours[i], &x[i], &y[i]);
+		}
+		
+		for(i = 0; i < st->mapSize; ++i) {
+			for(j = 0; j < st->mapSize; ++j) {
+				if(map[i][j].visited == TRUE)
+					++vCells;
 			}
+		}
 
-			for(i = 0; i < st->mapSize; ++i) {
-				for(j = 0; j < st->mapSize; ++j) {
-					if(map[i][j].visited == TRUE)
-						++vCells;
-				}
-			}
-
-			//Evaporation
-			updatePheromone(map, st);
+		array2Desired(st);
+		
+		//Evaporation
+		updatePheromone(map, st);
 			
-			//Update of the pheromone contributions given by all the robots
-			for(i = 0; i < st->nRobots; ++i)
-				updateContribution(map, st, bestNeighbours[i]);
+		//Update of the pheromone contributions given by all the robots
+		for(i = 0; i < st->nRobots; ++i)
+			updateContribution(map, st, bestNeighbours[i]);
 
-			st->flag = 1 - st->flag;
-			st->onDestinationOutput = 1;
-			
-			if(stop == FALSE) {
-				//Percentuale di esplorazione
-				st->eP = ((double)vCells / nCells) * 100;
-				vCells = 0;
-				//Exploration time
-				st->sTime = st->stepCount * st->step_size;
-			}
+		//Increasing of the discrete simulation time
+		++st->stepCount;
+		
+		if(stop == FALSE) {
+			//Percentuale di esplorazione
+			st->eP = ((double)vCells / nCells) * 100;
+			vCells = 0;
+			//Exploration time
+			st->sTime = st->stepCount * st->step_size;
+		}
 		
 		if(st->eP == 100)
 			stop = TRUE;
-		}
-		else {
-			//Evaporation
-			updatePheromone(map, st);
-			
-			if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 0) {
-				st->flag = 1 - st->flag;
-				st->onDestinationOutput = 0;
-			}
-		}
-		
-		array2Desired(st);
-		
-		//Increasing of the discrete simulation time
-		++st->stepCount;	
-		
+
 		return st;
 }
-
-
-
-

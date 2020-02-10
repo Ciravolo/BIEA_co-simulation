@@ -128,9 +128,9 @@ float64_t euclideanDistance(float64_t x1, float64_t x2, float64_t y1, float64_t 
 Cell* findCellFromCoordinates(Cell** map, State* st, float64_t x, float64_t y);
 
 /**
- * Find best neighbour
+ * Find the denominator of the probability formula
  */
-float64_t findNeighbourhood(Cell** map, State* st, Cell* c);
+float64_t findSum(Cell** map, State* st, Cell* c);
 
 /**
  * Find best neighbour

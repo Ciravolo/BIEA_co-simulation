@@ -205,9 +205,9 @@ Cell* findCellFromCoordinates(Cell** map, State* st, float64_t x, float64_t y) {
 }
 
 /**
- * Find neighbourhood
+ * Find the denominator of the probability formula
  */
-float64_t findNeighbourhood(Cell** map, State* st, Cell* c) {
+float64_t findSum(Cell** map, State* st, Cell* c) {
 
 		float64_t sum = 0.0f;
 		int32_t i, j;
@@ -247,7 +247,7 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 				return 0;
 		}
 		else {
-			pBest = pCurrent = 1;
+			pBest = (pow(1000, st->phi) * pow(st->eta, st->lambda)) / sum;
 			for(i = c->x - st->s_range; i <= c->x + st->s_range; ++i) {
 				for(j = c->y - st->s_range; j <= c->y + st->s_range; ++j) {
 					if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && (i != c->x || j != c->y)) {
@@ -371,8 +371,8 @@ State* tick(State* st) {
 		for(i = 0; i < st->nRobots; ++i) {
 			//Find the cell where robot is located
 			currentCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
-			//Find neighbourhood
-			sum = findNeighbourhood(map, st, currentCells[i]);
+			//Find the denominator of the probability formula
+			sum = findSum(map, st, currentCells[i]);
 			//Find the best neighbour
 			bestNeighbours[i] = findBestNeighbour(map, st, currentCells[i], sum);
 			//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)

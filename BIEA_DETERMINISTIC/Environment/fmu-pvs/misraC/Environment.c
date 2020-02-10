@@ -268,9 +268,9 @@ Cell* findCellFromCoordinates(Cell** map, State* st, float64_t x, float64_t y) {
 }
 
 /**
- * Find neighbourhood
+ * Find the denominator of the probability formula
  */
-float64_t findNeighbourhood(Cell** map, State* st, Cell* c) {
+float64_t findSum(Cell** map, State* st, Cell* c) {
 
 		float64_t sum = 0.0f;
 		int32_t i, j;
@@ -432,8 +432,8 @@ State* tick(State* st) {
 				
 				//Find the cell where robot is located
 				currentCells[i] = findCellFromCoordinates(map, st, x[i], y[i]);
-				//Find neighbourhood
-				sum = findNeighbourhood(map, st, currentCells[i]);
+				//Find the denominator of the probability formula
+				sum = findSum(map, st, currentCells[i]);
 				//Find the best neighbour
 				bestNeighbours[i] = findBestNeighbour(map, st, currentCells[i], sum);
 				//Move (best neighbour will be chosen if is not occupied or random chose among those in neighbourhood)
