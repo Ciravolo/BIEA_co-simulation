@@ -254,7 +254,14 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 						// Probability is computed
 						pCurrent = (pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda)) / sum;
 						// If is smaller the previous, the best neighbour is updated
-						if(pCurrent <= pBest) {
+						if(pCurrent < pBest) {
+							nBest = 0;
+							pBest = pCurrent;
+							bests[nBest] = &map[i-1][j-1];
+							++nBest;
+						}
+						else
+						if(pCurrent == pBest) {
 							pBest = pCurrent;
 							bests[nBest] = &map[i-1][j-1];
 							++nBest;

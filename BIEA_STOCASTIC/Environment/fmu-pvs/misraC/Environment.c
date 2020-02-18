@@ -19,25 +19,25 @@ void init(State* st) {
     st->port = 8087;
     st->stepCount = 0;
     st->flag = 1;
-    st->nObstacles = 10;
-	st->ox_1 = 3;
-	st->ox_2 = 4;
-	st->ox_3 = 2;
-	st->ox_4 = 5;
-	st->ox_5 = 5;
-	st->ox_6 = 7;
-	st->ox_7 = 8;
-	st->ox_8 = 8;
+    st->nObstacles = 0;
+	st->ox_1 = 0;
+	st->ox_2 = 0;
+	st->ox_3 = 0;
+	st->ox_4 = 0;
+	st->ox_5 = 0;
+	st->ox_6 = 0;
+	st->ox_7 = 0;
+	st->ox_8 = 0;
 	st->ox_9 = 0;
 	st->ox_10 = 0;
-	st->oy_1 = 1;	
-	st->oy_2 = 1;
-	st->oy_3 = 9;
-	st->oy_4 = 4;
-	st->oy_5 = 5;
-	st->oy_6 = 8;
-	st->oy_7 = 8;
-	st->oy_8 = 9;
+	st->oy_1 = 0;	
+	st->oy_2 = 0;
+	st->oy_3 = 0;
+	st->oy_4 = 0;
+	st->oy_5 = 0;
+	st->oy_6 = 0;
+	st->oy_7 = 0;
+	st->oy_8 = 0;
 	st->oy_9 = 0;
 	st->oy_10 = 0;
 	st->lx_1 = 0.5f;
@@ -317,7 +317,14 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 						// Probability is computed
 						pCurrent = (pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda)) / sum;
 						// If is smaller the previous, the best neighbour is updated
-						if(pCurrent <= pBest) {
+						if(pCurrent < pBest) {
+							nBest = 0;
+							pBest = pCurrent;
+							bests[nBest] = &map[i-1][j-1];
+							++nBest;
+						}
+						else
+						if(pCurrent == pBest) {
 							pBest = pCurrent;
 							bests[nBest] = &map[i-1][j-1];
 							++nBest;
