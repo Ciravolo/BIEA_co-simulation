@@ -68,8 +68,8 @@ typedef struct {
 		 bool obstacle;
 		 bool robot;
 		 bool visited;
-		 float64_t pheromone; //-- real matrix
-		 float64_t contributions;
+		 float64_t pheromone; 
+		 float64_t probabilityN;
 		 int x;
 		 int y;
  } Cell;

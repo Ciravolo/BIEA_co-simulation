@@ -122,6 +122,7 @@ void setEnvironment(State* st) {
 	for(i = 0; i < st->mapSize; ++i) {
 		for(j = 0; j < st->mapSize; ++j) {
 			map[i][j].pheromone = 0;
+			map[i][j].probabilityN = 0;
 			map[i][j].visited = 0;
 			map[i][j].robot = FALSE;
 			map[i][j].obstacle = FALSE;
@@ -280,7 +281,8 @@ float64_t findSum(Cell** map, State* st, Cell* c) {
 				// Only the cells different from current and inside the map are considered
 				if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && !(i == c->x && j == c->y)) {
 					// Denominator of the formula to compute the probability
-					sum += pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda);
+					map[i-1][j-1].probabilityN = pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda);
+					sum += map[i-1][j-1].probabilityN;
 					// Number of neighbours in the neighbourhood
 					if(!isOccupied(&map[i-1][j-1]) && !hasObstacle(&map[i-1][j-1]))
 						++nSize;
@@ -315,7 +317,7 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 				for(j = c->y - st->s_range; j <= c->y + st->s_range; ++j) {
 					if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && (i != c->x || j != c->y)) {
 						// Probability is computed
-						pCurrent = (pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda)) / sum;
+						pCurrent = map[i-1][j-1].probabilityN / sum;
 						// If is smaller the previous, the best neighbour is updated
 						if(pCurrent < pBest) {
 							nBest = 0;
@@ -438,10 +440,11 @@ State* tick(State* st) {
 
 		positions2Array(st);
 		
+		//If all the robots arrived to the destination
 		if(st->onDestination1Input == 1 && st->onDestination2Input == 1 && st->onDestination3Input == 1 && st->onDestination4Input == 1 && st->flag == 1) {
 
 			
-			
+			//For each robot repeat the following function calls
 			for(i = 0; i < st->nRobots; ++i) {
 				
 				//Find the cell where robot is located
@@ -454,6 +457,7 @@ State* tick(State* st) {
 				move(map, st, currentCells[i], bestNeighbours[i], x[i], y[i], &xD[i], &yD[i]);
 			}
 
+			//Update the visited cells
 			for(i = 0; i < st->mapSize; ++i) {
 				for(j = 0; j < st->mapSize; ++j) {
 					if(map[i][j].visited == TRUE)
@@ -468,9 +472,11 @@ State* tick(State* st) {
 			for(i = 0; i < st->nRobots; ++i)
 				updateContribution(map, st, bestNeighbours[i]);
 
+			//This flag is used to avoid that all the computation will be performed in the next step
 			st->flag = 1 - st->flag;
 			st->onDestinationOutput = 1;
 			
+			//Here, the exploration percentage and the exploration time are updated
 			if(stop == FALSE) {
 				//Percentuale di esplorazione
 				st->eP = ((double)vCells / nCells) * 100;
@@ -479,8 +485,9 @@ State* tick(State* st) {
 				st->sTime = st->stepCount * st->step_size;
 			}
 		
-		if(st->eP == 100)
-			stop = TRUE;
+			//If the exploration percentage is 100% the update will be blocked
+			if(st->eP == 100)
+				stop = TRUE;
 		}
 		else {
 			//Evaporation

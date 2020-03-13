@@ -217,7 +217,8 @@ float64_t findSum(Cell** map, State* st, Cell* c) {
 				// Only the cells different from current and inside the map are considered
 				if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && !(i == c->x && j == c->y)) {
 					// Denominator of the formula to compute the probability
-					sum += pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda);
+					map[i-1][j-1].probabilityN = pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda);
+					sum += map[i-1][j-1].probabilityN;
 					// Number of neighbours in the neighbourhood
 					if(!isOccupied(&map[i-1][j-1]) && !hasObstacle(&map[i-1][j-1]))
 						++nSize;
@@ -252,7 +253,7 @@ Cell* findBestNeighbour(Cell** map, State* st, Cell* c, float64_t sum) {
 				for(j = c->y - st->s_range; j <= c->y + st->s_range; ++j) {
 					if(i > 0 && j > 0 && i < st->mapSize + 1 && j < st->mapSize + 1 && (i != c->x || j != c->y)) {
 						// Probability is computed
-						pCurrent = (pow(map[i-1][j-1].pheromone, st->phi) * pow(st->eta, st->lambda)) / sum;
+						pCurrent = map[i-1][j-1].probabilityN / sum;
 						// If is smaller the previous, the best neighbour is updated
 						if(pCurrent < pBest) {
 							nBest = 0;

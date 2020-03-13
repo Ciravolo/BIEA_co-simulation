@@ -90,6 +90,7 @@ typedef struct {
 		 bool robot;
 		 bool visited;
 		 float64_t pheromone; //-- real matrix
+		 float64_t probabilityN;
 		 int x;
 		 int y;
  } Cell;
